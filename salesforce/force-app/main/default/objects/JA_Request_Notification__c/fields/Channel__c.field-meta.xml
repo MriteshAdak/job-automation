@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Channel__c</fullName>
+    <description>Delivery channel for notification (SF-08).</description>
+    <externalId>false</externalId>
+    <label>Channel</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>salesforce_custom_notification</fullName>
+                <default>true</default>
+                <label>Salesforce Custom Notification</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
+

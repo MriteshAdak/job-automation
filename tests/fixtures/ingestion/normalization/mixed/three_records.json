@@ -1,0 +1,31 @@
+{
+  "name": "three_records",
+  "records": [
+    {
+      "id": "rec_1_valid",
+      "title": "Sachbearbeiter (m/w/d)",
+      "company": "Firma A",
+      "text": "Büroarbeit",
+      "url": "https://example.com/1",
+      "is_valid": true
+    },
+    {
+      "id": "rec_2_invalid",
+      "title": "",
+      "company": "Firma B",
+      "text": "<script>alert(1)</script>",
+      "url": "https://example.com/2",
+      "is_valid": false
+    },
+    {
+      "id": "rec_3_valid_remote",
+      "title": "DevOps Engineer",
+      "company": "Firma C",
+      "text": "Cloud Ops",
+      "url": "https://example.com/3",
+      "workplace": "remote",
+      "is_valid": true
+    }
+  ]
+}
+

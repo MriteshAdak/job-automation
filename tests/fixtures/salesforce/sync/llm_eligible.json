@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "assessment_id": "55555555-5555-4555-8555-555555555555",
+  "canonical_job_id": "66666666-6666-4666-8666-666666666666",
+  "posting_revision": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "profile_version": "v1.0",
+  "policy_version": "pol-v1",
+  "assessment_method": "llm",
+  "rule_outcomes": [
+    {
+      "schema_version": "1.0",
+      "criterion_id": "crit_auth",
+      "criterion_name": "Work Authorization",
+      "result": "pass",
+      "reason": "Authorized in Germany"
+    }
+  ],
+  "relevance_decision": "eligible",
+  "relevance_score": 92.5,
+  "score_scale": "0-100",
+  "identified_gaps": [],
+  "identified_unknowns": [],
+  "summary_reason": "High semantic relevance (92.5/100) to Python architect requirements",
+  "final_disposition": "eligible",
+  "model_metadata": {
+    "schema_version": "1.0",
+    "model_identifier": "qwen2.5:7b-instruct",
+    "prompt_version": "v1.0",
+    "context_strategy": "json",
+    "generation_settings": {
+      "temperature": 0.0
+    }
+  }
+}
+

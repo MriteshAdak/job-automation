@@ -1,0 +1,123 @@
+{
+  "$defs": {
+    "DescribeFieldResult": {
+      "additionalProperties": false,
+      "description": "Metadata capabilities for a single sObject field.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "name": {
+          "description": "Field API name",
+          "title": "Name",
+          "type": "string"
+        },
+        "label": {
+          "description": "Display label",
+          "title": "Label",
+          "type": "string"
+        },
+        "type": {
+          "description": "Salesforce field data type",
+          "title": "Type",
+          "type": "string"
+        },
+        "createable": {
+          "description": "Whether field is createable",
+          "title": "Createable",
+          "type": "boolean"
+        },
+        "updateable": {
+          "description": "Whether field is updateable",
+          "title": "Updateable",
+          "type": "boolean"
+        },
+        "id_lookup": {
+          "default": false,
+          "description": "Whether field can be used for idLookup",
+          "title": "Id Lookup",
+          "type": "boolean"
+        },
+        "external_id": {
+          "default": false,
+          "description": "Whether field is an External ID",
+          "title": "External Id",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "label",
+        "type",
+        "createable",
+        "updateable"
+      ],
+      "title": "DescribeFieldResult",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Metadata description of a Salesforce sObject.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "object_name": {
+      "description": "sObject API name",
+      "title": "Object Name",
+      "type": "string"
+    },
+    "label": {
+      "description": "Display label",
+      "title": "Label",
+      "type": "string"
+    },
+    "custom": {
+      "description": "Whether this is a custom sObject",
+      "title": "Custom",
+      "type": "boolean"
+    },
+    "key_prefix": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "3-character key prefix",
+      "title": "Key Prefix"
+    },
+    "fields": {
+      "additionalProperties": {
+        "$ref": "#/$defs/DescribeFieldResult"
+      },
+      "description": "Field definitions keyed by API name",
+      "title": "Fields",
+      "type": "object"
+    },
+    "external_id_fields": {
+      "description": "List of fields designated as External IDs",
+      "items": {
+        "type": "string"
+      },
+      "title": "External Id Fields",
+      "type": "array"
+    }
+  },
+  "required": [
+    "object_name",
+    "label",
+    "custom"
+  ],
+  "title": "DescribeObjectResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_describe_object_result.schema.json"
+}

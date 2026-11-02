@@ -1,0 +1,148 @@
+{
+  "additionalProperties": false,
+  "description": "Non-secret field mapping and ownership configuration.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "description": "Contract schema version",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mapping_version": {
+      "default": "1.0",
+      "description": "Version token of this mapping",
+      "title": "Mapping Version",
+      "type": "string"
+    },
+    "expected_org_id": {
+      "default": "00D000000000001",
+      "description": "Expected 15 or 18-char Salesforce Org ID",
+      "title": "Expected Org Id",
+      "type": "string"
+    },
+    "company_object": {
+      "default": "Company__c",
+      "description": "Salesforce sObject API name for companies",
+      "title": "Company Object",
+      "type": "string"
+    },
+    "company_external_id_field": {
+      "default": "Canonical_Company_Id__c",
+      "description": "External ID field on Company object",
+      "title": "Company External Id Field",
+      "type": "string"
+    },
+    "company_name_field": {
+      "default": "Name",
+      "description": "Field on Company storing canonical company name",
+      "title": "Company Name Field",
+      "type": "string"
+    },
+    "job_object": {
+      "default": "Job__c",
+      "description": "Salesforce sObject API name for jobs",
+      "title": "Job Object",
+      "type": "string"
+    },
+    "job_external_id_field": {
+      "default": "Canonical_Job_Id__c",
+      "description": "External ID field on Job object",
+      "title": "Job External Id Field",
+      "type": "string"
+    },
+    "job_company_lookup_field": {
+      "default": "Company__c",
+      "description": "Relationship lookup field on Job pointing to Company",
+      "title": "Job Company Lookup Field",
+      "type": "string"
+    },
+    "title_field": {
+      "default": "Name",
+      "description": "Job title field on Job object",
+      "title": "Title Field",
+      "type": "string"
+    },
+    "availability_field": {
+      "default": "Availability__c",
+      "description": "Job posting availability picklist field",
+      "title": "Availability Field",
+      "type": "string"
+    },
+    "disposition_field": {
+      "default": "Assessment_Disposition__c",
+      "description": "Machine assessment disposition picklist field",
+      "title": "Disposition Field",
+      "type": "string"
+    },
+    "reason_field": {
+      "default": "Assessment_Reasons__c",
+      "description": "Machine assessment summary reasons field",
+      "title": "Reason Field",
+      "type": "string"
+    },
+    "score_field": {
+      "default": "Relevance_Score__c",
+      "description": "Machine assessment relevance score field",
+      "title": "Score Field",
+      "type": "string"
+    },
+    "score_scale_field": {
+      "default": "Score_Scale__c",
+      "description": "Score scale declaration field",
+      "title": "Score Scale Field",
+      "type": "string"
+    },
+    "last_evaluated_field": {
+      "default": "Last_Evaluated_At__c",
+      "description": "Timestamp when assessment was evaluated",
+      "title": "Last Evaluated Field",
+      "type": "string"
+    },
+    "source_urls_field": {
+      "default": "Source_URLs__c",
+      "description": "Field storing observed posting source URLs",
+      "title": "Source Urls Field",
+      "type": "string"
+    },
+    "sync_marker_field": {
+      "default": "Sync_Operation_Marker__c",
+      "description": "Reconciliation marker field written into Job record",
+      "title": "Sync Marker Field",
+      "type": "string"
+    },
+    "sync_version_field": {
+      "default": "Machine_Sync_Version__c",
+      "description": "Numeric sequence version field written into Job record",
+      "title": "Sync Version Field",
+      "type": "string"
+    },
+    "disposition_mapping": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Mapping from local disposition to Salesforce picklist value",
+      "title": "Disposition Mapping",
+      "type": "object"
+    },
+    "availability_mapping": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Mapping from local availability to Salesforce picklist value",
+      "title": "Availability Mapping",
+      "type": "object"
+    },
+    "candidate_fields": {
+      "description": "Candidate-owned fields on Job__c; read for snapshots, forbidden from outbound writes",
+      "items": {
+        "type": "string"
+      },
+      "title": "Candidate Fields",
+      "type": "array"
+    }
+  },
+  "title": "SyncMappingConfig",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/sync_mapping_config.schema.json"
+}

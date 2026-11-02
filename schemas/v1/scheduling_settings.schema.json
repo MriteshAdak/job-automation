@@ -1,0 +1,327 @@
+{
+  "$defs": {
+    "IdentityResourceManifest": {
+      "additionalProperties": false,
+      "description": "Manifest documenting execution identity, absolute paths, and ACLs (non-secret).",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "account_name": {
+          "description": "Executing Windows user name",
+          "title": "Account Name",
+          "type": "string"
+        },
+        "account_sid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Windows Security Identifier (SID)",
+          "title": "Account Sid"
+        },
+        "logon_type": {
+          "default": "Password",
+          "description": "Windows Task logon type: Password or InteractiveToken",
+          "title": "Logon Type",
+          "type": "string"
+        },
+        "python_executable": {
+          "description": "Absolute path to Python interpreter",
+          "title": "Python Executable",
+          "type": "string"
+        },
+        "package_root": {
+          "description": "Absolute path to repository or installed package root",
+          "title": "Package Root",
+          "type": "string"
+        },
+        "data_root": {
+          "description": "Absolute path to runtime data root",
+          "title": "Data Root",
+          "type": "string"
+        },
+        "app_config_path": {
+          "description": "Absolute path to application configuration",
+          "title": "App Config Path",
+          "type": "string"
+        },
+        "model_service_url": {
+          "default": "http://127.0.0.1:11434",
+          "title": "Model Service Url",
+          "type": "string"
+        },
+        "model_binary_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Binary Path"
+        },
+        "model_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Name"
+        },
+        "is_batch_logon_verified": {
+          "default": false,
+          "title": "Is Batch Logon Verified",
+          "type": "boolean"
+        },
+        "acl_matrix": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Path -> Access permission description",
+          "title": "Acl Matrix",
+          "type": "object"
+        }
+      },
+      "required": [
+        "account_name",
+        "python_executable",
+        "package_root",
+        "data_root",
+        "app_config_path"
+      ],
+      "title": "IdentityResourceManifest",
+      "type": "object"
+    },
+    "ScheduleDefinition": {
+      "additionalProperties": false,
+      "description": "Versioned schedule definition for a deployment.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "deployment_id": {
+          "description": "Unique deployment identifier",
+          "title": "Deployment Id",
+          "type": "string"
+        },
+        "schedule_id": {
+          "default": "daily_search",
+          "description": "Identifier for this schedule",
+          "title": "Schedule Id",
+          "type": "string"
+        },
+        "version": {
+          "default": 1,
+          "description": "Monotonically increasing definition version",
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "definition_hash": {
+          "default": "",
+          "description": "SHA-256 fingerprint of definition fields",
+          "title": "Definition Hash",
+          "type": "string"
+        },
+        "enabled": {
+          "default": false,
+          "description": "Whether this schedule is active for execution",
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "work_kind": {
+          "$ref": "#/$defs/ScheduleKind",
+          "default": "search",
+          "description": "Target work kind"
+        },
+        "timezone": {
+          "default": "Europe/Berlin",
+          "description": "IANA timezone for scheduling intent",
+          "title": "Timezone",
+          "type": "string"
+        },
+        "target_times": {
+          "description": "Local wall-clock target times in HH:MM format",
+          "items": {
+            "type": "string"
+          },
+          "title": "Target Times",
+          "type": "array"
+        },
+        "cadence_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional repeating interval in minutes (e.g. 5 for frequent polling)",
+          "title": "Cadence Minutes"
+        },
+        "activation_epoch": {
+          "description": "Earliest UTC instant for admitting occurrences (no historical backfill)",
+          "format": "date-time",
+          "title": "Activation Epoch",
+          "type": "string"
+        },
+        "max_lateness_hours": {
+          "default": 24,
+          "description": "Maximum lateness window in hours before missed slots expire",
+          "minimum": 1,
+          "title": "Max Lateness Hours",
+          "type": "integer"
+        },
+        "max_retries": {
+          "default": 3,
+          "description": "Maximum retry attempts per occurrence",
+          "minimum": 0,
+          "title": "Max Retries",
+          "type": "integer"
+        },
+        "retry_delay_seconds": {
+          "default": 60,
+          "description": "Initial delay between retry attempts",
+          "minimum": 1,
+          "title": "Retry Delay Seconds",
+          "type": "integer"
+        },
+        "app_config_path": {
+          "default": "",
+          "description": "Absolute path to application configuration",
+          "title": "App Config Path",
+          "type": "string"
+        },
+        "data_root": {
+          "default": "",
+          "description": "Absolute path to deployment data root",
+          "title": "Data Root",
+          "type": "string"
+        },
+        "run_config_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Absolute path to run configuration",
+          "title": "Run Config Path"
+        },
+        "assessment_mode": {
+          "default": "rules",
+          "description": "Assessment mode: rules or llm",
+          "title": "Assessment Mode",
+          "type": "string"
+        },
+        "llm_strategy": {
+          "default": "json",
+          "description": "LLM strategy: json or rag",
+          "title": "Llm Strategy",
+          "type": "string"
+        },
+        "command_timeout_seconds": {
+          "default": 3600,
+          "description": "Process execution timeout",
+          "minimum": 30,
+          "title": "Command Timeout Seconds",
+          "type": "integer"
+        },
+        "created_at": {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "title": "Updated At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "deployment_id"
+      ],
+      "title": "ScheduleDefinition",
+      "type": "object"
+    },
+    "ScheduleKind": {
+      "description": "Supported work kinds for scheduling.",
+      "enum": [
+        "search",
+        "generation"
+      ],
+      "title": "ScheduleKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Configuration settings file representation for scheduling.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "deployment_id": {
+      "default": "default",
+      "description": "Stable deployment identity",
+      "title": "Deployment Id",
+      "type": "string"
+    },
+    "enabled": {
+      "default": false,
+      "description": "Master scheduling activation toggle",
+      "title": "Enabled",
+      "type": "boolean"
+    },
+    "timezone": {
+      "default": "Europe/Berlin",
+      "description": "IANA timezone",
+      "title": "Timezone",
+      "type": "string"
+    },
+    "schedules": {
+      "items": {
+        "$ref": "#/$defs/ScheduleDefinition"
+      },
+      "title": "Schedules",
+      "type": "array"
+    },
+    "identity": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/IdentityResourceManifest"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "title": "SchedulingSettings",
+  "type": "object"
+}

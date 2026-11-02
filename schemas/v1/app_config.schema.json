@@ -1,0 +1,370 @@
+{
+  "$defs": {
+    "ModelCapabilities": {
+      "additionalProperties": false,
+      "description": "Declared or discovered capabilities for a specific model.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_identifier": {
+          "description": "Model identifier/tag",
+          "minLength": 1,
+          "title": "Model Identifier",
+          "type": "string"
+        },
+        "max_context_tokens": {
+          "description": "Maximum context window capacity in tokens",
+          "exclusiveMinimum": 0,
+          "title": "Max Context Tokens",
+          "type": "integer"
+        },
+        "default_output_reserve": {
+          "default": 512,
+          "description": "Tokens reserved for model completion output",
+          "minimum": 0,
+          "title": "Default Output Reserve",
+          "type": "integer"
+        },
+        "dimension": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Vector dimension if embedding model",
+          "title": "Dimension"
+        },
+        "expected_digest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Expected SHA256 digest of model weights if pinned",
+          "title": "Expected Digest"
+        }
+      },
+      "required": [
+        "model_identifier",
+        "max_context_tokens"
+      ],
+      "title": "ModelCapabilities",
+      "type": "object"
+    },
+    "ModelProviderSettings": {
+      "additionalProperties": false,
+      "description": "Local model provider execution, deadline, and retry configuration.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "service_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional local service URL; overrides AppConfig.model_service_url if provided",
+          "title": "Service Url"
+        },
+        "connect_timeout_seconds": {
+          "default": 5.0,
+          "description": "Maximum seconds to establish TCP connection",
+          "exclusiveMinimum": 0.0,
+          "title": "Connect Timeout Seconds",
+          "type": "number"
+        },
+        "read_timeout_seconds": {
+          "default": 60.0,
+          "description": "Maximum seconds waiting for response bytes",
+          "exclusiveMinimum": 0.0,
+          "title": "Read Timeout Seconds",
+          "type": "number"
+        },
+        "total_deadline_seconds": {
+          "default": 120.0,
+          "description": "Total deadline across queue wait and all attempts",
+          "exclusiveMinimum": 0.0,
+          "title": "Total Deadline Seconds",
+          "type": "number"
+        },
+        "max_transport_attempts": {
+          "default": 3,
+          "description": "Total physical transport attempts allowed",
+          "maximum": 10,
+          "minimum": 1,
+          "title": "Max Transport Attempts",
+          "type": "integer"
+        },
+        "max_malformed_regenerations": {
+          "default": 0,
+          "description": "Maximum regenerations allowed on malformed output (max 1)",
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Max Malformed Regenerations",
+          "type": "integer"
+        },
+        "initial_backoff_seconds": {
+          "default": 0.5,
+          "description": "Initial retry backoff delay",
+          "minimum": 0.0,
+          "title": "Initial Backoff Seconds",
+          "type": "number"
+        },
+        "backoff_factor": {
+          "default": 2.0,
+          "description": "Multiplicative factor for exponential backoff",
+          "minimum": 1.0,
+          "title": "Backoff Factor",
+          "type": "number"
+        },
+        "max_backoff_seconds": {
+          "default": 5.0,
+          "description": "Maximum retry backoff delay ceiling",
+          "minimum": 0.0,
+          "title": "Max Backoff Seconds",
+          "type": "number"
+        },
+        "max_response_bytes": {
+          "default": 10485760,
+          "description": "Maximum allowed response payload size (10MB)",
+          "minimum": 1024,
+          "title": "Max Response Bytes",
+          "type": "integer"
+        },
+        "max_batch_size": {
+          "default": 64,
+          "description": "Maximum texts in a single embedding batch call",
+          "minimum": 1,
+          "title": "Max Batch Size",
+          "type": "integer"
+        },
+        "default_context_ceiling": {
+          "default": 8192,
+          "description": "Default context window ceiling if unconfigured for model",
+          "exclusiveMinimum": 0,
+          "title": "Default Context Ceiling",
+          "type": "integer"
+        },
+        "reserved_output_tokens": {
+          "default": 512,
+          "description": "Default completion token reserve for generation",
+          "minimum": 0,
+          "title": "Reserved Output Tokens",
+          "type": "integer"
+        },
+        "safety_margin_tokens": {
+          "default": 64,
+          "description": "Safety allowance buffer for tokenization estimation",
+          "minimum": 0,
+          "title": "Safety Margin Tokens",
+          "type": "integer"
+        },
+        "models": {
+          "additionalProperties": {
+            "$ref": "#/$defs/ModelCapabilities"
+          },
+          "description": "Known model capability profiles keyed by model identifier",
+          "title": "Models",
+          "type": "object"
+        }
+      },
+      "title": "ModelProviderSettings",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Application configuration for local execution.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "app_name": {
+      "default": "JobAutomation",
+      "minLength": 1,
+      "title": "App Name",
+      "type": "string"
+    },
+    "data_root": {
+      "description": "Absolute path to runtime data root directory",
+      "title": "Data Root",
+      "type": "string"
+    },
+    "display_timezone": {
+      "default": "Europe/Berlin",
+      "description": "IANA timezone for display and scheduling intent",
+      "title": "Display Timezone",
+      "type": "string"
+    },
+    "active_policy_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Relative or absolute path to active search policy JSON",
+      "title": "Active Policy Ref"
+    },
+    "source_registry_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Relative or absolute path to source registry JSON",
+      "title": "Source Registry Ref"
+    },
+    "availability_policy_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Relative or absolute path to availability policy JSON",
+      "title": "Availability Policy Ref"
+    },
+    "index_settings_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Relative or absolute path to index settings JSON",
+      "title": "Index Settings Ref"
+    },
+    "salesforce_settings_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Relative or absolute path to Salesforce settings JSON",
+      "title": "Salesforce Settings Ref"
+    },
+    "sync_mapping_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Relative or absolute path to sync mapping JSON",
+      "title": "Sync Mapping Ref"
+    },
+    "operations_settings_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Relative or absolute path to operations settings JSON",
+      "title": "Operations Settings Ref"
+    },
+    "generation_settings_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Relative or absolute path to generation settings JSON",
+      "title": "Generation Settings Ref"
+    },
+    "request_mapping_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Relative or absolute path to generation request mapping JSON",
+      "title": "Request Mapping Ref"
+    },
+    "active_sources": {
+      "description": "List of enabled source keys to fetch during discovery runs",
+      "items": {
+        "type": "string"
+      },
+      "title": "Active Sources",
+      "type": "array"
+    },
+    "model_service_url": {
+      "default": "http://127.0.0.1:11434",
+      "description": "Local model service URL; must bind to loopback",
+      "title": "Model Service Url",
+      "type": "string"
+    },
+    "model_provider": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ModelProviderSettings"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Execution settings for local model provider"
+    }
+  },
+  "required": [
+    "data_root"
+  ],
+  "title": "AppConfig",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/app_config.schema.json"
+}

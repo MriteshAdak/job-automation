@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "purpose": "assessment",
+  "canonical_job_id": "11111111-1111-4111-8111-111111111111",
+  "posting_revision": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "requirements": [
+    "Python",
+    "FastAPI",
+    "Cloud Architecture"
+  ],
+  "instruction_text": "Evaluate the candidate against the stated job requirements strictly.",
+  "output_schema_text": "{\"disposition\": \"eligible | review | rejected\", \"score\": 0-100}",
+  "model_identifier": "llama3:8b-instruct-q4_K_M",
+  "context_limit": 8192,
+  "output_reserve": 512,
+  "safety_allowance": 64,
+  "mandatory_policy_version": "v1",
+  "inclusion_rule_version": "v1",
+  "builder_version": "v1",
+  "serialization_version": "v1",
+  "require_exact_measurement": false
+}
+

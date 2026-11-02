@@ -1,0 +1,41 @@
+{
+  "data": [
+    {
+      "slug": "no-description-0001",
+      "company_name": "X GmbH",
+      "title": "Assistent",
+      "description": "",
+      "remote": false,
+      "url": "https://www.arbeitnow.com/view/no-description-0001",
+      "tags": [],
+      "job_types": [],
+      "location": "Berlin",
+      "created_at": 1730034700
+    },
+    {
+      "company_name": "Y AG",
+      "title": "Manager",
+      "description": "<p>Full description here.</p>",
+      "remote": null,
+      "url": "https://www.arbeitnow.com/view/manager-y-ag-0002",
+      "tags": null,
+      "job_types": null,
+      "location": null,
+      "created_at": null
+    },
+    {
+      "slug": "no-url-0003",
+      "company_name": "Z Ltd",
+      "title": "Analyst",
+      "description": "<p>Data analyst role with growth opportunities.</p>",
+      "remote": true,
+      "tags": [],
+      "job_types": ["Vollzeit"],
+      "location": "Frankfurt",
+      "created_at": 1730034600
+    }
+  ],
+  "links": {"first": null, "last": null, "prev": null, "next": null},
+  "meta": {"current_page": 1, "from": 1, "last_page": null, "path": "https://www.arbeitnow.com/api/job-board-api", "per_page": 100, "to": 3, "total": null}
+}
+

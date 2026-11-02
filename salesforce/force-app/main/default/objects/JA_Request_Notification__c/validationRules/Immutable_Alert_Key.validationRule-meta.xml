@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Immutable_Alert_Key</fullName>
+    <active>true</active>
+    <description>Alert key is immutable once written (SF-08).</description>
+    <errorConditionFormula>NOT(ISNEW()) &amp;&amp; ISCHANGED(Alert_Key__c)</errorConditionFormula>
+    <errorMessage>Alert Key cannot be changed once created.</errorMessage>
+</ValidationRule>
+

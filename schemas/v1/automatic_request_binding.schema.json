@@ -1,0 +1,150 @@
+{
+  "additionalProperties": false,
+  "description": "Durable one-to-one association between a C13 GenerationRequest and an AutomaticDraftIntent.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "binding_id": {
+      "description": "Unique binding UUID",
+      "format": "uuid",
+      "title": "Binding Id",
+      "type": "string"
+    },
+    "local_request_id": {
+      "description": "C13 GenerationRequest request_id",
+      "format": "uuid",
+      "title": "Local Request Id",
+      "type": "string"
+    },
+    "intent_id": {
+      "description": "AutomaticDraftIntent intent_id",
+      "format": "uuid",
+      "title": "Intent Id",
+      "type": "string"
+    },
+    "client_request_key": {
+      "description": "Stable client request key",
+      "title": "Client Request Key",
+      "type": "string"
+    },
+    "candidate_id": {
+      "description": "Candidate UUID",
+      "format": "uuid",
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "salesforce_org_id": {
+      "description": "Salesforce Org ID",
+      "title": "Salesforce Org Id",
+      "type": "string"
+    },
+    "canonical_job_id": {
+      "description": "Canonical job UUID",
+      "format": "uuid",
+      "title": "Canonical Job Id",
+      "type": "string"
+    },
+    "policy_id": {
+      "description": "Originating policy ID",
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "policy_version": {
+      "description": "Originating policy version",
+      "title": "Policy Version",
+      "type": "string"
+    },
+    "policy_content_hash": {
+      "description": "Originating policy content hash",
+      "title": "Policy Content Hash",
+      "type": "string"
+    },
+    "expected_assessment_id": {
+      "description": "Expected authoritative assessment UUID",
+      "format": "uuid",
+      "title": "Expected Assessment Id",
+      "type": "string"
+    },
+    "expected_assessment_fingerprint": {
+      "description": "Expected assessment input fingerprint",
+      "title": "Expected Assessment Fingerprint",
+      "type": "string"
+    },
+    "expected_material_fingerprint": {
+      "description": "Expected material generation fingerprint",
+      "title": "Expected Material Fingerprint",
+      "type": "string"
+    },
+    "expected_posting_revision_hash": {
+      "description": "Expected posting revision hash",
+      "title": "Expected Posting Revision Hash",
+      "type": "string"
+    },
+    "expected_profile_version": {
+      "description": "Expected profile version",
+      "title": "Expected Profile Version",
+      "type": "string"
+    },
+    "expected_profile_digest": {
+      "description": "Expected profile content digest",
+      "title": "Expected Profile Digest",
+      "type": "string"
+    },
+    "expected_search_policy_version": {
+      "description": "Expected C02 search policy version",
+      "title": "Expected Search Policy Version",
+      "type": "string"
+    },
+    "expected_search_policy_hash": {
+      "description": "Expected C02 search policy hash",
+      "title": "Expected Search Policy Hash",
+      "type": "string"
+    },
+    "revalidation_receipt": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Preflight revalidation receipt written at claim/freeze",
+      "title": "Revalidation Receipt"
+    },
+    "created_at": {
+      "description": "Creation timestamp",
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "local_request_id",
+    "intent_id",
+    "client_request_key",
+    "candidate_id",
+    "salesforce_org_id",
+    "canonical_job_id",
+    "policy_id",
+    "policy_version",
+    "policy_content_hash",
+    "expected_assessment_id",
+    "expected_assessment_fingerprint",
+    "expected_material_fingerprint",
+    "expected_posting_revision_hash",
+    "expected_profile_version",
+    "expected_profile_digest",
+    "expected_search_policy_version",
+    "expected_search_policy_hash"
+  ],
+  "title": "AutomaticRequestBinding",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/automatic_request_binding.schema.json"
+}

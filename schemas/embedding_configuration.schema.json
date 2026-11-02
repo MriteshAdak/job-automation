@@ -1,0 +1,151 @@
+{
+  "additionalProperties": false,
+  "description": "Measured embedding model configuration, dimensions, and execution parameters.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "configuration_version": {
+      "default": "v1",
+      "title": "Configuration Version",
+      "type": "string"
+    },
+    "model_identifier": {
+      "description": "Model identifier or tag (e.g. nomic-embed-text)",
+      "minLength": 1,
+      "title": "Model Identifier",
+      "type": "string"
+    },
+    "dimension": {
+      "description": "Embedding vector dimension",
+      "exclusiveMinimum": 0,
+      "title": "Dimension",
+      "type": "integer"
+    },
+    "model_digest": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Immutable SHA-256 digest of model weights/manifest if verified",
+      "title": "Model Digest"
+    },
+    "expected_digest": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Expected model digest configured for drift detection",
+      "title": "Expected Digest"
+    },
+    "verification_provenance": {
+      "default": "model_02_recommendation",
+      "description": "Origin of verification (e.g. 'model_02_recommendation', 'synthetic_fake')",
+      "title": "Verification Provenance",
+      "type": "string"
+    },
+    "runtime_version": {
+      "default": "1.0",
+      "minLength": 1,
+      "title": "Runtime Version",
+      "type": "string"
+    },
+    "provider_version": {
+      "default": "1.0",
+      "minLength": 1,
+      "title": "Provider Version",
+      "type": "string"
+    },
+    "document_prefix": {
+      "default": "",
+      "description": "Prefix prepended to document chunks before embedding (e.g. 'search_document: ')",
+      "title": "Document Prefix",
+      "type": "string"
+    },
+    "query_prefix": {
+      "default": "",
+      "description": "Prefix prepended to query text before embedding (e.g. 'search_query: ')",
+      "title": "Query Prefix",
+      "type": "string"
+    },
+    "output_affecting_options": {
+      "additionalProperties": true,
+      "description": "Options that affect numerical embedding output",
+      "title": "Output Affecting Options",
+      "type": "object"
+    },
+    "measurement_method": {
+      "default": "character_ratio",
+      "description": "Tokenizer or estimator method used for input measurement",
+      "title": "Measurement Method",
+      "type": "string"
+    },
+    "max_input_tokens": {
+      "default": 512,
+      "description": "Maximum tokens per single text chunk",
+      "exclusiveMinimum": 0,
+      "title": "Max Input Tokens",
+      "type": "integer"
+    },
+    "max_batch_items": {
+      "default": 32,
+      "description": "Maximum items per embedding API call",
+      "exclusiveMinimum": 0,
+      "title": "Max Batch Items",
+      "type": "integer"
+    },
+    "max_batch_bytes": {
+      "default": 1048576,
+      "description": "Maximum combined UTF-8 bytes per embedding batch",
+      "exclusiveMinimum": 0,
+      "title": "Max Batch Bytes",
+      "type": "integer"
+    },
+    "model_02_report_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Reference identifier or file path of MODEL-02 benchmark report",
+      "title": "Model 02 Report Ref"
+    },
+    "model_02_report_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "SHA-256 content hash of MODEL-02 benchmark report",
+      "title": "Model 02 Report Hash"
+    }
+  },
+  "required": [
+    "model_identifier",
+    "dimension"
+  ],
+  "title": "EmbeddingConfiguration",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/embedding_configuration.schema.json"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "hostile_and_malformed",
+  "raw_payload": "<script>alert(1)</script><p>Experience with C++, C#, and x < 5.</p>",
+  "mapped_fields": {
+    "title": "Systems Programmer",
+    "company_name_hint": "Tech Systems",
+    "description": "<script>alert(1)</script><p>Experience with C++, C#, and x < 5.</p>",
+    "source_url": "https://example.com/4",
+    "mapping_version": "1.0"
+  },
+  "expected": {
+    "description_clean": "Experience with C++, C#, and x < 5."
+  }
+}
+

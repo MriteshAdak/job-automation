@@ -1,0 +1,55 @@
+{
+  "data": [
+    {
+      "slug": "ts-unix-seconds-0001",
+      "company_name": "TimeTest GmbH",
+      "title": "Unix Timestamp Job",
+      "description": "<p>Normal Unix timestamp record.</p>",
+      "remote": false,
+      "url": "https://www.arbeitnow.com/view/ts-unix-seconds-0001",
+      "tags": [],
+      "job_types": ["Vollzeit"],
+      "location": "Berlin",
+      "created_at": 1704067200
+    },
+    {
+      "slug": "ts-null-0002",
+      "company_name": "TimeTest GmbH",
+      "title": "Null Timestamp Job",
+      "description": "<p>No timestamp provided.</p>",
+      "remote": false,
+      "url": "https://www.arbeitnow.com/view/ts-null-0002",
+      "tags": [],
+      "job_types": [],
+      "location": "Hamburg",
+      "created_at": null
+    },
+    {
+      "slug": "ts-large-0003",
+      "company_name": "TimeTest GmbH",
+      "title": "Large Timestamp Job",
+      "description": "<p>Far-future timestamp.</p>",
+      "remote": true,
+      "url": "https://www.arbeitnow.com/view/ts-large-0003",
+      "tags": ["Remote"],
+      "job_types": ["Vollzeit"],
+      "location": "Remote",
+      "created_at": 9999999999
+    },
+    {
+      "slug": "ts-string-0004",
+      "company_name": "TimeTest GmbH",
+      "title": "String Timestamp Job",
+      "description": "<p>String timestamp — should produce blocking issue.</p>",
+      "remote": false,
+      "url": "https://www.arbeitnow.com/view/ts-string-0004",
+      "tags": [],
+      "job_types": ["Vollzeit"],
+      "location": "Frankfurt",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "links": {"first": null, "last": null, "prev": null, "next": null},
+  "meta": {"current_page": 1, "from": 1, "last_page": null, "path": "https://www.arbeitnow.com/api/job-board-api", "per_page": 100, "to": 4, "total": null}
+}
+

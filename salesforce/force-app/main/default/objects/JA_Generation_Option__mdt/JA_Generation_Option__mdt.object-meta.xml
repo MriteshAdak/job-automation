@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Approved template options and configuration catalog for CV and Cover Letter generation (SF-06).</description>
+    <label>Generation Option</label>
+    <pluralLabel>Generation Options</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>
+

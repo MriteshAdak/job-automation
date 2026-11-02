@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Type__c</fullName>
+    <description>Type of document to generate (cv or cover_letter).</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Select CV or Cover letter.</inlineHelpText>
+    <label>Document Type</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>cv</fullName>
+                <default>false</default>
+                <label>CV</label>
+            </value>
+            <value>
+                <fullName>cover_letter</fullName>
+                <default>false</default>
+                <label>Cover letter</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
+

@@ -1,0 +1,188 @@
+{
+  "$defs": {
+    "ClassifiedError": {
+      "additionalProperties": false,
+      "description": "Classified operational or domain error.\n\nDistinguishes recoverable failures from permanent errors and maps\nto the system error taxonomy without arbitrary tool or shell authority.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/ErrorCategory"
+        },
+        "message": {
+          "description": "Safe diagnostic message without credentials or tokens",
+          "title": "Message",
+          "type": "string"
+        },
+        "recoverable": {
+          "description": "Whether this error category is eligible for bounded retry",
+          "title": "Recoverable",
+          "type": "boolean"
+        },
+        "field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional field path if the error pertains to a specific field",
+          "title": "Field Path"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Safe non-sensitive contextual details",
+          "title": "Details"
+        }
+      },
+      "required": [
+        "category",
+        "message",
+        "recoverable"
+      ],
+      "title": "ClassifiedError",
+      "type": "object"
+    },
+    "ErrorCategory": {
+      "description": "Classified error category for failure handling and recovery.",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ],
+      "title": "ErrorCategory",
+      "type": "string"
+    },
+    "OperationStatus": {
+      "description": "Execution status for maintenance operations.",
+      "enum": [
+        "succeeded",
+        "partial",
+        "failed"
+      ],
+      "title": "OperationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Diagnostic and audit report emitted after any maintenance command.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "report_id": {
+      "format": "uuid",
+      "title": "Report Id",
+      "type": "string"
+    },
+    "operation_type": {
+      "description": "e.g. 'capacity', 'cleanup_preview', 'cleanup_apply', 'backup_create', 'backup_verify', 'restore_plan', 'restore_apply'",
+      "title": "Operation Type",
+      "type": "string"
+    },
+    "started_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Started At",
+      "type": "string"
+    },
+    "completed_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Completed At",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/OperationStatus"
+    },
+    "counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Counts",
+      "type": "object"
+    },
+    "bytes_processed": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Bytes Processed",
+      "type": "integer"
+    },
+    "classified_errors": {
+      "items": {
+        "$ref": "#/$defs/ClassifiedError"
+      },
+      "title": "Classified Errors",
+      "type": "array"
+    },
+    "pending_work": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Pending Work",
+      "type": "array"
+    },
+    "safe_next_action": {
+      "default": "",
+      "title": "Safe Next Action",
+      "type": "string"
+    },
+    "artifact_references": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Artifact References",
+      "type": "array"
+    },
+    "integrity_verified": {
+      "default": false,
+      "title": "Integrity Verified",
+      "type": "boolean"
+    },
+    "restore_tested": {
+      "default": false,
+      "title": "Restore Tested",
+      "type": "boolean"
+    },
+    "remote_coverage_status": {
+      "default": "local_only",
+      "title": "Remote Coverage Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "operation_type",
+    "started_at",
+    "completed_at",
+    "status"
+  ],
+  "title": "MaintenanceReport",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/ops_maintenance_report.schema.json"
+}

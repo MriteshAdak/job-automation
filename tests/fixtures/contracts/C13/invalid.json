@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "request_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+  "canonical_job_id": "44444444-4444-4444-8444-444444444444",
+  "document_type": "cv",
+  "template_id": "modern_de_v1",
+  "state": "running"
+}

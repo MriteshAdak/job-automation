@@ -1,0 +1,47 @@
+{
+  "additionalProperties": false,
+  "description": "Request to execute a SOQL query page or fetch next page via continuation.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "call_id": {
+      "description": "Caller-generated operation UUID",
+      "format": "uuid",
+      "title": "Call Id",
+      "type": "string"
+    },
+    "soql": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Caller-built SOQL string for first page",
+      "title": "Soql"
+    },
+    "continuation_token": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Opaque nextRecordsUrl or cursor token",
+      "title": "Continuation Token"
+    }
+  },
+  "title": "QueryPageRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_query_page_request.schema.json"
+}

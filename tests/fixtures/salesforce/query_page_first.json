@@ -1,0 +1,13 @@
+{
+  "totalSize": 5,
+  "done": false,
+  "records": [
+    {
+      "attributes": {"type": "Job__c", "url": "/services/data/v60.0/sobjects/Job__c/a00000000000001AAA"},
+      "Id": "a00000000000001AAA",
+      "Title__c": "Senior Engineer"
+    }
+  ],
+  "nextRecordsUrl": "/services/data/v60.0/query/01g000000000001-500"
+}
+

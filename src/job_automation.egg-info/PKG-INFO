@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: job-automation
+Version: 0.1.0
+Summary: Job search automation — discover, evaluate, and track job postings
+License-Expression: LicenseRef-Proprietary
+Requires-Python: >=3.12
+Requires-Dist: pydantic<3,>=2.9
+Requires-Dist: tzdata>=2024.1
+Requires-Dist: python-docx<2,>=1.1.0
+Requires-Dist: pypdf<6,>=5.0.0
+Provides-Extra: dev
+Requires-Dist: pytest<9,>=8.3; extra == "dev"
+Requires-Dist: pytest-cov<7,>=6.0; extra == "dev"

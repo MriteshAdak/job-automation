@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Canonical_Company_Id_Format</fullName>
+    <active>true</active>
+    <description>Enforces lowercase hyphenated UUID format for Canonical_Company_Id__c.</description>
+    <errorConditionFormula>NOT(REGEX(Canonical_Company_Id__c, &quot;^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$&quot;))</errorConditionFormula>
+    <errorDisplayField>Canonical_Company_Id__c</errorDisplayField>
+    <errorMessage>Canonical Company ID must be a valid 36-character lowercase hyphenated UUID (e.g. 12345678-1234-1234-1234-123456789abc).</errorMessage>
+</ValidationRule>
+

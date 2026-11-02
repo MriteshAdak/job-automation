@@ -1,0 +1,124 @@
+{
+  "additionalProperties": false,
+  "description": "Validated settings governing keyword/semantic retrieval and reciprocal rank fusion.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "algorithm_version": {
+      "default": "v1",
+      "title": "Algorithm Version",
+      "type": "string"
+    },
+    "query_format_version": {
+      "default": "v1",
+      "title": "Query Format Version",
+      "type": "string"
+    },
+    "top_k": {
+      "default": 8,
+      "description": "Maximum number of optional primary facts admitted (0 is allowed)",
+      "minimum": 0,
+      "title": "Top K",
+      "type": "integer"
+    },
+    "per_channel_limit": {
+      "default": 20,
+      "description": "Per-query candidate pool limit for each channel (keyword and semantic)",
+      "exclusiveMinimum": 0,
+      "title": "Per Channel Limit",
+      "type": "integer"
+    },
+    "keyword_metric": {
+      "default": "distinct_terms",
+      "description": "Keyword scoring metric",
+      "enum": [
+        "distinct_terms",
+        "bm25"
+      ],
+      "title": "Keyword Metric",
+      "type": "string"
+    },
+    "semantic_metric": {
+      "default": "cosine",
+      "description": "Semantic similarity metric",
+      "enum": [
+        "cosine",
+        "dot_product"
+      ],
+      "title": "Semantic Metric",
+      "type": "string"
+    },
+    "fusion_method": {
+      "const": "rrf",
+      "default": "rrf",
+      "description": "Rank fusion method (Reciprocal Rank Fusion)",
+      "title": "Fusion Method",
+      "type": "string"
+    },
+    "rrf_k": {
+      "default": 60,
+      "description": "RRF smoothing constant k in sum(1 / (k + rank))",
+      "exclusiveMinimum": 0,
+      "title": "Rrf K",
+      "type": "integer"
+    },
+    "multi_query_aggregation": {
+      "default": "max",
+      "description": "Aggregation method across multiple requirement queries",
+      "enum": [
+        "max",
+        "sum"
+      ],
+      "title": "Multi Query Aggregation",
+      "type": "string"
+    },
+    "tie_break_order": {
+      "description": "Ordered tie-break criteria for equal fused scores",
+      "items": {
+        "type": "string"
+      },
+      "title": "Tie Break Order",
+      "type": "array"
+    },
+    "strict_parents": {
+      "default": false,
+      "description": "If True, missing/restricted optional parent raises permission error",
+      "title": "Strict Parents",
+      "type": "boolean"
+    },
+    "semantic_threshold": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Optional minimum semantic similarity cutoff; None initially",
+      "title": "Semantic Threshold"
+    },
+    "max_queries": {
+      "default": 20,
+      "description": "Maximum number of requirement queries processed",
+      "exclusiveMinimum": 0,
+      "title": "Max Queries",
+      "type": "integer"
+    },
+    "max_query_chars": {
+      "default": 500,
+      "description": "Maximum character length per requirement query",
+      "exclusiveMinimum": 0,
+      "title": "Max Query Chars",
+      "type": "integer"
+    }
+  },
+  "title": "RetrievalSettings",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/retrieval_settings.schema.json"
+}

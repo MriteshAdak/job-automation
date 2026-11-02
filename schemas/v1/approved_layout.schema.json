@@ -1,0 +1,232 @@
+{
+  "$defs": {
+    "DocumentType": {
+      "description": "Type of generated document.",
+      "enum": [
+        "cv",
+        "cover_letter"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    },
+    "PageSetup": {
+      "additionalProperties": false,
+      "description": "Page layout dimensions and margins in millimeters.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "page_size": {
+          "default": "A4",
+          "enum": [
+            "A4",
+            "LETTER"
+          ],
+          "title": "Page Size",
+          "type": "string"
+        },
+        "page_width_mm": {
+          "default": 210.0,
+          "exclusiveMinimum": 0,
+          "title": "Page Width Mm",
+          "type": "number"
+        },
+        "page_height_mm": {
+          "default": 297.0,
+          "exclusiveMinimum": 0,
+          "title": "Page Height Mm",
+          "type": "number"
+        },
+        "margin_top_mm": {
+          "default": 20.0,
+          "maximum": 40.0,
+          "minimum": 10.0,
+          "title": "Margin Top Mm",
+          "type": "number"
+        },
+        "margin_bottom_mm": {
+          "default": 20.0,
+          "maximum": 40.0,
+          "minimum": 10.0,
+          "title": "Margin Bottom Mm",
+          "type": "number"
+        },
+        "margin_left_mm": {
+          "default": 20.0,
+          "maximum": 40.0,
+          "minimum": 10.0,
+          "title": "Margin Left Mm",
+          "type": "number"
+        },
+        "margin_right_mm": {
+          "default": 20.0,
+          "maximum": 40.0,
+          "minimum": 10.0,
+          "title": "Margin Right Mm",
+          "type": "number"
+        }
+      },
+      "title": "PageSetup",
+      "type": "object"
+    },
+    "TypographySetup": {
+      "additionalProperties": false,
+      "description": "Typography and font sizing rules for approved layout.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "primary_font": {
+          "default": "Calibri",
+          "minLength": 1,
+          "title": "Primary Font",
+          "type": "string"
+        },
+        "fallback_fonts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fallback Fonts",
+          "type": "array"
+        },
+        "body_font_size_pt": {
+          "default": 11.0,
+          "maximum": 14.0,
+          "minimum": 10.0,
+          "title": "Body Font Size Pt",
+          "type": "number"
+        },
+        "heading1_font_size_pt": {
+          "default": 16.0,
+          "maximum": 24.0,
+          "minimum": 12.0,
+          "title": "Heading1 Font Size Pt",
+          "type": "number"
+        },
+        "heading2_font_size_pt": {
+          "default": 13.0,
+          "maximum": 18.0,
+          "minimum": 11.0,
+          "title": "Heading2 Font Size Pt",
+          "type": "number"
+        },
+        "heading3_font_size_pt": {
+          "default": 11.5,
+          "maximum": 16.0,
+          "minimum": 10.0,
+          "title": "Heading3 Font Size Pt",
+          "type": "number"
+        },
+        "small_font_size_pt": {
+          "default": 9.0,
+          "maximum": 11.0,
+          "minimum": 8.0,
+          "title": "Small Font Size Pt",
+          "type": "number"
+        },
+        "line_spacing": {
+          "default": 1.15,
+          "maximum": 2.0,
+          "minimum": 1.0,
+          "title": "Line Spacing",
+          "type": "number"
+        }
+      },
+      "title": "TypographySetup",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Approved document layout specifications and typography (GEN-05-S02).",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "layout_id": {
+      "minLength": 1,
+      "title": "Layout Id",
+      "type": "string"
+    },
+    "layout_version": {
+      "default": "1.0.0",
+      "title": "Layout Version",
+      "type": "string"
+    },
+    "document_type": {
+      "$ref": "#/$defs/DocumentType"
+    },
+    "supported_languages": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Supported Languages",
+      "type": "array"
+    },
+    "supported_content_specs": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Supported Content Specs",
+      "type": "array"
+    },
+    "page_setup": {
+      "$ref": "#/$defs/PageSetup"
+    },
+    "typography": {
+      "$ref": "#/$defs/TypographySetup"
+    },
+    "draft_notices": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Draft Notices",
+      "type": "object"
+    },
+    "approved_by": {
+      "minLength": 1,
+      "title": "Approved By",
+      "type": "string"
+    },
+    "approved_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Approved At",
+      "type": "string"
+    },
+    "approval_notes": {
+      "default": "",
+      "title": "Approval Notes",
+      "type": "string"
+    },
+    "is_approved": {
+      "const": true,
+      "default": true,
+      "title": "Is Approved",
+      "type": "boolean"
+    },
+    "layout_digest": {
+      "default": "",
+      "title": "Layout Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "layout_id",
+    "document_type",
+    "approved_by",
+    "approved_at"
+  ],
+  "title": "ApprovedLayout",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/approved_layout.schema.json"
+}

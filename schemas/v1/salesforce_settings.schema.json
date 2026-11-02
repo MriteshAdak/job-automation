@@ -1,0 +1,173 @@
+{
+  "additionalProperties": false,
+  "description": "Non-secret configuration settings for Salesforce REST gateway.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "instance_url": {
+      "description": "Base origin URL of the Salesforce instance (e.g. 'https://example.my.salesforce.com')",
+      "title": "Instance Url",
+      "type": "string"
+    },
+    "api_version": {
+      "default": "v60.0",
+      "description": "Explicit REST API version in 'vNN.0' format (e.g. 'v60.0')",
+      "title": "Api Version",
+      "type": "string"
+    },
+    "auth_flow": {
+      "default": "refresh_token",
+      "description": "OAuth flow type (e.g. 'refresh_token', 'jwt_bearer', 'client_credentials')",
+      "title": "Auth Flow",
+      "type": "string"
+    },
+    "client_id_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Opaque reference or key name for OAuth Connected App client ID",
+      "title": "Client Id Ref"
+    },
+    "credential_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Opaque reference for protected refresh token or credential secret",
+      "title": "Credential Ref"
+    },
+    "token_url": {
+      "default": "https://login.salesforce.com/services/oauth2/token",
+      "description": "OAuth token exchange endpoint URL",
+      "title": "Token Url",
+      "type": "string"
+    },
+    "expected_org_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Expected Salesforce Organization ID (15 or 18 chars)",
+      "title": "Expected Org Id"
+    },
+    "expected_user_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Expected Salesforce User ID (15 or 18 chars)",
+      "title": "Expected User Id"
+    },
+    "approved_origins": {
+      "description": "Explicit list of approved HTTPS origins; instance_url and token_url origins are added automatically",
+      "items": {
+        "type": "string"
+      },
+      "title": "Approved Origins",
+      "type": "array"
+    },
+    "connect_timeout_seconds": {
+      "default": 10.0,
+      "description": "TCP connect timeout in seconds",
+      "exclusiveMinimum": 0,
+      "maximum": 60,
+      "title": "Connect Timeout Seconds",
+      "type": "number"
+    },
+    "read_timeout_seconds": {
+      "default": 20.0,
+      "description": "Read idle timeout in seconds",
+      "exclusiveMinimum": 0,
+      "maximum": 120,
+      "title": "Read Timeout Seconds",
+      "type": "number"
+    },
+    "total_call_timeout_seconds": {
+      "default": 60.0,
+      "description": "Monotonic logical operation deadline in seconds",
+      "exclusiveMinimum": 0,
+      "maximum": 300,
+      "title": "Total Call Timeout Seconds",
+      "type": "number"
+    },
+    "max_total_sends": {
+      "default": 6,
+      "description": "Maximum total HTTP requests per logical operation",
+      "maximum": 20,
+      "minimum": 1,
+      "title": "Max Total Sends",
+      "type": "integer"
+    },
+    "max_resource_sends": {
+      "default": 3,
+      "description": "Maximum resource HTTP requests per logical operation",
+      "maximum": 10,
+      "minimum": 1,
+      "title": "Max Resource Sends",
+      "type": "integer"
+    },
+    "max_token_sends": {
+      "default": 2,
+      "description": "Maximum token acquisition/renewal requests per logical operation",
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Max Token Sends",
+      "type": "integer"
+    },
+    "initial_backoff_seconds": {
+      "default": 1.0,
+      "description": "Initial backoff delay in seconds",
+      "exclusiveMinimum": 0,
+      "maximum": 10,
+      "title": "Initial Backoff Seconds",
+      "type": "number"
+    },
+    "max_backoff_seconds": {
+      "default": 8.0,
+      "description": "Maximum backoff ceiling in seconds",
+      "exclusiveMinimum": 0,
+      "maximum": 60,
+      "title": "Max Backoff Seconds",
+      "type": "number"
+    },
+    "max_response_bytes": {
+      "default": 10485760,
+      "description": "Maximum allowable response payload size in bytes (10 MiB default)",
+      "maximum": 52428800,
+      "minimum": 1024,
+      "title": "Max Response Bytes",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "instance_url"
+  ],
+  "title": "SalesforceSettings",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_settings.schema.json"
+}

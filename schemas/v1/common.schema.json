@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/common.schema.json",
+  "title": "Common Primitives and Enums",
+  "description": "Shared primitive types, state domains, and classifications for job search automation",
+  "$defs": {
+    "LocalId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Locally assigned UUID identity"
+    },
+    "ProviderId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque provider-scoped identifier; preserves leading zeros"
+    },
+    "ContentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "SHA-256 content hash prefixed with sha256:"
+    },
+    "UtcDatetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC datetime with offset"
+    },
+    "PipelineStage": {
+      "type": "string",
+      "enum": ["pending", "running", "succeeded", "failed", "skipped"]
+    },
+    "HardCriterionResult": {
+      "type": "string",
+      "enum": ["pass", "fail", "unknown"]
+    },
+    "AssessmentDisposition": {
+      "type": "string",
+      "enum": ["eligible", "review", "rejected"]
+    },
+    "PostingAvailability": {
+      "type": "string",
+      "enum": ["active", "not_seen", "unavailable", "unknown"]
+    },
+    "ApplicationProgress": {
+      "type": "string",
+      "enum": ["New", "Review", "Shortlisted", "Applied", "Interviewing", "Offer", "Rejected", "Withdrawn", "Archived"]
+    },
+    "SyncOperationState": {
+      "type": "string",
+      "enum": ["pending", "running", "retry_wait", "succeeded", "failed"]
+    },
+    "GenerationProcessing": {
+      "type": "string",
+      "enum": ["pending", "running", "upload_pending", "ready_for_review", "failed"]
+    },
+    "DocumentApproval": {
+      "type": "string",
+      "enum": ["draft", "approved", "superseded"]
+    },
+    "ContextStrategy": {
+      "type": "string",
+      "enum": ["json", "rag"]
+    },
+    "AssessmentMethod": {
+      "type": "string",
+      "enum": ["rules", "llm"]
+    },
+    "WorkplaceType": {
+      "type": "string",
+      "enum": ["onsite", "hybrid", "remote", "unknown"]
+    },
+    "InventorySemantics": {
+      "type": "string",
+      "enum": ["complete_board", "filtered_feed", "search_results"]
+    },
+    "AcquisitionMethod": {
+      "type": "string",
+      "enum": ["api", "permitted_scraping", "manual_import"]
+    },
+    "FetchOutcome": {
+      "type": "string",
+      "enum": ["complete", "partial", "failed"]
+    },
+    "ErrorCategory": {
+      "type": "string",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ]
+    }
+  }
+}
+

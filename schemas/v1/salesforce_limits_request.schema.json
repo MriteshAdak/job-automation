@@ -1,0 +1,21 @@
+{
+  "additionalProperties": false,
+  "description": "Request to fetch organization API limits.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "call_id": {
+      "description": "Caller-generated operation UUID",
+      "format": "uuid",
+      "title": "Call Id",
+      "type": "string"
+    }
+  },
+  "title": "LimitsRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_limits_request.schema.json"
+}

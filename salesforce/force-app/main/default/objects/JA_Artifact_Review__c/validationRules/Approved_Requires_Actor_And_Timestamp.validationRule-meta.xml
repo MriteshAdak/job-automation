@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approved_Requires_Actor_And_Timestamp</fullName>
+    <active>true</active>
+    <description>Approved status requires Approved_By__c and Approved_At__c to be populated (SF-07).</description>
+    <errorConditionFormula>ISPICKVAL(Approval_Status__c, "approved") &amp;&amp; (ISBLANK(Approved_By__c) || ISBLANK(Approved_At__c))</errorConditionFormula>
+    <errorMessage>Approved status requires Approved_By__c and Approved_At__c to be populated.</errorMessage>
+</ValidationRule>
+

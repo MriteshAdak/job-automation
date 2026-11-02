@@ -1,0 +1,27 @@
+{
+  "source_key": {
+    "provider": "synthetic",
+    "board_id": "berlin_tech",
+    "source_posting_id": "synth_job_03"
+  },
+  "normalizer_version": "1.0",
+  "raw_reference": "synthetic/raw/synth_job_03.json",
+  "raw_content_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "company_name_hint": "Stealth AI Labs",
+  "title": "Python Distributed Systems Engineer",
+  "description_clean": "Join our fast-growing startup to build scalable Python microservices.",
+  "source_url": "https://example.com/jobs/synth_03",
+  "locations": [
+    {
+      "raw_text": "Berlin, Germany",
+      "country": "DE",
+      "city": "Berlin"
+    }
+  ],
+  "workplace_type": "hybrid",
+  "remote_eligibility_restrictions": [],
+  "employment_type": "full_time",
+  "compensation": null,
+  "advert_language": "en",
+  "observed_at": "2026-10-28T12:00:00Z"
+}

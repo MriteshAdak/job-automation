@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "source_key": {
+    "schema_version": "1.0",
+    "provider": "arbeitnow",
+    "board_id": "default",
+    "source_posting_id": "101"
+  },
+  "title": "",
+  "description_clean": "Description without normalizer version"
+}

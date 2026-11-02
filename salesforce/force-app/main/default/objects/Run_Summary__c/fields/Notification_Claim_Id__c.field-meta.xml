@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Notification_Claim_Id__c</fullName>
+    <description>Unique server-owned dispatch attempt claim token providing pre-send mutual exclusion (SF-09).</description>
+    <externalId>false</externalId>
+    <label>Notification Claim ID</label>
+    <length>80</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

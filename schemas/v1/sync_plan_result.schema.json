@@ -1,0 +1,685 @@
+{
+  "$defs": {
+    "AssessmentDisposition": {
+      "description": "Assessment outcome disposition. Authority: local assessment.",
+      "enum": [
+        "eligible",
+        "review",
+        "rejected"
+      ],
+      "title": "AssessmentDisposition",
+      "type": "string"
+    },
+    "ClassifiedError": {
+      "additionalProperties": false,
+      "description": "Classified operational or domain error.\n\nDistinguishes recoverable failures from permanent errors and maps\nto the system error taxonomy without arbitrary tool or shell authority.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/ErrorCategory"
+        },
+        "message": {
+          "description": "Safe diagnostic message without credentials or tokens",
+          "title": "Message",
+          "type": "string"
+        },
+        "recoverable": {
+          "description": "Whether this error category is eligible for bounded retry",
+          "title": "Recoverable",
+          "type": "boolean"
+        },
+        "field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional field path if the error pertains to a specific field",
+          "title": "Field Path"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Safe non-sensitive contextual details",
+          "title": "Details"
+        }
+      },
+      "required": [
+        "category",
+        "message",
+        "recoverable"
+      ],
+      "title": "ClassifiedError",
+      "type": "object"
+    },
+    "EntityType": {
+      "description": "Entity lane types for ordered delivery.",
+      "enum": [
+        "company",
+        "job"
+      ],
+      "title": "EntityType",
+      "type": "string"
+    },
+    "ErrorCategory": {
+      "description": "Classified error category for failure handling and recovery.",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ],
+      "title": "ErrorCategory",
+      "type": "string"
+    },
+    "PostingAvailability": {
+      "description": "Posting availability status. Authority: source observations.",
+      "enum": [
+        "active",
+        "not_seen",
+        "unavailable",
+        "unknown"
+      ],
+      "title": "PostingAvailability",
+      "type": "string"
+    },
+    "PublicationDecision": {
+      "description": "Decision reached regarding publication to Salesforce.",
+      "enum": [
+        "publish_initial",
+        "update_tracked",
+        "local_only_rejected",
+        "local_only_comparison",
+        "no_change"
+      ],
+      "title": "PublicationDecision",
+      "type": "string"
+    },
+    "SyncOperation": {
+      "additionalProperties": false,
+      "description": "C12 Salesforce Sync Operation.\n\nRepresents a queued or executed write operation to Salesforce.\nSequenced and fingerprinted to prevent stale writes.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "operation_id": {
+          "description": "Unique operation UUID",
+          "format": "uuid",
+          "title": "Operation Id",
+          "type": "string"
+        },
+        "canonical_job_id": {
+          "description": "Associated canonical job UUID",
+          "format": "uuid",
+          "title": "Canonical Job Id",
+          "type": "string"
+        },
+        "payload_version": {
+          "description": "Sequential or timestamped version token of this update",
+          "minLength": 1,
+          "title": "Payload Version",
+          "type": "string"
+        },
+        "payload_fingerprint": {
+          "description": "Content hash of the locally owned payload",
+          "minLength": 1,
+          "title": "Payload Fingerprint",
+          "type": "string"
+        },
+        "locally_owned_payload": {
+          "$ref": "#/$defs/SyncPayload",
+          "description": "Strictly machine-owned fields to push to Salesforce"
+        },
+        "attempt_count": {
+          "default": 0,
+          "description": "Number of delivery attempts made",
+          "minimum": 0,
+          "title": "Attempt Count",
+          "type": "integer"
+        },
+        "max_attempts": {
+          "default": 3,
+          "description": "Maximum retry attempts permitted",
+          "exclusiveMinimum": 0,
+          "title": "Max Attempts",
+          "type": "integer"
+        },
+        "state": {
+          "$ref": "#/$defs/SyncOperationState",
+          "default": "pending",
+          "description": "Current outbox operation state"
+        },
+        "remote_record_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Salesforce Job__c record ID once created or acknowledged",
+          "title": "Remote Record Id"
+        },
+        "remote_acknowledged_at": {
+          "anyOf": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Timestamp when Salesforce acknowledged the upsert",
+          "title": "Remote Acknowledged At"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ClassifiedError"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Error details from the most recent failed attempt"
+        }
+      },
+      "required": [
+        "operation_id",
+        "canonical_job_id",
+        "payload_version",
+        "payload_fingerprint",
+        "locally_owned_payload"
+      ],
+      "title": "SyncOperation",
+      "type": "object"
+    },
+    "SyncOperationState": {
+      "description": "Salesforce sync operation state. Authority: local outbox/gateway.",
+      "enum": [
+        "pending",
+        "running",
+        "retry_wait",
+        "succeeded",
+        "failed"
+      ],
+      "title": "SyncOperationState",
+      "type": "string"
+    },
+    "SyncPayload": {
+      "additionalProperties": false,
+      "description": "Machine-owned fields synchronized to Salesforce.\n\nStrictly excludes candidate-owned fields (e.g. application progress,\ncandidate notes, follow-up dates, manual overrides).",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "canonical_job_id": {
+          "description": "Target canonical job UUID",
+          "format": "uuid",
+          "title": "Canonical Job Id",
+          "type": "string"
+        },
+        "job_title": {
+          "description": "Latest normalized job title",
+          "minLength": 1,
+          "title": "Job Title",
+          "type": "string"
+        },
+        "company_name": {
+          "description": "Resolved employer name",
+          "minLength": 1,
+          "title": "Company Name",
+          "type": "string"
+        },
+        "availability": {
+          "$ref": "#/$defs/PostingAvailability",
+          "description": "Posting availability"
+        },
+        "assessment_disposition": {
+          "$ref": "#/$defs/AssessmentDisposition",
+          "description": "Machine assessment disposition"
+        },
+        "relevance_score": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Machine relevance score",
+          "title": "Relevance Score"
+        },
+        "score_scale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Score scale",
+          "title": "Score Scale"
+        },
+        "assessment_reasons": {
+          "description": "Summary explanation of assessment",
+          "title": "Assessment Reasons",
+          "type": "string"
+        },
+        "source_urls": {
+          "description": "Observed source posting URLs",
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Urls",
+          "type": "array"
+        },
+        "last_evaluated_at": {
+          "description": "Timestamp of the evaluated assessment",
+          "format": "date-time",
+          "title": "Last Evaluated At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "canonical_job_id",
+        "job_title",
+        "company_name",
+        "availability",
+        "assessment_disposition",
+        "assessment_reasons",
+        "last_evaluated_at"
+      ],
+      "title": "SyncPayload",
+      "type": "object"
+    },
+    "SyncPlan": {
+      "additionalProperties": false,
+      "description": "Atomic publication plan containing ordered write steps.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "plan_id": {
+          "description": "Unique plan UUID",
+          "format": "uuid",
+          "title": "Plan Id",
+          "type": "string"
+        },
+        "canonical_job_id": {
+          "description": "Target canonical job UUID",
+          "format": "uuid",
+          "title": "Canonical Job Id",
+          "type": "string"
+        },
+        "assessment_id": {
+          "description": "Evaluated C11 Assessment UUID",
+          "format": "uuid",
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "mapping_version": {
+          "description": "Version of the mapping configuration used",
+          "minLength": 1,
+          "title": "Mapping Version",
+          "type": "string"
+        },
+        "mapping_hash": {
+          "description": "SHA-256 hash of mapping configuration used",
+          "minLength": 1,
+          "title": "Mapping Hash",
+          "type": "string"
+        },
+        "plan_fingerprint": {
+          "description": "Full logical projection fingerprint",
+          "minLength": 1,
+          "title": "Plan Fingerprint",
+          "type": "string"
+        },
+        "selection_token": {
+          "description": "Input-generation token driving this plan",
+          "minLength": 1,
+          "title": "Selection Token",
+          "type": "string"
+        },
+        "run_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Associated pipeline run ID",
+          "title": "Run Id"
+        },
+        "publication_decision": {
+          "$ref": "#/$defs/PublicationDecision",
+          "description": "Publication decision reached"
+        },
+        "created_at": {
+          "description": "Timestamp when plan was generated and persisted",
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "steps": {
+          "description": "Ordered write steps in this plan",
+          "items": {
+            "$ref": "#/$defs/SyncWriteStep"
+          },
+          "title": "Steps",
+          "type": "array"
+        }
+      },
+      "required": [
+        "canonical_job_id",
+        "assessment_id",
+        "mapping_version",
+        "mapping_hash",
+        "plan_fingerprint",
+        "selection_token",
+        "publication_decision",
+        "created_at"
+      ],
+      "title": "SyncPlan",
+      "type": "object"
+    },
+    "SyncStepState": {
+      "description": "Lifecycle state of a discrete sync write step.",
+      "enum": [
+        "pending",
+        "running",
+        "retry_wait",
+        "succeeded",
+        "failed"
+      ],
+      "title": "SyncStepState",
+      "type": "string"
+    },
+    "SyncWriteStep": {
+      "additionalProperties": false,
+      "description": "Discrete ordered mutation step (Company or Job) within a SyncPlan.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "step_id": {
+          "description": "Unique write step UUID",
+          "format": "uuid",
+          "title": "Step Id",
+          "type": "string"
+        },
+        "plan_id": {
+          "description": "Parent SyncPlan UUID",
+          "format": "uuid",
+          "title": "Plan Id",
+          "type": "string"
+        },
+        "operation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "C12 SyncOperation UUID if this is a job step",
+          "title": "Operation Id"
+        },
+        "entity_type": {
+          "$ref": "#/$defs/EntityType",
+          "description": "Target entity type: company or job"
+        },
+        "entity_id": {
+          "description": "Target canonical entity UUID (company_id or job_id)",
+          "format": "uuid",
+          "title": "Entity Id",
+          "type": "string"
+        },
+        "sequence_number": {
+          "description": "Per-entity monotonic sequence number",
+          "minimum": 1,
+          "title": "Sequence Number",
+          "type": "integer"
+        },
+        "target_object": {
+          "description": "Salesforce sObject name (e.g. Job__c, Company__c)",
+          "minLength": 1,
+          "title": "Target Object",
+          "type": "string"
+        },
+        "external_id_field": {
+          "description": "Salesforce External ID field API name",
+          "minLength": 1,
+          "title": "External Id Field",
+          "type": "string"
+        },
+        "external_id_value": {
+          "description": "External ID value to upsert",
+          "minLength": 1,
+          "title": "External Id Value",
+          "type": "string"
+        },
+        "relationship_field": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Lookup field name on this object linking to parent entity",
+          "title": "Relationship Field"
+        },
+        "depends_on_step_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Prior step ID that must succeed before this step executes",
+          "title": "Depends On Step Id"
+        },
+        "frozen_payload": {
+          "additionalProperties": true,
+          "description": "Frozen mapped fields to send to Salesforce (strictly machine-owned)",
+          "title": "Frozen Payload",
+          "type": "object"
+        },
+        "step_fingerprint": {
+          "description": "Content hash of this write step",
+          "minLength": 1,
+          "title": "Step Fingerprint",
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/SyncStepState",
+          "default": "pending",
+          "description": "Current step execution state"
+        },
+        "may_have_been_sent": {
+          "default": false,
+          "description": "True if request may have reached Salesforce (pre-send intent set)",
+          "title": "May Have Been Sent",
+          "type": "boolean"
+        },
+        "attempt_count": {
+          "default": 0,
+          "description": "Number of attempts made on this step",
+          "minimum": 0,
+          "title": "Attempt Count",
+          "type": "integer"
+        },
+        "next_attempt_at": {
+          "anyOf": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Timestamp after which next attempt is permitted",
+          "title": "Next Attempt At"
+        },
+        "reconciliation_marker": {
+          "description": "Unique marker written into remote payload for reconciliation",
+          "minLength": 1,
+          "title": "Reconciliation Marker",
+          "type": "string"
+        },
+        "remote_record_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Salesforce record ID once confirmed",
+          "title": "Remote Record Id"
+        },
+        "acknowledged_at": {
+          "anyOf": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Timestamp of confirmed remote acknowledgment",
+          "title": "Acknowledged At"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ClassifiedError"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Classified error from most recent failure"
+        }
+      },
+      "required": [
+        "plan_id",
+        "entity_type",
+        "entity_id",
+        "sequence_number",
+        "target_object",
+        "external_id_field",
+        "external_id_value",
+        "frozen_payload",
+        "step_fingerprint",
+        "reconciliation_marker"
+      ],
+      "title": "SyncWriteStep",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Outcome of planning an assessment submission.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "plan": {
+      "$ref": "#/$defs/SyncPlan"
+    },
+    "sync_operation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SyncOperation"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "is_published": {
+      "title": "Is Published",
+      "type": "boolean"
+    },
+    "publication_decision": {
+      "$ref": "#/$defs/PublicationDecision"
+    }
+  },
+  "required": [
+    "plan",
+    "is_published",
+    "publication_decision"
+  ],
+  "title": "SyncPlanResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/sync_plan_result.schema.json"
+}

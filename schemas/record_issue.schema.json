@@ -1,0 +1,166 @@
+{
+  "$defs": {
+    "ErrorCategory": {
+      "description": "Classified error category for failure handling and recovery.",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ],
+      "title": "ErrorCategory",
+      "type": "string"
+    },
+    "SourceKey": {
+      "additionalProperties": false,
+      "description": "Unique source posting identity: (provider, board_id, source_posting_id).\n\nTwo postings with the same tuple are the same source posting.\nDifferent board_ids under the same provider are distinct.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "provider": {
+          "minLength": 1,
+          "title": "Provider",
+          "type": "string"
+        },
+        "board_id": {
+          "minLength": 1,
+          "title": "Board Id",
+          "type": "string"
+        },
+        "source_posting_id": {
+          "minLength": 1,
+          "title": "Source Posting Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "board_id",
+        "source_posting_id"
+      ],
+      "title": "SourceKey",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Record-level validation or mapping issue with exact input locator.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "description": "Contract schema version",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "input_ref": {
+      "description": "Reference or URI of the input source",
+      "title": "Input Ref",
+      "type": "string"
+    },
+    "input_hash": {
+      "description": "Content hash of the input",
+      "title": "Input Hash",
+      "type": "string"
+    },
+    "record_index": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "1-based logical record index within input",
+      "title": "Record Index"
+    },
+    "line_start": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "1-based physical start line",
+      "title": "Line Start"
+    },
+    "line_end": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "1-based physical end line",
+      "title": "Line End"
+    },
+    "source_key": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SourceKey"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Scoped source identity if established"
+    },
+    "field_path": {
+      "default": "",
+      "description": "Field path within record associated with issue",
+      "title": "Field Path",
+      "type": "string"
+    },
+    "code": {
+      "description": "Stable programmatic issue code",
+      "title": "Code",
+      "type": "string"
+    },
+    "severity": {
+      "default": "error",
+      "description": "Issue severity: 'error' (blocking) or 'warning'",
+      "title": "Severity",
+      "type": "string"
+    },
+    "message": {
+      "description": "Safe human-readable issue description",
+      "title": "Message",
+      "type": "string"
+    },
+    "category": {
+      "$ref": "#/$defs/ErrorCategory",
+      "default": "validation",
+      "description": "Classified error category"
+    }
+  },
+  "required": [
+    "input_ref",
+    "input_hash",
+    "code",
+    "message"
+  ],
+  "title": "RecordIssue",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/record_issue.schema.json"
+}

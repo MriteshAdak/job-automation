@@ -1,0 +1,9 @@
+{
+  "Status__c": "Failed",
+  "Completed_At__c": "2026-11-01T12:00:05Z",
+  "Error_Category__c": "validation",
+  "Error_Reason__c": "job_unavailable",
+  "Error_Message__c": "Posting is confirmed unavailable and allow_unavailable_job override was not granted by candidate.",
+  "Operation_Marker__c": "op_preclaim_fail_0001"
+}
+

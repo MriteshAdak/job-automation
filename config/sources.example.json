@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "schema_version": "1.0",
+      "source_key": "arbeitnow_de",
+      "provider": "arbeitnow",
+      "board_id": "default",
+      "acquisition_method": "api",
+      "base_url": "https://job-board-api.invalid/api/v1/jobs",
+      "access_rules": "Max 1 req/sec",
+      "attribution_rules": "Attribution to Arbeitnow API",
+      "request_policy": {
+        "timeout": 30,
+        "request_spacing_seconds": 1.0
+      },
+      "enabled": false,
+      "inventory_semantics": "filtered_feed"
+    },
+    {
+      "schema_version": "1.0",
+      "source_key": "greenhouse_board_synthetic",
+      "provider": "greenhouse",
+      "board_id": "sample_corp_001",
+      "acquisition_method": "api",
+      "base_url": "https://boards-api.greenhouse.invalid/v1/boards/sample_corp_001/jobs",
+      "access_rules": "{\"status\": \"permitted\", \"reviewed_at\": \"2026-10-28T00:00:00Z\", \"evidence_ref\": \"terms-v1-api-developer\", \"permitted_methods\": [\"api\"]}",
+      "attribution_rules": "Source: Greenhouse Job Board (Sample Corp)",
+      "request_policy": {
+        "timeout_seconds": 30.0,
+        "max_attempts": 3,
+        "backoff_factor": 1.5
+      },
+      "enabled": false,
+      "inventory_semantics": "complete_board"
+    },
+    {
+      "schema_version": "1.0",
+      "source_key": "example_search",
+      "provider": "sample_search_api",
+      "board_id": "search_de",
+      "acquisition_method": "api",
+      "base_url": "https://api.search-provider.invalid/v2/search",
+      "access_rules": "{\"status\": \"permitted\", \"reviewed_at\": \"2026-10-28T00:00:00Z\", \"evidence_ref\": \"developer-api-agreement-2026\", \"permitted_methods\": [\"api\"]}",
+      "attribution_rules": "{\"status\": \"required\", \"notice\": \"Data provided by Sample Search API\", \"link\": \"https://search-provider.invalid\"}",
+      "request_policy": {
+        "timeout_seconds": 20.0,
+        "max_attempts": 2,
+        "params": {
+          "country": "DE",
+          "department": "operations"
+        }
+      },
+      "enabled": false,
+      "inventory_semantics": "search_results"
+    },
+    {
+      "schema_version": "1.0",
+      "source_key": "example_manual",
+      "provider": "manual",
+      "board_id": "local_inbox",
+      "acquisition_method": "manual_import",
+      "base_url": "manual://inbox/pasted_text",
+      "access_rules": "{\"status\": \"permitted\", \"reviewed_at\": \"2026-10-28T00:00:00Z\", \"evidence_ref\": \"operator-direct-input\", \"permitted_methods\": [\"manual_import\"]}",
+      "attribution_rules": "none_required",
+      "request_policy": {},
+      "enabled": false,
+      "inventory_semantics": "search_results"
+    },
+    {
+      "schema_version": "1.0",
+      "source_key": "example_scraping_draft",
+      "provider": "regional_careers",
+      "board_id": "munich_finance",
+      "acquisition_method": "permitted_scraping",
+      "base_url": "https://careers.munich-finance.invalid/jobs",
+      "access_rules": null,
+      "attribution_rules": null,
+      "request_policy": {
+        "timeout_seconds": 15.0,
+        "request_spacing_seconds": 5.0
+      },
+      "enabled": false,
+      "inventory_semantics": "filtered_feed"
+    }
+  ]
+}
+

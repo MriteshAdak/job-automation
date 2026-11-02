@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interview_Date__c</fullName>
+    <description>Date scheduled for candidate interview. Candidate-owned; date-only precision.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Interview date set by candidate.</inlineHelpText>
+    <label>Interview Date</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Date</type>
+</CustomField>
+

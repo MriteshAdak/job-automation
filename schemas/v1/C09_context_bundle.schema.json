@@ -1,0 +1,813 @@
+{
+  "$defs": {
+    "BudgetReport": {
+      "additionalProperties": false,
+      "description": "Comprehensive token budget accounting across the entire rendered prompt.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "total_input_tokens": {
+          "description": "Total tokens consumed by complete rendered input P",
+          "minimum": 0,
+          "title": "Total Input Tokens",
+          "type": "integer"
+        },
+        "candidate_tokens": {
+          "description": "Tokens consumed by candidate context model projection",
+          "minimum": 0,
+          "title": "Candidate Tokens",
+          "type": "integer"
+        },
+        "instruction_tokens": {
+          "description": "Tokens consumed by instructions and system prompt",
+          "minimum": 0,
+          "title": "Instruction Tokens",
+          "type": "integer"
+        },
+        "job_tokens": {
+          "description": "Tokens consumed by job posting description and requirements",
+          "minimum": 0,
+          "title": "Job Tokens",
+          "type": "integer"
+        },
+        "framing_tokens": {
+          "description": "Tokens consumed by chat framing, headers, and separators",
+          "minimum": 0,
+          "title": "Framing Tokens",
+          "type": "integer"
+        },
+        "output_reserve": {
+          "description": "Tokens reserved for model completion output O",
+          "minimum": 0,
+          "title": "Output Reserve",
+          "type": "integer"
+        },
+        "safety_allowance": {
+          "description": "Safety allowance margin M",
+          "minimum": 0,
+          "title": "Safety Allowance",
+          "type": "integer"
+        },
+        "effective_window": {
+          "description": "Effective model context window limit L",
+          "exclusiveMinimum": 0,
+          "title": "Effective Window",
+          "type": "integer"
+        },
+        "candidate_allowance": {
+          "description": "Allocated candidate context allowance",
+          "title": "Candidate Allowance",
+          "type": "integer"
+        },
+        "total_demand": {
+          "description": "Total budget demand P + O + M",
+          "minimum": 0,
+          "title": "Total Demand",
+          "type": "integer"
+        },
+        "remaining_capacity": {
+          "description": "Remaining capacity in tokens L - (P + O + M)",
+          "title": "Remaining Capacity",
+          "type": "integer"
+        },
+        "overflow": {
+          "description": "Overflow excess if total_demand exceeds effective_window",
+          "minimum": 0,
+          "title": "Overflow",
+          "type": "integer"
+        },
+        "fits": {
+          "description": "True if total_demand <= effective_window",
+          "title": "Fits",
+          "type": "boolean"
+        },
+        "measurement_method": {
+          "description": "Identifier of the tokenizer or estimator used",
+          "minLength": 1,
+          "title": "Measurement Method",
+          "type": "string"
+        },
+        "measurement_version": {
+          "description": "Version of the tokenizer or estimator",
+          "minLength": 1,
+          "title": "Measurement Version",
+          "type": "string"
+        },
+        "is_exact": {
+          "description": "True if measured with an exact tokenizer; False if estimated",
+          "title": "Is Exact",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "total_input_tokens",
+        "candidate_tokens",
+        "instruction_tokens",
+        "job_tokens",
+        "framing_tokens",
+        "output_reserve",
+        "safety_allowance",
+        "effective_window",
+        "candidate_allowance",
+        "total_demand",
+        "remaining_capacity",
+        "overflow",
+        "fits",
+        "measurement_method",
+        "measurement_version",
+        "is_exact"
+      ],
+      "title": "BudgetReport",
+      "type": "object"
+    },
+    "CandidateEligibility": {
+      "additionalProperties": false,
+      "description": "Explicit eligibility facts confirmed by the candidate.\n\nDistinct from desired job preferences. An absent proficiency is unknown,\nnot absent capability.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "work_authorization_countries": {
+          "description": "ISO 3166-1 alpha-2 country codes where candidate is authorized to work",
+          "items": {
+            "type": "string"
+          },
+          "title": "Work Authorization Countries",
+          "type": "array"
+        },
+        "target_locations": {
+          "description": "Locations candidate is eligible/willing to work in",
+          "items": {
+            "type": "string"
+          },
+          "title": "Target Locations",
+          "type": "array"
+        },
+        "remote_eligible": {
+          "default": true,
+          "description": "Whether candidate is eligible for remote work",
+          "title": "Remote Eligible",
+          "type": "boolean"
+        },
+        "min_salary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MoneyAmount"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Minimum acceptable compensation; null means unspecified/unknown"
+        },
+        "language_proficiencies": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Language codes (e.g. 'de', 'en') mapped to CEFR levels (e.g. 'C1', 'B2') or descriptions",
+          "title": "Language Proficiencies",
+          "type": "object"
+        }
+      },
+      "title": "CandidateEligibility",
+      "type": "object"
+    },
+    "CandidateFact": {
+      "additionalProperties": false,
+      "description": "Individual approved evidence record.\n\nTraced to specific parent roles/projects, dated with explicit precision,\nand tagged with allowed uses (e.g. cv, cover_letter, assessment).",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "Unique ID for this candidate fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/EvidenceFactKind",
+          "description": "Category of evidence fact"
+        },
+        "parent_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Parent role or project ID if hierarchical",
+          "title": "Parent Id"
+        },
+        "title": {
+          "description": "Fact headline (e.g. role title or degree)",
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "organization": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Employer, institution, or client organization",
+          "title": "Organization"
+        },
+        "start_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Start date with explicit precision"
+        },
+        "end_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "End date with explicit precision; null if ongoing/present"
+        },
+        "claims": {
+          "description": "Specific factual claims / accomplishments",
+          "items": {
+            "type": "string"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "skills": {
+          "description": "Demonstrated skills / technologies",
+          "items": {
+            "type": "string"
+          },
+          "title": "Skills",
+          "type": "array"
+        },
+        "metrics": {
+          "description": "Verified quantitative metrics / achievements",
+          "items": {
+            "type": "string"
+          },
+          "title": "Metrics",
+          "type": "array"
+        },
+        "provenance": {
+          "description": "Source reference (e.g. 'contract-2023', 'cv_v2_import')",
+          "minLength": 1,
+          "title": "Provenance",
+          "type": "string"
+        },
+        "allowed_uses": {
+          "description": "Permitted contexts for this fact",
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed Uses",
+          "type": "array"
+        }
+      },
+      "required": [
+        "fact_id",
+        "kind",
+        "title",
+        "provenance"
+      ],
+      "title": "CandidateFact",
+      "type": "object"
+    },
+    "ChronologyReference": {
+      "additionalProperties": false,
+      "description": "Reference to an essential chronology anchor fact with preserved dates and versions.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Profile version containing the fact",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "UUID of the chronology fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/EvidenceFactKind",
+          "description": "Kind of evidence fact (employment, education, etc.)"
+        },
+        "title": {
+          "description": "Title of the anchor fact",
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "start_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Start date with preserved precision"
+        },
+        "end_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "End date with preserved precision"
+        },
+        "reason": {
+          "description": "Reason for inclusion as chronology anchor",
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_version",
+        "fact_id",
+        "kind",
+        "title",
+        "reason"
+      ],
+      "title": "ChronologyReference",
+      "type": "object"
+    },
+    "ContextStrategy": {
+      "description": "Context construction strategy for candidate evidence.",
+      "enum": [
+        "json",
+        "rag"
+      ],
+      "title": "ContextStrategy",
+      "type": "string"
+    },
+    "EvidenceFactKind": {
+      "description": "Kind of candidate evidence fact.",
+      "enum": [
+        "employment",
+        "education",
+        "certification",
+        "skill",
+        "language",
+        "project",
+        "publication",
+        "award",
+        "volunteer",
+        "other"
+      ],
+      "title": "EvidenceFactKind",
+      "type": "string"
+    },
+    "MandatoryFactReason": {
+      "additionalProperties": false,
+      "description": "Reason code documenting why a fact is designated as mandatory context.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "UUID of the mandatory fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Reason code for mandatory status",
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "fact_id",
+        "reason"
+      ],
+      "title": "MandatoryFactReason",
+      "type": "object"
+    },
+    "MoneyAmount": {
+      "additionalProperties": false,
+      "description": "Monetary amount with explicit currency.\n\nA null amount means unknown, not zero. An explicit zero means zero.\nCurrency uses ISO 4217 three-letter codes.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "Monetary value; null at parent level means unknown",
+          "title": "Amount"
+        },
+        "currency": {
+          "description": "ISO 4217 currency code",
+          "maxLength": 3,
+          "minLength": 3,
+          "pattern": "^[A-Z]{3}$",
+          "title": "Currency",
+          "type": "string"
+        }
+      },
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "title": "MoneyAmount",
+      "type": "object"
+    },
+    "PrecisionDate": {
+      "additionalProperties": false,
+      "description": "Date with explicit precision: day, month, or year.\n\nMonth precision '2021-05' stays as-is; no day is fabricated.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "value": {
+          "description": "ISO date string matching the precision",
+          "title": "Value",
+          "type": "string"
+        },
+        "precision": {
+          "enum": [
+            "day",
+            "month",
+            "year"
+          ],
+          "title": "Precision",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "precision"
+      ],
+      "title": "PrecisionDate",
+      "type": "object"
+    },
+    "StructuredMandatoryContext": {
+      "additionalProperties": false,
+      "description": "Authoritative structured representation of mandatory eligibility and chronology facts.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "mandatory_fact_ids": {
+          "description": "Ordered unique UUIDs of mandatory facts",
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Mandatory Fact Ids",
+          "type": "array"
+        },
+        "fact_reasons": {
+          "description": "Reason codes for each mandatory fact",
+          "items": {
+            "$ref": "#/$defs/MandatoryFactReason"
+          },
+          "title": "Fact Reasons",
+          "type": "array"
+        },
+        "chronology": {
+          "description": "Chronology references preserving precision dates and versions",
+          "items": {
+            "$ref": "#/$defs/ChronologyReference"
+          },
+          "title": "Chronology",
+          "type": "array"
+        },
+        "explicit_eligibility": {
+          "$ref": "#/$defs/CandidateEligibility",
+          "description": "Explicit candidate eligibility from approved C01 snapshot"
+        },
+        "eligibility_source": {
+          "description": "Provenance citation for eligibility fields (e.g. 'v1#explicit_eligibility')",
+          "minLength": 1,
+          "title": "Eligibility Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "explicit_eligibility",
+        "eligibility_source"
+      ],
+      "title": "StructuredMandatoryContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "C09 Context Bundle.\n\nSnapshot of selected candidate evidence facts and mandatory context\nfor downstream LLM assessment or document generation.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "strategy": {
+      "$ref": "#/$defs/ContextStrategy",
+      "description": "Context strategy used: json (full snapshot) or rag (retrieved chunks)"
+    },
+    "profile_version": {
+      "description": "Version of the candidate profile snapshot",
+      "minLength": 1,
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "posting_revision": {
+      "description": "Job posting revision or content hash",
+      "minLength": 1,
+      "title": "Posting Revision",
+      "type": "string"
+    },
+    "ordered_facts": {
+      "description": "Ordered candidate facts included in this context",
+      "items": {
+        "$ref": "#/$defs/CandidateFact"
+      },
+      "title": "Ordered Facts",
+      "type": "array"
+    },
+    "mandatory_context": {
+      "description": "Mandatory eligibility/chronology facts that bypass top-k retrieval",
+      "items": {
+        "type": "string"
+      },
+      "title": "Mandatory Context",
+      "type": "array"
+    },
+    "selected_fact_ids": {
+      "description": "UUIDs of facts selected for this bundle",
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Selected Fact Ids",
+      "type": "array"
+    },
+    "query_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Version of the requirement query used for retrieval (RAG only)",
+      "title": "Query Version"
+    },
+    "index_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Version/digest of the embedding index used (RAG only)",
+      "title": "Index Version"
+    },
+    "retrieval_settings": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Retrieval settings (e.g. top_k, similarity_threshold) if RAG",
+      "title": "Retrieval Settings"
+    },
+    "token_budget": {
+      "description": "Allocated token budget for context",
+      "exclusiveMinimum": 0,
+      "title": "Token Budget",
+      "type": "integer"
+    },
+    "estimated_tokens": {
+      "description": "Estimated token count of this context bundle",
+      "minimum": 0,
+      "title": "Estimated Tokens",
+      "type": "integer"
+    },
+    "warnings": {
+      "description": "Warnings regarding budget pressure or omitted non-mandatory items",
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "candidate_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Stable UUID of the candidate",
+      "title": "Candidate Id"
+    },
+    "purpose": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Purpose for which this context was constructed (assessment, cv, cover_letter)",
+      "title": "Purpose"
+    },
+    "inclusion_rule_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Version of inclusion rules applied",
+      "title": "Inclusion Rule Version"
+    },
+    "mandatory_policy_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Version of mandatory context policy applied",
+      "title": "Mandatory Policy Version"
+    },
+    "builder_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Version of the context builder used",
+      "title": "Builder Version"
+    },
+    "serialization_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Version of the serialization format used",
+      "title": "Serialization Version"
+    },
+    "mandatory_fact_ids": {
+      "description": "UUIDs of mandatory facts included in this bundle",
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Mandatory Fact Ids",
+      "type": "array"
+    },
+    "structured_mandatory": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/StructuredMandatoryContext"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Structured mandatory eligibility and chronology context"
+    },
+    "content_fingerprint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "SHA-256 fingerprint of the complete rendered input context",
+      "title": "Content Fingerprint"
+    },
+    "budget_report": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/BudgetReport"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Comprehensive whole-prompt token budget report"
+    },
+    "retrieval_audit": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Auxiliary audit trace of retrieval and fusion (RAG only)",
+      "title": "Retrieval Audit"
+    }
+  },
+  "required": [
+    "strategy",
+    "profile_version",
+    "posting_revision",
+    "token_budget",
+    "estimated_tokens"
+  ],
+  "title": "ContextBundle",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/C09_context_bundle.schema.json"
+}

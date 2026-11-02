@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Immutable_Binding_Fields</fullName>
+    <active>true</active>
+    <description>Prevents modification of immutable version binding fields after initial insert (SF-07).</description>
+    <errorConditionFormula>NOT(ISNEW()) &amp;&amp; (ISCHANGED(Binding_Key__c) || ISCHANGED(Content_Hash__c) || ISCHANGED(Content_Version_Id__c) || ISCHANGED(Content_Document_Id__c) || ISCHANGED(Format__c) || ISCHANGED(Artifact_Set_Id__c) || ISCHANGED(Artifact_Id__c))</errorConditionFormula>
+    <errorMessage>Binding key, content hash, remote IDs, and format are immutable once registered.</errorMessage>
+</ValidationRule>
+

@@ -1,0 +1,52 @@
+{
+  "additionalProperties": false,
+  "description": "Single page result of a SOQL query.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "total_size": {
+      "description": "Total matching records count",
+      "minimum": 0,
+      "title": "Total Size",
+      "type": "integer"
+    },
+    "done": {
+      "description": "Whether this query has no further pages",
+      "title": "Done",
+      "type": "boolean"
+    },
+    "records": {
+      "description": "Records in this page",
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Records",
+      "type": "array"
+    },
+    "next_records_url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Relative continuation path for next page if not done",
+      "title": "Next Records Url"
+    }
+  },
+  "required": [
+    "total_size",
+    "done"
+  ],
+  "title": "QueryPageResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_query_page_result.schema.json"
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>End_Not_Before_Start</fullName>
+    <active>true</active>
+    <description>Run End Time cannot precede Run Start Time (SF-09).</description>
+    <errorConditionFormula>NOT(ISBLANK(Start_Time__c)) &amp;&amp; NOT(ISBLANK(End_Time__c)) &amp;&amp; End_Time__c &lt; Start_Time__c</errorConditionFormula>
+    <errorMessage>End Time cannot be earlier than Start Time.</errorMessage>
+</ValidationRule>
+

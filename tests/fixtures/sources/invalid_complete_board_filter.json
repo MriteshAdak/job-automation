@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "schema_version": "1.0",
+      "source_key": "contradictory_board",
+      "provider": "board_prov",
+      "board_id": "b1",
+      "acquisition_method": "api",
+      "base_url": "https://api.board.invalid/jobs",
+      "access_rules": "{\"status\": \"permitted\", \"reviewed_at\": \"2026-10-28T00:00:00Z\", \"evidence_ref\": \"terms-v1\", \"permitted_methods\": [\"api\"]}",
+      "attribution_rules": "Source: Board",
+      "request_policy": {
+        "params": {
+          "q": "engineer"
+        }
+      },
+      "enabled": true,
+      "inventory_semantics": "complete_board"
+    }
+  ]
+}
+

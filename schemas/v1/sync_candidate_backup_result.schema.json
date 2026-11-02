@@ -1,0 +1,115 @@
+{
+  "$defs": {
+    "ClassifiedError": {
+      "additionalProperties": false,
+      "description": "Classified operational or domain error.\n\nDistinguishes recoverable failures from permanent errors and maps\nto the system error taxonomy without arbitrary tool or shell authority.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/ErrorCategory"
+        },
+        "message": {
+          "description": "Safe diagnostic message without credentials or tokens",
+          "title": "Message",
+          "type": "string"
+        },
+        "recoverable": {
+          "description": "Whether this error category is eligible for bounded retry",
+          "title": "Recoverable",
+          "type": "boolean"
+        },
+        "field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional field path if the error pertains to a specific field",
+          "title": "Field Path"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Safe non-sensitive contextual details",
+          "title": "Details"
+        }
+      },
+      "required": [
+        "category",
+        "message",
+        "recoverable"
+      ],
+      "title": "ClassifiedError",
+      "type": "object"
+    },
+    "ErrorCategory": {
+      "description": "Classified error category for failure handling and recovery.",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ],
+      "title": "ErrorCategory",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Summary of a candidate field backup scan.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "records_read": {
+      "default": 0,
+      "title": "Records Read",
+      "type": "integer"
+    },
+    "snapshots_saved": {
+      "default": 0,
+      "title": "Snapshots Saved",
+      "type": "integer"
+    },
+    "is_complete": {
+      "default": true,
+      "title": "Is Complete",
+      "type": "boolean"
+    },
+    "errors": {
+      "items": {
+        "$ref": "#/$defs/ClassifiedError"
+      },
+      "title": "Errors",
+      "type": "array"
+    }
+  },
+  "title": "CandidateBackupResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/sync_candidate_backup_result.schema.json"
+}

@@ -1,0 +1,379 @@
+{
+  "$defs": {
+    "ArtifactSet": {
+      "additionalProperties": false,
+      "description": "Complete set of required physical rendered formats for a GenerationRequest.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "set_id": {
+          "format": "uuid",
+          "title": "Set Id",
+          "type": "string"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "set_version": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Set Version",
+          "type": "integer"
+        },
+        "required_formats": {
+          "items": {
+            "enum": [
+              "docx",
+              "pdf"
+            ],
+            "type": "string"
+          },
+          "title": "Required Formats",
+          "type": "array"
+        },
+        "artifacts": {
+          "additionalProperties": {
+            "$ref": "#/$defs/RenderedArtifactReceipt"
+          },
+          "title": "Artifacts",
+          "type": "object"
+        },
+        "is_complete": {
+          "default": false,
+          "title": "Is Complete",
+          "type": "boolean"
+        },
+        "report_id": {
+          "format": "uuid",
+          "title": "Report Id",
+          "type": "string"
+        },
+        "report_hash": {
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Report Hash",
+          "type": "string"
+        },
+        "draft_hash": {
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Draft Hash",
+          "type": "string"
+        },
+        "set_hash": {
+          "default": "",
+          "title": "Set Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "required_formats",
+        "report_id",
+        "report_hash",
+        "draft_hash",
+        "created_at"
+      ],
+      "title": "ArtifactSet",
+      "type": "object"
+    },
+    "ClassifiedError": {
+      "additionalProperties": false,
+      "description": "Classified operational or domain error.\n\nDistinguishes recoverable failures from permanent errors and maps\nto the system error taxonomy without arbitrary tool or shell authority.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/ErrorCategory"
+        },
+        "message": {
+          "description": "Safe diagnostic message without credentials or tokens",
+          "title": "Message",
+          "type": "string"
+        },
+        "recoverable": {
+          "description": "Whether this error category is eligible for bounded retry",
+          "title": "Recoverable",
+          "type": "boolean"
+        },
+        "field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional field path if the error pertains to a specific field",
+          "title": "Field Path"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Safe non-sensitive contextual details",
+          "title": "Details"
+        }
+      },
+      "required": [
+        "category",
+        "message",
+        "recoverable"
+      ],
+      "title": "ClassifiedError",
+      "type": "object"
+    },
+    "ErrorCategory": {
+      "description": "Classified error category for failure handling and recovery.",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ],
+      "title": "ErrorCategory",
+      "type": "string"
+    },
+    "RenderedArtifactReceipt": {
+      "additionalProperties": false,
+      "description": "Immutable receipt binding exact rendered file bytes to specification and report.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "receipt_id": {
+          "format": "uuid",
+          "title": "Receipt Id",
+          "type": "string"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "artifact_id": {
+          "format": "uuid",
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_set_id": {
+          "format": "uuid",
+          "title": "Artifact Set Id",
+          "type": "string"
+        },
+        "format": {
+          "enum": [
+            "docx",
+            "pdf"
+          ],
+          "title": "Format",
+          "type": "string"
+        },
+        "version": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "size_bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        },
+        "local_path": {
+          "minLength": 1,
+          "title": "Local Path",
+          "type": "string"
+        },
+        "relative_managed_path": {
+          "minLength": 1,
+          "title": "Relative Managed Path",
+          "type": "string"
+        },
+        "spec_hash": {
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Spec Hash",
+          "type": "string"
+        },
+        "draft_hash": {
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Draft Hash",
+          "type": "string"
+        },
+        "report_hash": {
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Report Hash",
+          "type": "string"
+        },
+        "layout_digest": {
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Layout Digest",
+          "type": "string"
+        },
+        "docx_artifact_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Docx Artifact Id"
+        },
+        "docx_content_hash": {
+          "anyOf": [
+            {
+              "pattern": "^sha256:[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Docx Content Hash"
+        },
+        "output_checks": {
+          "additionalProperties": true,
+          "title": "Output Checks",
+          "type": "object"
+        },
+        "created_at": {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "receipt_hash": {
+          "default": "",
+          "title": "Receipt Hash",
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "artifact_id",
+        "artifact_set_id",
+        "format",
+        "content_hash",
+        "size_bytes",
+        "local_path",
+        "relative_managed_path",
+        "spec_hash",
+        "draft_hash",
+        "report_hash",
+        "layout_digest",
+        "created_at"
+      ],
+      "title": "RenderedArtifactReceipt",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Outcome of render_or_reopen operation.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "completed",
+        "blocked",
+        "failed"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "artifact_set": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ArtifactSet"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "error": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ClassifiedError"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "reason_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reason Code"
+    },
+    "partial_receipts": {
+      "items": {
+        "$ref": "#/$defs/RenderedArtifactReceipt"
+      },
+      "title": "Partial Receipts",
+      "type": "array"
+    }
+  },
+  "required": [
+    "status"
+  ],
+  "title": "LocalRenderResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/local_render_result.schema.json"
+}

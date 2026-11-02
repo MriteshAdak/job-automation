@@ -1,0 +1,208 @@
+{
+  "$defs": {
+    "ContextStrategy": {
+      "description": "Context construction strategy for candidate evidence.",
+      "enum": [
+        "json",
+        "rag"
+      ],
+      "title": "ContextStrategy",
+      "type": "string"
+    },
+    "DocumentType": {
+      "description": "Type of generated document.",
+      "enum": [
+        "cv",
+        "cover_letter"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    },
+    "SubmissionState": {
+      "description": "State of an AutomaticDraftIntent submission lifecycle.",
+      "enum": [
+        "reserved",
+        "sending",
+        "uncertain",
+        "acknowledged",
+        "held",
+        "released",
+        "failed"
+      ],
+      "title": "SubmissionState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Durable creation intent for a single document request.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "intent_id": {
+      "description": "Unique intent UUID",
+      "format": "uuid",
+      "title": "Intent Id",
+      "type": "string"
+    },
+    "client_request_key": {
+      "description": "Unique namespaced client key (auto02:v1:<digest>)",
+      "minLength": 1,
+      "title": "Client Request Key",
+      "type": "string"
+    },
+    "candidate_id": {
+      "description": "Candidate UUID",
+      "format": "uuid",
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "salesforce_org_id": {
+      "description": "Salesforce Org ID",
+      "title": "Salesforce Org Id",
+      "type": "string"
+    },
+    "canonical_job_id": {
+      "description": "Canonical job UUID",
+      "format": "uuid",
+      "title": "Canonical Job Id",
+      "type": "string"
+    },
+    "document_type": {
+      "$ref": "#/$defs/DocumentType",
+      "description": "Document type (cv or cover_letter)"
+    },
+    "target_language": {
+      "default": "de",
+      "description": "Target language",
+      "title": "Target Language",
+      "type": "string"
+    },
+    "template_id": {
+      "default": "standard-cv",
+      "description": "Layout template ID",
+      "title": "Template Id",
+      "type": "string"
+    },
+    "context_strategy": {
+      "$ref": "#/$defs/ContextStrategy",
+      "default": "json",
+      "description": "Context strategy"
+    },
+    "formats": {
+      "description": "Render formats",
+      "items": {
+        "type": "string"
+      },
+      "title": "Formats",
+      "type": "array"
+    },
+    "material_generation_fingerprint": {
+      "description": "SHA-256 material generation fingerprint",
+      "title": "Material Generation Fingerprint",
+      "type": "string"
+    },
+    "policy_id": {
+      "description": "Policy ID",
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "policy_version": {
+      "description": "Policy version",
+      "title": "Policy Version",
+      "type": "string"
+    },
+    "policy_content_hash": {
+      "description": "Policy content hash",
+      "title": "Policy Content Hash",
+      "type": "string"
+    },
+    "decision_id": {
+      "description": "Originating decision UUID",
+      "format": "uuid",
+      "title": "Decision Id",
+      "type": "string"
+    },
+    "request_payload_digest": {
+      "description": "SHA-256 digest of immutable request payload",
+      "title": "Request Payload Digest",
+      "type": "string"
+    },
+    "request_payload_json": {
+      "description": "Serialized immutable payload parameters",
+      "title": "Request Payload Json",
+      "type": "string"
+    },
+    "submission_state": {
+      "$ref": "#/$defs/SubmissionState",
+      "default": "reserved",
+      "description": "Submission lifecycle state"
+    },
+    "salesforce_request_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Associated remote Salesforce record ID",
+      "title": "Salesforce Request Id"
+    },
+    "local_request_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Associated local C13 request UUID",
+      "title": "Local Request Id"
+    },
+    "attempt_count": {
+      "default": 0,
+      "description": "Submission attempt count",
+      "minimum": 0,
+      "title": "Attempt Count",
+      "type": "integer"
+    },
+    "created_at": {
+      "description": "Creation timestamp",
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "updated_at": {
+      "description": "Last update timestamp",
+      "format": "date-time",
+      "title": "Updated At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "client_request_key",
+    "candidate_id",
+    "salesforce_org_id",
+    "canonical_job_id",
+    "document_type",
+    "material_generation_fingerprint",
+    "policy_id",
+    "policy_version",
+    "policy_content_hash",
+    "decision_id",
+    "request_payload_digest",
+    "request_payload_json"
+  ],
+  "title": "AutomaticDraftIntent",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/automatic_draft_intent.schema.json"
+}

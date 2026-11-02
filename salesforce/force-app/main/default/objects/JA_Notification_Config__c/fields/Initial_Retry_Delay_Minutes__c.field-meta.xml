@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Initial_Retry_Delay_Minutes__c</fullName>
+    <defaultValue>1</defaultValue>
+    <description>Initial backoff delay in minutes for retryable notification failures (SF-08).</description>
+    <externalId>false</externalId>
+    <label>Initial Retry Delay Minutes</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
+

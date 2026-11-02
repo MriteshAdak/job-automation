@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Canonical_Company_Id_Immutable</fullName>
+    <active>true</active>
+    <description>Prevents mutating or clearing an existing non-blank Canonical_Company_Id__c.</description>
+    <errorConditionFormula>AND(NOT(ISNEW()), ISCHANGED(Canonical_Company_Id__c), NOT(ISBLANK(PRIORVALUE(Canonical_Company_Id__c))))</errorConditionFormula>
+    <errorDisplayField>Canonical_Company_Id__c</errorDisplayField>
+    <errorMessage>Canonical Company ID is permanent and cannot be modified once set.</errorMessage>
+</ValidationRule>
+

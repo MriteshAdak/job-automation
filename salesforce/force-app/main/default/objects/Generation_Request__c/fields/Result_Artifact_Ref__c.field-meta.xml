@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Result_Artifact_Ref__c</fullName>
+    <description>Reference to primary delivered remote file or ContentVersion in Salesforce.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Delivered file reference in Salesforce.</inlineHelpText>
+    <label>Delivered File Reference</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
+

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Worker_Claimed_At__c</fullName>
+    <description>UTC timestamp when the worker claimed this request and committed frozen input versions.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Claim timestamp recorded by worker.</inlineHelpText>
+    <label>Worker Claimed At</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>DateTime</type>
+</CustomField>
+

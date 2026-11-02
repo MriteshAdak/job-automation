@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_First_Completion__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Optional client compatibility hint indicating first completion intent; server admission remains authoritative (SF-09).</description>
+    <externalId>false</externalId>
+    <label>Is First Completion</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

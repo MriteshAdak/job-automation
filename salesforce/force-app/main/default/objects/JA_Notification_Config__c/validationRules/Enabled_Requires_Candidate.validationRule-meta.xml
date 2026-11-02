@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enabled_Requires_Candidate</fullName>
+    <active>true</active>
+    <description>Candidate user must be explicitly specified when notifications are enabled (SF-08).</description>
+    <errorConditionFormula>Is_Enabled__c = true &amp;&amp; ISBLANK(Candidate_User__c)</errorConditionFormula>
+    <errorMessage>Candidate User must be specified when notifications are enabled.</errorMessage>
+</ValidationRule>
+

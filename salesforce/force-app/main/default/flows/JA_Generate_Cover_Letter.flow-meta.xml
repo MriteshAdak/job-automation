@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <actionCalls>
+        <name>Submit_Generation_Request</name>
+        <label>Submit Generation Request</label>
+        <locationX>176</locationX>
+        <locationY>278</locationY>
+        <actionName>JA_GenerationSubmit</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Screen_Letter_Result</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>allowUnavailableJob</name>
+            <value>
+                <elementReference>Allow_Unavailable_Job_Input</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>contextStrategy</name>
+            <value>
+                <elementReference>Context_Strategy_Input</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>creationMode</name>
+            <value>
+                <stringValue>reuse_or_create</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>documentType</name>
+            <value>
+                <stringValue>cover_letter</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>jobId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>language</name>
+            <value>
+                <elementReference>Language_Input</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>submissionToken</name>
+            <value>
+                <elementReference>Submission_Token_Formula</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>templateId</name>
+            <value>
+                <elementReference>Template_Input</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <choices>
+        <name>Choice_Context_JSON</name>
+        <choiceText>Full JSON Context (Deterministic, complete profile snapshot)</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>json</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Context_RAG</name>
+        <choiceText>RAG Evidence Context (Retrieved profile evidence chunks)</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>rag</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Lang_DE</name>
+        <choiceText>German (de)</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>de</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Lang_EN</name>
+        <choiceText>English (en)</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>en</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Tmpl_Basic</name>
+        <choiceText>Cover Letter Basic A4 (Standard layout, 11pt)</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>layout-letter-basic-a4</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Choice_Tmpl_Compact</name>
+        <choiceText>Cover Letter Compact A4 (Space-efficient layout, 10pt)</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>layout-letter-compact-a4</stringValue>
+        </value>
+    </choices>
+    <description>Screen Flow to configure options and queue a tailored Cover Letter generation request (SF-06).</description>
+    <formulas>
+        <name>Submission_Token_Formula</name>
+        <dataType>String</dataType>
+        <expression>TEXT(NOW()) &amp; &quot;-letter-&quot; &amp; {!recordId}</expression>
+    </formulas>
+    <interviewLabel>Generate Cover Letter {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Generate Cover Letter</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <screens>
+        <name>Screen_Letter_Options</name>
+        <label>Generate Cover Letter Options</label>
+        <locationX>176</locationX>
+        <locationY>158</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Submit_Generation_Request</targetReference>
+        </connector>
+        <fields>
+            <name>Instructions_Text</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;Queue a Tailored Cover Letter Draft&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Select generation options below. Submitting queues the request in Salesforce. When the local worker is started on your Windows computer, it will claim and generate the draft.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Language_Input</name>
+            <choiceReferences>Choice_Lang_DE</choiceReferences>
+            <choiceReferences>Choice_Lang_EN</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>Choice_Lang_DE</defaultSelectedChoiceReference>
+            <fieldText>Document Language</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Template_Input</name>
+            <choiceReferences>Choice_Tmpl_Basic</choiceReferences>
+            <choiceReferences>Choice_Tmpl_Compact</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>Choice_Tmpl_Basic</defaultSelectedChoiceReference>
+            <fieldText>Layout Template</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Context_Strategy_Input</name>
+            <choiceReferences>Choice_Context_JSON</choiceReferences>
+            <choiceReferences>Choice_Context_RAG</choiceReferences>
+            <dataType>String</dataType>
+            <defaultSelectedChoiceReference>Choice_Context_JSON</defaultSelectedChoiceReference>
+            <fieldText>Context Strategy</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Allow_Unavailable_Job_Input</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <booleanValue>false</booleanValue>
+            </defaultValue>
+            <fieldText>Generate draft even if this job is unavailable</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Screen_Letter_Result</name>
+        <label>Request Status</label>
+        <locationX>176</locationX>
+        <locationY>398</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Result_Message_Text</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;Submission Outcome: {!Submit_Generation_Request.outcome}&lt;/b&gt;&lt;/p&gt;&lt;p&gt;{!Submit_Generation_Request.message}&lt;/p&gt;&lt;p&gt;&lt;i&gt;Note: If the local generation worker is offline, your request remains safely saved with status Pending and will be processed as soon as the worker runs.&lt;/i&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Screen_Letter_Options</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
+

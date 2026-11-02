@@ -1,0 +1,4 @@
+source_posting_id;source_url;title;company;text;locations_raw
+42;https://jobs.example.invalid/jobs/42;Backend Lead;Muster AG;Erfahrener Team Lead gesucht.;Frankfurt am Main
+43;https://jobs.example.invalid/jobs/43;DevOps Engineer;Cloud Corp;Kubernetes und Terraform Profi.;Köln
+

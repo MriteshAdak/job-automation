@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "schema_version": "1.0",
+      "source_key": "expired_source",
+      "provider": "prov",
+      "board_id": "b1",
+      "acquisition_method": "api",
+      "base_url": "https://api.expired.invalid/jobs",
+      "access_rules": "{\"status\": \"permitted\", \"reviewed_at\": \"2026-01-01T00:00:00Z\", \"expires_at\": \"2025-12-31T23:59:59Z\", \"evidence_ref\": \"terms-2025\"}",
+      "attribution_rules": "none_required",
+      "request_policy": {},
+      "enabled": true,
+      "inventory_semantics": "filtered_feed"
+    }
+  ]
+}
+

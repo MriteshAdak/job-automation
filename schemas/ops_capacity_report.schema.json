@@ -1,0 +1,342 @@
+{
+  "$defs": {
+    "CapacityStatus": {
+      "description": "Storage capacity assessment status.",
+      "enum": [
+        "ok",
+        "warning",
+        "blocked",
+        "unknown"
+      ],
+      "title": "CapacityStatus",
+      "type": "string"
+    },
+    "CapacityVolumeReport": {
+      "additionalProperties": false,
+      "description": "Capacity measurement for a specific filesystem volume.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "volume_path": {
+          "description": "Path on volume inspected",
+          "title": "Volume Path",
+          "type": "string"
+        },
+        "device_id": {
+          "description": "Identifier for physical or logical volume",
+          "title": "Device Id",
+          "type": "string"
+        },
+        "total_bytes": {
+          "minimum": 0,
+          "title": "Total Bytes",
+          "type": "integer"
+        },
+        "used_bytes": {
+          "minimum": 0,
+          "title": "Used Bytes",
+          "type": "integer"
+        },
+        "free_bytes": {
+          "minimum": 0,
+          "title": "Free Bytes",
+          "type": "integer"
+        },
+        "required_bytes": {
+          "description": "Estimated bytes required for intended operation",
+          "minimum": 0,
+          "title": "Required Bytes",
+          "type": "integer"
+        },
+        "reserve_bytes": {
+          "description": "Enforced reserve threshold",
+          "minimum": 0,
+          "title": "Reserve Bytes",
+          "type": "integer"
+        },
+        "status": {
+          "$ref": "#/$defs/CapacityStatus",
+          "description": "Assessment status (ok, warning, blocked, unknown)"
+        },
+        "is_same_disk": {
+          "default": false,
+          "description": "True if sharing physical disk with source data root",
+          "title": "Is Same Disk",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "volume_path",
+        "device_id",
+        "total_bytes",
+        "used_bytes",
+        "free_bytes",
+        "required_bytes",
+        "reserve_bytes",
+        "status"
+      ],
+      "title": "CapacityVolumeReport",
+      "type": "object"
+    },
+    "ClassifiedError": {
+      "additionalProperties": false,
+      "description": "Classified operational or domain error.\n\nDistinguishes recoverable failures from permanent errors and maps\nto the system error taxonomy without arbitrary tool or shell authority.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/ErrorCategory"
+        },
+        "message": {
+          "description": "Safe diagnostic message without credentials or tokens",
+          "title": "Message",
+          "type": "string"
+        },
+        "recoverable": {
+          "description": "Whether this error category is eligible for bounded retry",
+          "title": "Recoverable",
+          "type": "boolean"
+        },
+        "field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional field path if the error pertains to a specific field",
+          "title": "Field Path"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Safe non-sensitive contextual details",
+          "title": "Details"
+        }
+      },
+      "required": [
+        "category",
+        "message",
+        "recoverable"
+      ],
+      "title": "ClassifiedError",
+      "type": "object"
+    },
+    "ErrorCategory": {
+      "description": "Classified error category for failure handling and recovery.",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ],
+      "title": "ErrorCategory",
+      "type": "string"
+    },
+    "RemoteCapacityObservation": {
+      "additionalProperties": false,
+      "description": "Measured remote Salesforce storage and API capacity.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source": {
+          "default": "SF-04",
+          "title": "Source",
+          "type": "string"
+        },
+        "status": {
+          "default": "unknown",
+          "title": "Status",
+          "type": "string"
+        },
+        "measured_at": {
+          "anyOf": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured At"
+        },
+        "api_limit": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Api Limit"
+        },
+        "api_used": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Api Used"
+        },
+        "data_limit_mb": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Data Limit Mb"
+        },
+        "data_used_mb": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Data Used Mb"
+        },
+        "file_limit_mb": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File Limit Mb"
+        },
+        "file_used_mb": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File Used Mb"
+        },
+        "notes": {
+          "default": "Remote capacity unknown: SF-04 handoff absent",
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "title": "RemoteCapacityObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Consolidated storage capacity report across volumes and remote services.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "report_id": {
+      "format": "uuid",
+      "title": "Report Id",
+      "type": "string"
+    },
+    "measured_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Measured At",
+      "type": "string"
+    },
+    "overall_status": {
+      "$ref": "#/$defs/CapacityStatus"
+    },
+    "source_volume": {
+      "$ref": "#/$defs/CapacityVolumeReport"
+    },
+    "destination_volume": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CapacityVolumeReport"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "staging_volume": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CapacityVolumeReport"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "remote_capacity": {
+      "$ref": "#/$defs/RemoteCapacityObservation"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/ClassifiedError"
+      },
+      "title": "Issues",
+      "type": "array"
+    }
+  },
+  "required": [
+    "measured_at",
+    "overall_status",
+    "source_volume"
+  ],
+  "title": "CapacityReport",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/ops_capacity_report.schema.json"
+}

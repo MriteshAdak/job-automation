@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "slug": "bildungswerk-trainer-0055",
+      "company_name": "Bildungswerk e.V.",
+      "title": "Trainer (m/w/d) IT-Weiterbildung",
+      "description": "<p>Schulungen und Zertifizierungen im IT-Bereich. Festanstellung möglich.</p>",
+      "remote": false,
+      "url": "https://www.arbeitnow.com/view/bildungswerk-trainer-0055",
+      "tags": ["IT", "Training", "Zertifizierung"],
+      "job_types": [],
+      "location": "Köln, NRW",
+      "created_at": 1730034800
+    }
+  ],
+  "links": {
+    "first": "https://www.arbeitnow.com/api/job-board-api?page=1",
+    "last": null,
+    "prev": "https://www.arbeitnow.com/api/job-board-api?page=2",
+    "next": null
+  },
+  "meta": {
+    "current_page": 3,
+    "from": 201,
+    "last_page": null,
+    "path": "https://www.arbeitnow.com/api/job-board-api",
+    "per_page": 100,
+    "to": 201,
+    "total": null
+  }
+}
+

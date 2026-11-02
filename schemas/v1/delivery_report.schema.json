@@ -1,0 +1,128 @@
+{
+  "$defs": {
+    "DeliveryState": {
+      "description": "Lifecycle state of a local SummaryDelivery outbox record.",
+      "enum": [
+        "pending",
+        "in_flight",
+        "retry_wait",
+        "reconcile_required",
+        "delivered",
+        "blocked",
+        "exhausted"
+      ],
+      "title": "DeliveryState",
+      "type": "string"
+    },
+    "NotificationState": {
+      "description": "Observed state of remote Salesforce completion notification execution.",
+      "enum": [
+        "none",
+        "pending",
+        "confirmed",
+        "failed",
+        "unknown"
+      ],
+      "title": "NotificationState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Human-readable and structured inspection report for a summary delivery.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_id": {
+      "description": "Pipeline run UUID",
+      "format": "uuid",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "delivery_state": {
+      "$ref": "#/$defs/DeliveryState",
+      "description": "Current local delivery state"
+    },
+    "notification_state": {
+      "$ref": "#/$defs/NotificationState",
+      "default": "none",
+      "description": "Observed remote notification state"
+    },
+    "dispatch_attempts": {
+      "default": 0,
+      "description": "Total dispatch attempts executed",
+      "title": "Dispatch Attempts",
+      "type": "integer"
+    },
+    "reconcile_attempts": {
+      "default": 0,
+      "description": "Total reconciliation queries executed",
+      "title": "Reconcile Attempts",
+      "type": "integer"
+    },
+    "remote_record_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Remote Salesforce Record ID",
+      "title": "Remote Record Id"
+    },
+    "next_due_at": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Next scheduled retry timestamp if in retry_wait",
+      "title": "Next Due At"
+    },
+    "last_error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Last safe error message if delivery is not delivered",
+      "title": "Last Error"
+    },
+    "acknowledged_at": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Delivery acknowledgment timestamp",
+      "title": "Acknowledged At"
+    }
+  },
+  "required": [
+    "run_id",
+    "delivery_state"
+  ],
+  "title": "DeliveryReport",
+  "type": "object"
+}

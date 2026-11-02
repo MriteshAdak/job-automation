@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unknown_Requires_Code</fullName>
+    <active>true</active>
+    <description>Unknown ambiguous notification status requires an allowlisted error code (SF-09).</description>
+    <errorConditionFormula>ISPICKVAL(Notification_Status__c, "unknown") &amp;&amp; ISBLANK(Notification_Error_Code__c)</errorConditionFormula>
+    <errorMessage>Unknown notification status requires a documented Notification Error Code.</errorMessage>
+</ValidationRule>
+

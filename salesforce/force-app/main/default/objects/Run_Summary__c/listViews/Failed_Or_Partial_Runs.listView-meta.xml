@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Failed_Or_Partial_Runs</fullName>
+    <columns>NAME</columns>
+    <columns>Run_Id__c</columns>
+    <columns>Pipeline_Status__c</columns>
+    <columns>Error_Summary__c</columns>
+    <columns>Pending_Work_Summary__c</columns>
+    <columns>Coverage_Status__c</columns>
+    <columns>Sources_Failed__c</columns>
+    <columns>Notification_Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Pipeline_Status__c</field>
+        <operation>equals</operation>
+        <value>partial,failed</value>
+    </filters>
+    <label>Failed or Partial Runs</label>
+</ListView>
+

@@ -1,0 +1,79 @@
+{
+  "additionalProperties": false,
+  "description": "Confirmed mapping between local canonical entity and remote Salesforce record.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "org_id": {
+      "description": "Salesforce organization ID",
+      "minLength": 1,
+      "title": "Org Id",
+      "type": "string"
+    },
+    "object_name": {
+      "description": "Salesforce sObject API name",
+      "minLength": 1,
+      "title": "Object Name",
+      "type": "string"
+    },
+    "entity_id": {
+      "description": "Canonical entity UUID",
+      "format": "uuid",
+      "title": "Entity Id",
+      "type": "string"
+    },
+    "external_id": {
+      "description": "External ID value",
+      "minLength": 1,
+      "title": "External Id",
+      "type": "string"
+    },
+    "salesforce_id": {
+      "description": "Remote Salesforce record 18-char ID",
+      "minLength": 1,
+      "title": "Salesforce Id",
+      "type": "string"
+    },
+    "confirmed_sequence": {
+      "description": "Highest confirmed sequence number",
+      "minimum": 1,
+      "title": "Confirmed Sequence",
+      "type": "integer"
+    },
+    "reconciliation_marker": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Last confirmed reconciliation marker",
+      "title": "Reconciliation Marker"
+    },
+    "acknowledged_at": {
+      "description": "Timestamp of latest remote acknowledgment",
+      "format": "date-time",
+      "title": "Acknowledged At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "org_id",
+    "object_name",
+    "entity_id",
+    "external_id",
+    "salesforce_id",
+    "confirmed_sequence",
+    "acknowledged_at"
+  ],
+  "title": "RemoteEntityMapping",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/sync_remote_mapping.schema.json"
+}

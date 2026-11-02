@@ -1,0 +1,257 @@
+{
+  "$defs": {
+    "ClassifiedError": {
+      "additionalProperties": false,
+      "description": "Classified operational or domain error.\n\nDistinguishes recoverable failures from permanent errors and maps\nto the system error taxonomy without arbitrary tool or shell authority.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/ErrorCategory"
+        },
+        "message": {
+          "description": "Safe diagnostic message without credentials or tokens",
+          "title": "Message",
+          "type": "string"
+        },
+        "recoverable": {
+          "description": "Whether this error category is eligible for bounded retry",
+          "title": "Recoverable",
+          "type": "boolean"
+        },
+        "field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional field path if the error pertains to a specific field",
+          "title": "Field Path"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Safe non-sensitive contextual details",
+          "title": "Details"
+        }
+      },
+      "required": [
+        "category",
+        "message",
+        "recoverable"
+      ],
+      "title": "ClassifiedError",
+      "type": "object"
+    },
+    "ErrorCategory": {
+      "description": "Classified error category for failure handling and recovery.",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ],
+      "title": "ErrorCategory",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Durable ledger record documenting the execution of an index build.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "build_id": {
+      "description": "Unique UUID for this build attempt",
+      "format": "uuid",
+      "title": "Build Id",
+      "type": "string"
+    },
+    "generation_id": {
+      "description": "UUID of the generation built (or attempted)",
+      "format": "uuid",
+      "title": "Generation Id",
+      "type": "string"
+    },
+    "candidate_id": {
+      "description": "UUID of the candidate",
+      "format": "uuid",
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "profile_version": {
+      "description": "Profile version",
+      "minLength": 1,
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "purpose": {
+      "description": "Purpose",
+      "minLength": 1,
+      "title": "Purpose",
+      "type": "string"
+    },
+    "status": {
+      "description": "Build execution status",
+      "enum": [
+        "completed",
+        "failed"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "started_at": {
+      "description": "UTC start time of build",
+      "format": "date-time",
+      "title": "Started At",
+      "type": "string"
+    },
+    "completed_at": {
+      "description": "UTC completion time of build",
+      "format": "date-time",
+      "title": "Completed At",
+      "type": "string"
+    },
+    "duration_ms": {
+      "description": "Total build duration in milliseconds",
+      "minimum": 0.0,
+      "title": "Duration Ms",
+      "type": "number"
+    },
+    "chunk_count": {
+      "description": "Total chunks processed",
+      "minimum": 0,
+      "title": "Chunk Count",
+      "type": "integer"
+    },
+    "vector_count": {
+      "description": "Total vectors generated",
+      "minimum": 0,
+      "title": "Vector Count",
+      "type": "integer"
+    },
+    "term_count": {
+      "description": "Total distinct keyword terms indexed",
+      "minimum": 0,
+      "title": "Term Count",
+      "type": "integer"
+    },
+    "embedding_call_ids": {
+      "description": "Audit call IDs from ModelProvider embedding calls",
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Embedding Call Ids",
+      "type": "array"
+    },
+    "total_input_bytes": {
+      "description": "Total raw text bytes embedded",
+      "minimum": 0,
+      "title": "Total Input Bytes",
+      "type": "integer"
+    },
+    "payload_bytes": {
+      "description": "Total on-disk payload bytes written",
+      "minimum": 0,
+      "title": "Payload Bytes",
+      "type": "integer"
+    },
+    "observed_memory_bytes": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Peak observed memory during build if measured",
+      "title": "Observed Memory Bytes"
+    },
+    "logical_build_fingerprint": {
+      "description": "Logical build fingerprint of inputs",
+      "minLength": 1,
+      "title": "Logical Build Fingerprint",
+      "type": "string"
+    },
+    "artifact_fingerprint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Artifact fingerprint if completed",
+      "title": "Artifact Fingerprint"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ClassifiedError"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Classified error if build failed"
+    },
+    "is_verified": {
+      "default": true,
+      "description": "True if payload hashes verified on disk",
+      "title": "Is Verified",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "build_id",
+    "generation_id",
+    "candidate_id",
+    "profile_version",
+    "purpose",
+    "status",
+    "started_at",
+    "completed_at",
+    "duration_ms",
+    "chunk_count",
+    "vector_count",
+    "term_count",
+    "total_input_bytes",
+    "payload_bytes",
+    "logical_build_fingerprint"
+  ],
+  "title": "IndexBuildRecord",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/index_build_record.schema.json"
+}

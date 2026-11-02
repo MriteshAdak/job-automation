@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "mandatory_policy_version": "v1",
+  "inclusion_rule_version": "v1",
+  "builder_version": "v1",
+  "serialization_version": "v1",
+  "default_context_limit": 8192,
+  "default_output_reserve": 512,
+  "default_safety_allowance": 64,
+  "default_measurement_method": "conservative_char_ratio_v1",
+  "conservative_chars_per_token": 3.5,
+  "require_exact_measurement": false
+}
+

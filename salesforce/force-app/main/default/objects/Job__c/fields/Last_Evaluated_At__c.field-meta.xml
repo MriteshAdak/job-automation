@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Evaluated_At__c</fullName>
+    <description>Timestamp when the assessment was evaluated by the pipeline, preserved in UTC.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Evaluation timestamp in UTC.</inlineHelpText>
+    <label>Last Evaluated At</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>DateTime</type>
+</CustomField>
+

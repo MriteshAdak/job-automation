@@ -1,0 +1,59 @@
+{
+  "additionalProperties": false,
+  "description": "Metadata capabilities for a single sObject field.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "name": {
+      "description": "Field API name",
+      "title": "Name",
+      "type": "string"
+    },
+    "label": {
+      "description": "Display label",
+      "title": "Label",
+      "type": "string"
+    },
+    "type": {
+      "description": "Salesforce field data type",
+      "title": "Type",
+      "type": "string"
+    },
+    "createable": {
+      "description": "Whether field is createable",
+      "title": "Createable",
+      "type": "boolean"
+    },
+    "updateable": {
+      "description": "Whether field is updateable",
+      "title": "Updateable",
+      "type": "boolean"
+    },
+    "id_lookup": {
+      "default": false,
+      "description": "Whether field can be used for idLookup",
+      "title": "Id Lookup",
+      "type": "boolean"
+    },
+    "external_id": {
+      "default": false,
+      "description": "Whether field is an External ID",
+      "title": "External Id",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "name",
+    "label",
+    "type",
+    "createable",
+    "updateable"
+  ],
+  "title": "DescribeFieldResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_describe_field_result.schema.json"
+}

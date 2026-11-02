@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "enabled": false,
+  "salesforce_org_id": "00D000000000001",
+  "test_recipient": null,
+  "max_dispatch_attempts": 5,
+  "max_reconcile_attempts": 5,
+  "max_recovery_age_hours": 48,
+  "initial_backoff_seconds": 2.0,
+  "max_backoff_seconds": 300.0,
+  "backoff_multiplier": 2.0,
+  "jitter_ratio": 0.1,
+  "per_call_timeout_seconds": 15.0,
+  "max_records_per_drain": 50,
+  "activation_epoch_utc": null,
+  "target_object_name": "Run_Summary__c",
+  "target_external_id_field": "Run_Id__c",
+  "mapping_version": "1.0"
+}
+

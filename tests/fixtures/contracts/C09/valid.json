@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "strategy": "json",
+  "profile_version": "v2026.1",
+  "posting_revision": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "ordered_facts": [],
+  "mandatory_context": [
+    "Work auth: DE"
+  ],
+  "selected_fact_ids": [
+    "22222222-2222-4222-8222-222222222222"
+  ],
+  "token_budget": 4000,
+  "estimated_tokens": 1200,
+  "warnings": []
+}

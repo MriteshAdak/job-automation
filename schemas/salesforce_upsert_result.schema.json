@@ -1,0 +1,54 @@
+{
+  "additionalProperties": false,
+  "description": "Acknowledgment of an External ID upsert operation.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "object_name": {
+      "description": "Target sObject API name",
+      "title": "Object Name",
+      "type": "string"
+    },
+    "external_id_field": {
+      "description": "External ID field name",
+      "title": "External Id Field",
+      "type": "string"
+    },
+    "external_id_value": {
+      "description": "External ID value",
+      "title": "External Id Value",
+      "type": "string"
+    },
+    "record_id": {
+      "description": "Salesforce Record ID of created or updated record",
+      "title": "Record Id",
+      "type": "string"
+    },
+    "created": {
+      "description": "True if record was newly created (201), False if updated (200/204)",
+      "title": "Created",
+      "type": "boolean"
+    },
+    "acknowledged_at": {
+      "description": "Timestamp when Salesforce acknowledged mutation",
+      "format": "date-time",
+      "title": "Acknowledged At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "object_name",
+    "external_id_field",
+    "external_id_value",
+    "record_id",
+    "created",
+    "acknowledged_at"
+  ],
+  "title": "UpsertResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_upsert_result.schema.json"
+}

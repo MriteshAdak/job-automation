@@ -1,0 +1,25 @@
+{
+  "$schema": "https://job-automation.local/schemas/v1/index_settings.schema.json",
+  "schema_version": "1.0",
+  "index_version": "v1",
+  "algorithm_version": "v1",
+  "format_version": "v1",
+  "canonicalization_version": "v1",
+  "dtype": "float32",
+  "byte_order": "little_endian",
+  "metric": "cosine",
+  "normalization": "l2",
+  "analyzer_version": "v1",
+  "analyzer_options": {
+    "lowercase": true,
+    "preserve_skills": true
+  },
+  "max_chunks": 10000,
+  "max_dimension": 4096,
+  "max_text_bytes": 65536,
+  "max_build_memory_bytes": 1073741824,
+  "max_disk_bytes": 10737418240,
+  "max_build_time_seconds": 300.0,
+  "cleanup_retained_generations": 2
+}
+

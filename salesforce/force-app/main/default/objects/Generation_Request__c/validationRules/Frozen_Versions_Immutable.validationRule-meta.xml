@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Frozen_Versions_Immutable</fullName>
+    <active>true</active>
+    <description>Ensures that once frozen versions are recorded, they cannot be modified or cleared.</description>
+    <errorConditionFormula>AND(NOT(ISNEW()), OR(AND(NOT(ISBLANK(PRIORVALUE(Frozen_Posting_Revision__c))), ISCHANGED(Frozen_Posting_Revision__c)), AND(NOT(ISBLANK(PRIORVALUE(Frozen_Profile_Version__c))), ISCHANGED(Frozen_Profile_Version__c)), AND(NOT(ISBLANK(PRIORVALUE(Frozen_Policy_Version__c))), ISCHANGED(Frozen_Policy_Version__c)), AND(NOT(ISBLANK(PRIORVALUE(Frozen_Template_Version__c))), ISCHANGED(Frozen_Template_Version__c))))</errorConditionFormula>
+    <errorMessage>Frozen input versions are immutable once set.</errorMessage>
+</ValidationRule>
+

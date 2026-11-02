@@ -1,0 +1,32 @@
+{
+  "$schema": "https://job-automation.local/schemas/v1/scheduling_settings.schema.json",
+  "schema_version": "1.0",
+  "deployment_id": "production_win11",
+  "enabled": false,
+  "timezone": "Europe/Berlin",
+  "schedules": [
+    {
+      "deployment_id": "production_win11",
+      "schedule_id": "daily_search",
+      "version": 1,
+      "enabled": false,
+      "work_kind": "search",
+      "timezone": "Europe/Berlin",
+      "target_times": [
+        "07:00"
+      ],
+      "cadence_minutes": null,
+      "activation_epoch": "2026-11-01T00:00:00Z",
+      "max_lateness_hours": 24,
+      "max_retries": 3,
+      "retry_delay_seconds": 60,
+      "app_config_path": "C:\\Users\\Example\\JobAutomation\\config\\app.json",
+      "data_root": "C:\\Users\\Example\\Job Automation Daten\\Bewerbungen",
+      "run_config_path": "C:\\Users\\Example\\JobAutomation\\config\\run.example.json",
+      "assessment_mode": "rules",
+      "llm_strategy": "json",
+      "command_timeout_seconds": 3600
+    }
+  ]
+}
+

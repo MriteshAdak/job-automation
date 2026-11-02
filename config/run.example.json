@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "assessment_mode": "rules",
+  "llm_strategy": "json",
+  "sources": [
+    "arbeitnow:berlin"
+  ],
+  "max_pages_per_source": 10,
+  "max_records_per_source": 50,
+  "enable_sync": true,
+  "run_candidate_backup": true,
+  "sync_config_path": "config/sync.example.json",
+  "stop_on_first_error": false
+}
+

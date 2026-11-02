@@ -1,0 +1,234 @@
+{
+  "additionalProperties": false,
+  "description": "Compact, sanitized summary projection targeted for the SF-09 remote record.\n\nAdheres strictly to the remote allowlist: no secrets, no absolute filesystem\npaths, no raw candidate profiles, and no unbounded stack traces.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mapping_version": {
+      "default": "1.0",
+      "description": "Target projection contract version",
+      "title": "Mapping Version",
+      "type": "string"
+    },
+    "org_id": {
+      "description": "Verified Salesforce Organization ID",
+      "title": "Org Id",
+      "type": "string"
+    },
+    "run_id": {
+      "description": "Stable logical run UUID",
+      "format": "uuid",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "completion_key": {
+      "description": "Stable composite completion key (org_id:run_id)",
+      "title": "Completion Key",
+      "type": "string"
+    },
+    "revision": {
+      "default": 1,
+      "description": "Monotonically increasing summary revision",
+      "minimum": 1,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "start_time": {
+      "description": "Run start timestamp in UTC",
+      "format": "date-time",
+      "title": "Start Time",
+      "type": "string"
+    },
+    "end_time": {
+      "description": "Run completion timestamp in UTC",
+      "format": "date-time",
+      "title": "End Time",
+      "type": "string"
+    },
+    "duration_seconds": {
+      "description": "Observed run duration in seconds",
+      "minimum": 0.0,
+      "title": "Duration Seconds",
+      "type": "number"
+    },
+    "pipeline_status": {
+      "description": "Pipeline outcome: success, partial, or failed",
+      "title": "Pipeline Status",
+      "type": "string"
+    },
+    "headline": {
+      "description": "Concise, truthful headline summarizing outcome and observation units",
+      "maxLength": 255,
+      "title": "Headline",
+      "type": "string"
+    },
+    "summary_text": {
+      "description": "Sanitized summary description adhering to documented C15 units",
+      "maxLength": 2000,
+      "title": "Summary Text",
+      "type": "string"
+    },
+    "source_postings_count": {
+      "default": 0,
+      "description": "Raw source postings observed across all sources",
+      "minimum": 0,
+      "title": "Source Postings Count",
+      "type": "integer"
+    },
+    "canonical_jobs_new": {
+      "default": 0,
+      "description": "Count of newly discovered canonical jobs registered",
+      "minimum": 0,
+      "title": "Canonical Jobs New",
+      "type": "integer"
+    },
+    "canonical_jobs_updated": {
+      "default": 0,
+      "description": "Count of canonical jobs receiving material updates",
+      "minimum": 0,
+      "title": "Canonical Jobs Updated",
+      "type": "integer"
+    },
+    "canonical_jobs_duplicate": {
+      "default": 0,
+      "description": "Count of duplicate raw observations",
+      "minimum": 0,
+      "title": "Canonical Jobs Duplicate",
+      "type": "integer"
+    },
+    "eligible_count": {
+      "default": 0,
+      "description": "Count of canonical jobs newly evaluated as eligible",
+      "minimum": 0,
+      "title": "Eligible Count",
+      "type": "integer"
+    },
+    "review_count": {
+      "default": 0,
+      "description": "Count of canonical jobs flagged for review",
+      "minimum": 0,
+      "title": "Review Count",
+      "type": "integer"
+    },
+    "rejected_count": {
+      "default": 0,
+      "description": "Count of canonical jobs classified as rejected",
+      "minimum": 0,
+      "title": "Rejected Count",
+      "type": "integer"
+    },
+    "sync_succeeded": {
+      "default": 0,
+      "description": "Count of successful C12 sync operations",
+      "minimum": 0,
+      "title": "Sync Succeeded",
+      "type": "integer"
+    },
+    "sync_failed": {
+      "default": 0,
+      "description": "Count of failed C12 sync operations",
+      "minimum": 0,
+      "title": "Sync Failed",
+      "type": "integer"
+    },
+    "quarantined_count": {
+      "default": 0,
+      "description": "Count of quarantined raw records",
+      "minimum": 0,
+      "title": "Quarantined Count",
+      "type": "integer"
+    },
+    "sources_attempted": {
+      "description": "Sources attempted in this run",
+      "items": {
+        "type": "string"
+      },
+      "title": "Sources Attempted",
+      "type": "array"
+    },
+    "sources_succeeded": {
+      "description": "Sources that succeeded in this run",
+      "items": {
+        "type": "string"
+      },
+      "title": "Sources Succeeded",
+      "type": "array"
+    },
+    "sources_failed": {
+      "description": "Sources that failed or were incomplete",
+      "items": {
+        "type": "string"
+      },
+      "title": "Sources Failed",
+      "type": "array"
+    },
+    "error_summary": {
+      "anyOf": [
+        {
+          "maxLength": 500,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Allowlisted, sanitized error digest without confidential paths or secrets",
+      "title": "Error Summary"
+    },
+    "pending_work_summary": {
+      "anyOf": [
+        {
+          "maxLength": 500,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Concise summary of pending/retry work",
+      "title": "Pending Work Summary"
+    },
+    "first_result_snapshot_hash": {
+      "description": "Immutable SHA-256 hash of the initial completion projection",
+      "title": "First Result Snapshot Hash",
+      "type": "string"
+    },
+    "current_revision_hash": {
+      "description": "SHA-256 hash of this specific projection revision",
+      "title": "Current Revision Hash",
+      "type": "string"
+    },
+    "is_first_completion": {
+      "default": true,
+      "description": "True if this is the first terminal completion for this run UUID",
+      "title": "Is First Completion",
+      "type": "boolean"
+    },
+    "truncated": {
+      "default": false,
+      "description": "True if any textual field was deterministically truncated to fit limits",
+      "title": "Truncated",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "org_id",
+    "run_id",
+    "completion_key",
+    "start_time",
+    "end_time",
+    "duration_seconds",
+    "pipeline_status",
+    "headline",
+    "summary_text",
+    "first_result_snapshot_hash",
+    "current_revision_hash"
+  ],
+  "title": "RunSummaryProjection",
+  "type": "object"
+}

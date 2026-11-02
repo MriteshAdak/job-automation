@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "slug": "same-slug-0001",
+      "company_name": "Corp A",
+      "title": "Rolle 1",
+      "description": "<p>Erstes Posting mit diesem Slug.</p>",
+      "remote": false,
+      "url": "https://www.arbeitnow.com/view/same-slug-0001",
+      "tags": [],
+      "job_types": ["Vollzeit"],
+      "location": "Berlin",
+      "created_at": 1730034300
+    },
+    {
+      "slug": "same-slug-0001",
+      "company_name": "Corp A",
+      "title": "Rolle 1 aktualisiert",
+      "description": "<p>Aktualisiertes Posting mit demselben Slug.</p>",
+      "remote": false,
+      "url": "https://www.arbeitnow.com/view/same-slug-0001",
+      "tags": [],
+      "job_types": ["Vollzeit"],
+      "location": "Berlin",
+      "created_at": 1730034400
+    }
+  ],
+  "links": {"first": null, "last": null, "prev": null, "next": null},
+  "meta": {"current_page": 1, "from": 1, "last_page": null, "path": "https://www.arbeitnow.com/api/job-board-api", "per_page": 100, "to": 2, "total": null}
+}
+

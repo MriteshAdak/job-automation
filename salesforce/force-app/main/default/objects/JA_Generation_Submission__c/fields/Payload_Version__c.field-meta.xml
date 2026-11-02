@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payload_Version__c</fullName>
+    <defaultValue>&quot;1.0&quot;</defaultValue>
+    <description>Version identifier of the serialized intent payload schema (SF-06).</description>
+    <externalId>false</externalId>
+    <label>Payload Version</label>
+    <length>50</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
+

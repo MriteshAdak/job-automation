@@ -1,0 +1,36 @@
+{
+  "additionalProperties": false,
+  "description": "Acknowledgment of a record update.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "object_name": {
+      "description": "Target sObject API name",
+      "title": "Object Name",
+      "type": "string"
+    },
+    "record_id": {
+      "description": "Salesforce Record ID updated",
+      "title": "Record Id",
+      "type": "string"
+    },
+    "acknowledged_at": {
+      "description": "Timestamp when Salesforce acknowledged update",
+      "format": "date-time",
+      "title": "Acknowledged At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "object_name",
+    "record_id",
+    "acknowledged_at"
+  ],
+  "title": "UpdateResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_update_result.schema.json"
+}

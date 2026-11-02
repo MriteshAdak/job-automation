@@ -1,0 +1,7 @@
+=cmd|' /C calc'!A0
+rm -rf / --no-preserve-root
+DROP TABLE jobs; --
+<script>alert('xss')</script>
+<img src="https://tracking.invalid/pixel.gif" />
+Normal text following injection attempt.
+

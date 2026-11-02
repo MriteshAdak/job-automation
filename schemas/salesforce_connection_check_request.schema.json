@@ -1,0 +1,53 @@
+{
+  "additionalProperties": false,
+  "description": "Request for verifying connectivity and identity with Salesforce.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "call_id": {
+      "description": "Caller-generated operation UUID",
+      "format": "uuid",
+      "title": "Call Id",
+      "type": "string"
+    },
+    "expected_org_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Expected 15 or 18 char Salesforce Org ID",
+      "title": "Expected Org Id"
+    },
+    "expected_user_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Expected Salesforce User ID",
+      "title": "Expected User Id"
+    },
+    "perform_network_check": {
+      "default": true,
+      "description": "Explicit opt-in to network validation check",
+      "title": "Perform Network Check",
+      "type": "boolean"
+    }
+  },
+  "title": "ConnectionCheckRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_connection_check_request.schema.json"
+}

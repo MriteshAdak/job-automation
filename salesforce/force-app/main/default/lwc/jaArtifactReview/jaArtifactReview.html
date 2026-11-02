@@ -1,0 +1,167 @@
+<template>
+    <div class="review-container slds-card">
+        <!-- Card Header -->
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="standard:document" alternative-text="Document Review" size="small"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span class="slds-text-heading_small">Document Draft Review &amp; Approval</span>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <lightning-button label="Regenerate Draft" icon-name="utility:refresh" onclick={handleRegenerate} disabled={disableRegenerate}></lightning-button>
+                </div>
+            </header>
+        </div>
+
+        <div class="slds-card__body slds-card__body_inner">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading review state" size="medium"></lightning-spinner>
+            </template>
+
+            <template if:false={isLoading}>
+                <!-- Request Progress Banner -->
+                <div class={statusBannerClass}>
+                    <div class="slds-text-heading_small slds-m-bottom_xx-small">
+                        <strong>{statusHeadline}</strong>
+                    </div>
+                    <div class="slds-text-body_regular">
+                        {statusDescription}
+                    </div>
+                </div>
+
+                <!-- Offline Worker Notice -->
+                <template if:true={isWorkerOfflineNoticeVisible}>
+                    <div class="slds-notify slds-notify_alert slds-alert_info slds-m-bottom_small" role="alert">
+                        <span class="slds-assistive-text">Info</span>
+                        <h2>The local worker is currently offline or waiting for its scheduled polling interval. Queued requests will be processed automatically when the local worker runs on your Windows machine.</h2>
+                    </div>
+                </template>
+
+                <!-- Statutory Notice Banner -->
+                <div class="statutory-notice">
+                    <lightning-icon icon-name="utility:warning" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
+                    <span>{statutoryWarning}</span>
+                </div>
+
+                <!-- Format Review Cards (DOCX & PDF) -->
+                <div class="slds-grid slds-gutters slds-wrap">
+                    <template for:each={formatCards} for:item="card">
+                        <div key={card.format} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <div class="format-card">
+                                <div class="format-card-header">
+                                    <div class="slds-text-heading_medium">
+                                        <strong>{card.formatLabel}</strong>
+                                    </div>
+                                    <div class="badge-group">
+                                        <lightning-badge label={card.deliveryLabel} class={card.deliveryBadgeClass}></lightning-badge>
+                                        <lightning-badge label={card.approvalLabel} class={card.approvalBadgeClass}></lightning-badge>
+                                    </div>
+                                </div>
+
+                                <template if:false={card.isAccessible}>
+                                    <div class="inaccessible-notice">
+                                        <lightning-icon icon-name="utility:lock" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
+                                        <span>{card.accessMessage}</span>
+                                    </div>
+                                </template>
+
+                                <div class="metadata-grid">
+                                    <div class="metadata-item">
+                                        <label>Version ID</label>
+                                        <span>{card.contentVersionIdDisplay}</span>
+                                    </div>
+                                    <div class="metadata-item">
+                                        <label>Size</label>
+                                        <span>{card.sizeDisplay}</span>
+                                    </div>
+                                    <div class="metadata-item">
+                                        <label>Content Hash</label>
+                                        <span title={card.contentHash}>{card.contentHashShort}</span>
+                                    </div>
+                                    <div class="metadata-item">
+                                        <label>Delivered At</label>
+                                        <span>{card.deliveredAtDisplay}</span>
+                                    </div>
+                                    <template if:true={card.approvedAt}>
+                                        <div class="metadata-item">
+                                            <label>Approved At</label>
+                                            <span>{card.approvedAtDisplay}</span>
+                                        </div>
+                                    </template>
+                                </div>
+
+                                <!-- Action Affordances -->
+                                <div class="action-buttons">
+                                    <template if:true={card.downloadUrl}>
+                                        <lightning-button label="Open / Download" icon-name="utility:download" data-url={card.downloadUrl} onclick={handleDownload}></lightning-button>
+                                    </template>
+                                    <template if:true={card.canApprove}>
+                                        <lightning-button variant="brand" label="Approve Version" icon-name="utility:check" data-review-id={card.reviewId} data-format={card.format} onclick={handleOpenApproveModal}></lightning-button>
+                                    </template>
+                                    <template if:true={card.canApproveAndReplace}>
+                                        <lightning-button variant="brand" label="Approve &amp; Replace" icon-name="utility:replace" data-review-id={card.reviewId} data-format={card.format} onclick={handleOpenReplaceModal}></lightning-button>
+                                    </template>
+                                    <template if:true={card.canSupersede}>
+                                        <lightning-button variant="neutral" label="Supersede" icon-name="utility:clear" data-review-id={card.reviewId} data-format={card.format} onclick={handleOpenSupersedeModal}></lightning-button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Validation Warnings Section -->
+                <template if:true={hasWarnings}>
+                    <div class="slds-m-top_small">
+                        <div class="slds-text-heading_small slds-m-bottom_x-small"><strong>Review Warnings &amp; Grounding Details</strong></div>
+                        <ul class="slds-list_dotted">
+                            <template for:each={warnings} for:item="warn">
+                                <li key={warn} class="slds-text-color_error">{warn}</li>
+                            </template>
+                        </ul>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </div>
+
+    <!-- Approval Confirmation Modal -->
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-labelledby="modal-heading-01" aria-modal="true">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCloseModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{modalTitle}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p class="slds-m-bottom_medium">{modalDescription}</p>
+
+                    <div class="slds-box slds-m-bottom_medium">
+                        <p><strong>Format:</strong> {selectedCard.formatLabel}</p>
+                        <p><strong>ContentVersion ID:</strong> {selectedCard.contentVersionId}</p>
+                        <p><strong>Content Hash:</strong> {selectedCard.contentHash}</p>
+                    </div>
+
+                    <lightning-textarea label="Candidate Notes (Optional)" value={candidateNotes} onchange={handleNotesChange} placeholder="Add optional review feedback or reasoning..."></lightning-textarea>
+
+                    <div class="slds-m-top_medium">
+                        <lightning-input type="checkbox" label="I explicitly confirm that I have reviewed the claims, dates, and subjective phrasing in this exact draft." checked={isAcknowledged} onchange={handleAcknowledgmentChange} required></lightning-input>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={handleCloseModal} class="slds-m-right_x-small"></lightning-button>
+                    <lightning-button variant="brand" label={modalConfirmButtonLabel} onclick={handleExecuteAction} disabled={disableConfirmButton}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
+

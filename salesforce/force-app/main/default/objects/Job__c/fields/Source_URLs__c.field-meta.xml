@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source_URLs__c</fullName>
+    <description>Observed job posting source URLs (newline-delimited) preserved from source observations.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>List of source URLs where this vacancy was observed.</inlineHelpText>
+    <label>Source URLs</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>4</visibleLines>
+</CustomField>
+

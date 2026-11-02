@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Accepted_Requires_Timestamp</fullName>
+    <active>true</active>
+    <description>Accepted notification requires Accepted_At__c timestamp (SF-08).</description>
+    <errorConditionFormula>ISPICKVAL(Status__c, "Accepted") &amp;&amp; ISBLANK(Accepted_At__c)</errorConditionFormula>
+    <errorMessage>Accepted notification must specify Accepted At timestamp.</errorMessage>
+</ValidationRule>
+

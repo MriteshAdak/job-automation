@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Immutable_Completion_Key</fullName>
+    <active>true</active>
+    <description>First completion entitlement key is immutable once set (SF-09).</description>
+    <errorConditionFormula>ISCHANGED(First_Completion_Key__c) &amp;&amp; NOT(ISNEW())</errorConditionFormula>
+    <errorMessage>First Completion Key cannot be modified once established.</errorMessage>
+</ValidationRule>
+

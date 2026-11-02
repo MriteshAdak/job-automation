@@ -1,0 +1,78 @@
+{
+  "additionalProperties": false,
+  "description": "Request to retrieve selected fields of a specific record by ID or External ID.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "call_id": {
+      "description": "Caller-generated operation UUID",
+      "format": "uuid",
+      "title": "Call Id",
+      "type": "string"
+    },
+    "object_name": {
+      "description": "Target sObject API name",
+      "title": "Object Name",
+      "type": "string"
+    },
+    "record_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Standard Salesforce 15 or 18 char Record ID",
+      "title": "Record Id"
+    },
+    "external_id_field": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "External ID field API name",
+      "title": "External Id Field"
+    },
+    "external_id_value": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "External ID lookup value",
+      "title": "External Id Value"
+    },
+    "fields": {
+      "description": "Explicit list of field API names to retrieve",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Fields",
+      "type": "array"
+    }
+  },
+  "required": [
+    "object_name",
+    "fields"
+  ],
+  "title": "GetRecordRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_get_record_request.schema.json"
+}

@@ -1,0 +1,2 @@
+"""Sources component test package."""
+

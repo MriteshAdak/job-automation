@@ -1,0 +1,93 @@
+{
+  "$defs": {
+    "SourceSpan": {
+      "additionalProperties": false,
+      "description": "Character offsets within a source field.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "start": {
+          "description": "0-based start character index",
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "description": "0-based end character index (exclusive)",
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "SourceSpan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reference citing a specific job posting requirement or statement.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_kind": {
+      "const": "job",
+      "default": "job",
+      "title": "Source Kind",
+      "type": "string"
+    },
+    "posting_revision": {
+      "description": "Content hash or revision ID of the posting",
+      "minLength": 1,
+      "title": "Posting Revision",
+      "type": "string"
+    },
+    "field_path": {
+      "description": "Path to the cited field (e.g. 'description', 'requirements')",
+      "minLength": 1,
+      "title": "Field Path",
+      "type": "string"
+    },
+    "quotation": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Direct supporting quotation from the source text",
+      "title": "Quotation"
+    },
+    "source_span": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SourceSpan"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Character offsets of the cited passage in the field"
+    }
+  },
+  "required": [
+    "posting_revision",
+    "field_path"
+  ],
+  "title": "JobEvidenceReference",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/C08_job_evidence_reference.schema.json"
+}

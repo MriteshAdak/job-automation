@@ -1,0 +1,192 @@
+{
+  "$defs": {
+    "DocumentType": {
+      "description": "Type of generated document.",
+      "enum": [
+        "cv",
+        "cover_letter"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Verified input binding tying the draft to exact upstream frozen receipts.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "candidate_id": {
+      "format": "uuid",
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "canonical_job_id": {
+      "format": "uuid",
+      "title": "Canonical Job Id",
+      "type": "string"
+    },
+    "draft_id": {
+      "format": "uuid",
+      "title": "Draft Id",
+      "type": "string"
+    },
+    "draft_version": {
+      "title": "Draft Version",
+      "type": "string"
+    },
+    "draft_schema_version": {
+      "title": "Draft Schema Version",
+      "type": "string"
+    },
+    "draft_hash": {
+      "title": "Draft Hash",
+      "type": "string"
+    },
+    "receipt_id": {
+      "format": "uuid",
+      "title": "Receipt Id",
+      "type": "string"
+    },
+    "receipt_hash": {
+      "title": "Receipt Hash",
+      "type": "string"
+    },
+    "seal_id": {
+      "title": "Seal Id",
+      "type": "string"
+    },
+    "seal_hash": {
+      "title": "Seal Hash",
+      "type": "string"
+    },
+    "manifest_id": {
+      "title": "Manifest Id",
+      "type": "string"
+    },
+    "manifest_hash": {
+      "title": "Manifest Hash",
+      "type": "string"
+    },
+    "profile_version": {
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "profile_snapshot_digest": {
+      "title": "Profile Snapshot Digest",
+      "type": "string"
+    },
+    "posting_revision_id": {
+      "format": "uuid",
+      "title": "Posting Revision Id",
+      "type": "string"
+    },
+    "posting_revision_hash": {
+      "title": "Posting Revision Hash",
+      "type": "string"
+    },
+    "context_receipt_id": {
+      "format": "uuid",
+      "title": "Context Receipt Id",
+      "type": "string"
+    },
+    "context_hash": {
+      "title": "Context Hash",
+      "type": "string"
+    },
+    "admitted_fact_ids": {
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Admitted Fact Ids",
+      "type": "array"
+    },
+    "document_type": {
+      "$ref": "#/$defs/DocumentType"
+    },
+    "purpose": {
+      "title": "Purpose",
+      "type": "string"
+    },
+    "target_language": {
+      "enum": [
+        "de",
+        "en"
+      ],
+      "title": "Target Language",
+      "type": "string"
+    },
+    "template_id": {
+      "title": "Template Id",
+      "type": "string"
+    },
+    "template_version": {
+      "title": "Template Version",
+      "type": "string"
+    },
+    "template_content_digest": {
+      "title": "Template Content Digest",
+      "type": "string"
+    },
+    "rule_set_id": {
+      "title": "Rule Set Id",
+      "type": "string"
+    },
+    "rule_set_version": {
+      "title": "Rule Set Version",
+      "type": "string"
+    },
+    "rule_set_digest": {
+      "title": "Rule Set Digest",
+      "type": "string"
+    },
+    "binding_hash": {
+      "title": "Binding Hash",
+      "type": "string"
+    }
+  },
+  "required": [
+    "request_id",
+    "candidate_id",
+    "canonical_job_id",
+    "draft_id",
+    "draft_version",
+    "draft_schema_version",
+    "draft_hash",
+    "receipt_id",
+    "receipt_hash",
+    "seal_id",
+    "seal_hash",
+    "manifest_id",
+    "manifest_hash",
+    "profile_version",
+    "profile_snapshot_digest",
+    "posting_revision_id",
+    "posting_revision_hash",
+    "context_receipt_id",
+    "context_hash",
+    "document_type",
+    "purpose",
+    "target_language",
+    "template_id",
+    "template_version",
+    "template_content_digest",
+    "rule_set_id",
+    "rule_set_version",
+    "rule_set_digest",
+    "binding_hash"
+  ],
+  "title": "ValidationInputBinding",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/validation_input_binding.schema.json"
+}

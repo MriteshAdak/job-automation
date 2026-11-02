@@ -1,0 +1,31 @@
+{
+  "name": "typed_and_required",
+  "cases": [
+    {
+      "field": "title",
+      "value": "",
+      "expected_code": "empty_after_cleaning"
+    },
+    {
+      "field": "company_name_hint",
+      "value": null,
+      "expected_code": "missing_required_field"
+    },
+    {
+      "field": "description",
+      "value": "<script>alert(1)</script>",
+      "expected_code": "empty_after_cleaning"
+    },
+    {
+      "field": "source_url",
+      "value": "not-a-url",
+      "expected_code": "invalid_value"
+    },
+    {
+      "field": "compensation_raw",
+      "value": "90000 - 70000 EUR/year",
+      "expected_code": "invalid_value"
+    }
+  ]
+}
+

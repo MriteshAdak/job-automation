@@ -1,0 +1,34 @@
+{
+  "source_key": {
+    "provider": "synthetic",
+    "board_id": "berlin_tech",
+    "source_posting_id": "synth_job_04"
+  },
+  "normalizer_version": "1.0",
+  "raw_reference": "synthetic/raw/synth_job_04.json",
+  "raw_content_hash": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+  "company_name_hint": "Euro Gambling Entertainment AG",
+  "title": "Senior Python Developer",
+  "description_clean": "High-throughput real-time gaming algorithms in Python.",
+  "source_url": "https://example.com/jobs/synth_04",
+  "locations": [
+    {
+      "raw_text": "Berlin, Germany",
+      "country": "DE",
+      "city": "Berlin"
+    }
+  ],
+  "workplace_type": "remote",
+  "remote_eligibility_restrictions": [
+    "DE"
+  ],
+  "employment_type": "full_time",
+  "compensation": {
+    "min_amount": "90000",
+    "max_amount": "110000",
+    "currency": "EUR",
+    "period": "yearly"
+  },
+  "advert_language": "en",
+  "observed_at": "2026-10-28T12:00:00Z"
+}

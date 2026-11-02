@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <actionCalls>
+        <name>Admit_Request_Notification</name>
+        <label>Admit Request Notification</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <actionName>JA_RequestNotificationAdmission</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>requestId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>triggerStatus</name>
+            <value>
+                <elementReference>$Record.Status__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>failureEpisodeId</name>
+            <value>
+                <elementReference>$Record.Operation_Marker__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>actionCode</name>
+            <value>
+                <elementReference>$Record.Error_Category__c</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <description>After-save observer flow on Generation_Request__c admitting eligible draft ready and action-required notifications to the durable ledger (SF-08).</description>
+    <label>JA Request Notification Observe</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordTriggerType>CreateAndUpdate</recordTriggerType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Admit_Request_Notification</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Ready_for_Review</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Failed</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Upload_Pending</stringValue>
+            </value>
+        </filters>
+        <object>Generation_Request__c</object>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>
+

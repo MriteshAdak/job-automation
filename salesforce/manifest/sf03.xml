@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Job__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Job__c.JA_Tracking</members>
+        <name>CompactLayout</name>
+    </types>
+    <types>
+        <members>Job__c.JA_Eligible_Jobs</members>
+        <members>Job__c.JA_Review_Jobs</members>
+        <members>Job__c.JA_Shortlist</members>
+        <members>Job__c.JA_Applications</members>
+        <members>Job__c.JA_Follow_Ups_Due</members>
+        <members>Job__c.JA_Follow_Ups_Upcoming</members>
+        <members>Job__c.JA_Tracked_History</members>
+        <name>ListView</name>
+    </types>
+    <types>
+        <members>Job__c-JA Candidate Tracking</members>
+        <members>Company__c-JA Company Overview</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>JA_Job_Tracking</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>Job__c</members>
+        <members>Company__c</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Job_Tracker</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>JA_Jobs</members>
+        <name>ReportType</name>
+    </types>
+    <types>
+        <members>Job_Tracker</members>
+        <name>ReportFolder</name>
+    </types>
+    <types>
+        <members>Job_Tracker/JA_Eligible_Review</members>
+        <members>Job_Tracker/JA_Shortlist</members>
+        <members>Job_Tracker/JA_Applications</members>
+        <members>Job_Tracker/JA_Follow_Ups</members>
+        <name>Report</name>
+    </types>
+    <version>60.0</version>
+</Package>
+

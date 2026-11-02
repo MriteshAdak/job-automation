@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <actionCalls>
+        <name>Dispatch_Run_Summary_Notification</name>
+        <label>Dispatch Run Summary Notification</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <actionName>JA_RunSummaryDispatcher</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>runSummaryId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <description>After-save completion flow orchestrating guarded run summary notification dispatch (SF-09).</description>
+    <label>JA Run Summary Completion</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordTriggerType>CreateAndUpdate</recordTriggerType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Dispatch_Run_Summary_Notification</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Notification_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>pending</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Notification_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>retry_wait</stringValue>
+            </value>
+        </filters>
+        <object>Run_Summary__c</object>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>
+

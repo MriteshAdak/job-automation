@@ -1,0 +1,330 @@
+{
+  "$defs": {
+    "ClassifiedError": {
+      "additionalProperties": false,
+      "description": "Classified operational or domain error.\n\nDistinguishes recoverable failures from permanent errors and maps\nto the system error taxonomy without arbitrary tool or shell authority.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/ErrorCategory"
+        },
+        "message": {
+          "description": "Safe diagnostic message without credentials or tokens",
+          "title": "Message",
+          "type": "string"
+        },
+        "recoverable": {
+          "description": "Whether this error category is eligible for bounded retry",
+          "title": "Recoverable",
+          "type": "boolean"
+        },
+        "field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional field path if the error pertains to a specific field",
+          "title": "Field Path"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Safe non-sensitive contextual details",
+          "title": "Details"
+        }
+      },
+      "required": [
+        "category",
+        "message",
+        "recoverable"
+      ],
+      "title": "ClassifiedError",
+      "type": "object"
+    },
+    "ContextStrategy": {
+      "description": "Context construction strategy for candidate evidence.",
+      "enum": [
+        "json",
+        "rag"
+      ],
+      "title": "ContextStrategy",
+      "type": "string"
+    },
+    "DocumentType": {
+      "description": "Type of generated document.",
+      "enum": [
+        "cv",
+        "cover_letter"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    },
+    "ErrorCategory": {
+      "description": "Classified error category for failure handling and recovery.",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ],
+      "title": "ErrorCategory",
+      "type": "string"
+    },
+    "FrozenInputVersions": {
+      "additionalProperties": false,
+      "description": "Snapshot of exact input versions frozen when a generation request is claimed.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "posting_revision": {
+          "description": "Job posting revision hash",
+          "minLength": 1,
+          "title": "Posting Revision",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Candidate profile version",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "policy_version": {
+          "description": "Search policy version",
+          "minLength": 1,
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "template_version": {
+          "description": "Document template version",
+          "minLength": 1,
+          "title": "Template Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "posting_revision",
+        "profile_version",
+        "policy_version",
+        "template_version"
+      ],
+      "title": "FrozenInputVersions",
+      "type": "object"
+    },
+    "GenerationProcessing": {
+      "description": "Document generation processing state. Authority: request workflow.",
+      "enum": [
+        "pending",
+        "running",
+        "upload_pending",
+        "ready_for_review",
+        "failed"
+      ],
+      "title": "GenerationProcessing",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "C13 Generation Request.\n\nTracks a single generation job through pending, running, upload_pending,\nready_for_review, or failed states. Retries preserve identity; deliberate\nregenerations receive a new request ID.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "request_id": {
+      "description": "Unique local generation request UUID",
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "salesforce_request_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Salesforce Generation_Request__c record ID if created from Salesforce action",
+      "title": "Salesforce Request Id"
+    },
+    "client_request_key": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Idempotent client key for external or API-triggered requests",
+      "title": "Client Request Key"
+    },
+    "canonical_job_id": {
+      "description": "Target canonical job UUID",
+      "format": "uuid",
+      "title": "Canonical Job Id",
+      "type": "string"
+    },
+    "document_type": {
+      "$ref": "#/$defs/DocumentType",
+      "description": "Type of document: cv or cover_letter"
+    },
+    "target_language": {
+      "default": "de",
+      "description": "Requested document language (e.g. 'de', 'en')",
+      "title": "Target Language",
+      "type": "string"
+    },
+    "template_id": {
+      "description": "Identifier of the layout template to render",
+      "minLength": 1,
+      "title": "Template Id",
+      "type": "string"
+    },
+    "context_strategy": {
+      "$ref": "#/$defs/ContextStrategy",
+      "default": "json",
+      "description": "Context strategy for generation: json or rag"
+    },
+    "allow_unavailable_job": {
+      "default": false,
+      "description": "Explicit candidate override to draft for closed/unavailable job (default False)",
+      "title": "Allow Unavailable Job",
+      "type": "boolean"
+    },
+    "state": {
+      "$ref": "#/$defs/GenerationProcessing",
+      "default": "pending",
+      "description": "Current processing state of the generation request"
+    },
+    "created_at": {
+      "description": "Creation timestamp (UTC)",
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "claimed_at": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "When the worker claimed this request and froze inputs",
+      "title": "Claimed At"
+    },
+    "completed_at": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "When generation and delivery reached terminal state",
+      "title": "Completed At"
+    },
+    "frozen_input_versions": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FrozenInputVersions"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Frozen input snapshots; required once request is claimed/running"
+    },
+    "predecessor_request_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Linked predecessor request if this is a deliberate regeneration",
+      "title": "Predecessor Request Id"
+    },
+    "result_artifact_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Reference to the locally saved C14 Artifact",
+      "title": "Result Artifact Ref"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ClassifiedError"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Concise error classification if generation failed"
+    }
+  },
+  "required": [
+    "request_id",
+    "canonical_job_id",
+    "document_type",
+    "template_id",
+    "created_at"
+  ],
+  "title": "GenerationRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/C13_generation_request.schema.json"
+}

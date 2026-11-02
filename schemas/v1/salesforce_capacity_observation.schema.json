@@ -1,0 +1,160 @@
+{
+  "$defs": {
+    "CapacityResource": {
+      "additionalProperties": false,
+      "description": "Capacity metrics for a single measured Salesforce resource.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "name": {
+          "description": "Resource identifier, e.g. daily_api_requests, data_storage_mb",
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "description": "Unit of measurement (e.g. requests, MB, count)",
+          "title": "Unit",
+          "type": "string"
+        },
+        "max_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Maximum allocation (None if unknown)",
+          "title": "Max Value"
+        },
+        "remaining_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Remaining available allowance",
+          "title": "Remaining Value"
+        },
+        "used_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Computed used quantity (max - remaining)",
+          "title": "Used Value"
+        },
+        "percent_used": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Percentage of allowance consumed (0-100)",
+          "title": "Percent Used"
+        },
+        "status": {
+          "default": "unknown",
+          "description": "Resource evaluation status: ok, warning, blocked, unknown",
+          "title": "Status",
+          "type": "string"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Explanatory detail for non-ok status",
+          "title": "Reason"
+        }
+      },
+      "required": [
+        "name",
+        "unit"
+      ],
+      "title": "CapacityResource",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Point-in-time observation of Salesforce org limits and capacity.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "org_id": {
+      "description": "Bound source Salesforce organization ID",
+      "title": "Org Id",
+      "type": "string"
+    },
+    "api_version": {
+      "description": "Configured REST API version used for query",
+      "title": "Api Version",
+      "type": "string"
+    },
+    "measured_at": {
+      "description": "UTC timestamp of the measurement",
+      "format": "date-time",
+      "title": "Measured At",
+      "type": "string"
+    },
+    "evidence_source": {
+      "default": "rest_limits",
+      "description": "Evidence origin (e.g. rest_limits, setup_storage)",
+      "title": "Evidence Source",
+      "type": "string"
+    },
+    "resources": {
+      "additionalProperties": {
+        "$ref": "#/$defs/CapacityResource"
+      },
+      "description": "Resource observations keyed by resource name",
+      "title": "Resources",
+      "type": "object"
+    },
+    "overall_status": {
+      "default": "unknown",
+      "description": "Overall org status: ok, warning, blocked, unknown",
+      "title": "Overall Status",
+      "type": "string"
+    },
+    "notes": {
+      "default": "",
+      "description": "Operator diagnostic notes or error context",
+      "title": "Notes",
+      "type": "string"
+    }
+  },
+  "required": [
+    "org_id",
+    "api_version",
+    "measured_at"
+  ],
+  "title": "CapacityObservation",
+  "type": "object"
+}

@@ -1,0 +1,129 @@
+{
+  "$defs": {
+    "ContextStrategy": {
+      "description": "Context construction strategy for candidate evidence.",
+      "enum": [
+        "json",
+        "rag"
+      ],
+      "title": "ContextStrategy",
+      "type": "string"
+    },
+    "DocumentType": {
+      "description": "Type of generated document.",
+      "enum": [
+        "cv",
+        "cover_letter"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Canonicalized and validated generation options frozen at request acceptance.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "document_type": {
+      "$ref": "#/$defs/DocumentType"
+    },
+    "purpose": {
+      "description": "Derived document purpose ('cv' or 'cover_letter')",
+      "title": "Purpose",
+      "type": "string"
+    },
+    "target_language": {
+      "default": "de",
+      "title": "Target Language",
+      "type": "string"
+    },
+    "template_id": {
+      "minLength": 1,
+      "title": "Template Id",
+      "type": "string"
+    },
+    "template_version": {
+      "minLength": 1,
+      "title": "Template Version",
+      "type": "string"
+    },
+    "template_content_digest": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Template Content Digest"
+    },
+    "context_strategy": {
+      "$ref": "#/$defs/ContextStrategy",
+      "default": "json"
+    },
+    "allow_unavailable_job": {
+      "default": false,
+      "title": "Allow Unavailable Job",
+      "type": "boolean"
+    },
+    "override_provenance": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Override Provenance"
+    },
+    "override_timestamp": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Override Timestamp"
+    },
+    "generation_settings": {
+      "additionalProperties": true,
+      "title": "Generation Settings",
+      "type": "object"
+    },
+    "output_formats": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Output Formats",
+      "type": "array"
+    },
+    "options_digest": {
+      "minLength": 1,
+      "title": "Options Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "document_type",
+    "purpose",
+    "template_id",
+    "template_version",
+    "options_digest"
+  ],
+  "title": "FrozenGenerationOptions",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/frozen_generation_options.schema.json"
+}

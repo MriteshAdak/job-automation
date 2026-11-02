@@ -1,0 +1,85 @@
+{
+  "$defs": {
+    "SourceKey": {
+      "additionalProperties": false,
+      "description": "Unique source posting identity: (provider, board_id, source_posting_id).\n\nTwo postings with the same tuple are the same source posting.\nDifferent board_ids under the same provider are distinct.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "provider": {
+          "minLength": 1,
+          "title": "Provider",
+          "type": "string"
+        },
+        "board_id": {
+          "minLength": 1,
+          "title": "Board Id",
+          "type": "string"
+        },
+        "source_posting_id": {
+          "minLength": 1,
+          "title": "Source Posting Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "board_id",
+        "source_posting_id"
+      ],
+      "title": "SourceKey",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "C05 Source Job Draft.\n\nCandidate fields mapped from source; extracts source structure without\nsilently resolving company/job identity or fabricating missing facts.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "raw_reference": {
+      "description": "Reference to the raw posting",
+      "minLength": 1,
+      "title": "Raw Reference",
+      "type": "string"
+    },
+    "source_key": {
+      "$ref": "#/$defs/SourceKey",
+      "description": "Scoped source identity"
+    },
+    "fetch_time": {
+      "description": "Fetch timestamp (UTC)",
+      "format": "date-time",
+      "title": "Fetch Time",
+      "type": "string"
+    },
+    "original_fields": {
+      "additionalProperties": true,
+      "description": "Parsed source dictionary retaining original structure",
+      "title": "Original Fields",
+      "type": "object"
+    },
+    "source_mapped_fields": {
+      "additionalProperties": true,
+      "description": "Candidate fields mapped from source without normalization",
+      "title": "Source Mapped Fields",
+      "type": "object"
+    }
+  },
+  "required": [
+    "raw_reference",
+    "source_key",
+    "fetch_time",
+    "original_fields",
+    "source_mapped_fields"
+  ],
+  "title": "SourceJobDraft",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/C05_source_job_draft.schema.json"
+}

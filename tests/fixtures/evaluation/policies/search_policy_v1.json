@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "policy-eval-v1",
+  "regions": ["DE"],
+  "role_aliases": {
+    "Software Engineer": [
+      "Softwareentwickler",
+      "Software Developer",
+      "Systems Engineer",
+      "Backend Developer"
+    ]
+  },
+  "skill_aliases": {
+    "C++": ["Modern C++", "C++20", "C++17"],
+    "Python": ["Python 3", "Python3"]
+  },
+  "hard_criteria": [
+    {
+      "criterion_id": "crit_location",
+      "name": "Location must be in Germany",
+      "field": "locations.country",
+      "operator": "equals",
+      "expected_value": "DE",
+      "on_missing": "unknown"
+    },
+    {
+      "criterion_id": "crit_workplace",
+      "name": "Workplace must be remote or hybrid",
+      "field": "workplace_type",
+      "operator": "in",
+      "expected_value": ["remote", "hybrid"],
+      "on_missing": "unknown"
+    }
+  ],
+  "preferences": [
+    {
+      "rule_id": "pref_remote",
+      "name": "Prefer Remote",
+      "field": "workplace_type",
+      "weight": 0.5,
+      "preferred_values": ["remote"]
+    }
+  ],
+  "exclusions": ["Gambling", "Defense"],
+  "missing_information_behavior": {
+    "compensation": "unknown",
+    "workplace_type": "unknown"
+  },
+  "relevance_configuration": {
+    "score_scale": "0-100",
+    "min_score_threshold": 65.0,
+    "broad_keywords": ["Software", "Engineer", "Developer", "C++", "Python", ".NET", "C#"],
+    "negative_keywords": ["Praktikant", "Unpaid"]
+  },
+  "primary_context_strategy": "json"
+}
+

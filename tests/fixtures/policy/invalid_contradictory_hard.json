@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "syn-contra-hard-v1",
+  "regions": ["DE"],
+  "role_aliases": {},
+  "skill_aliases": {},
+  "hard_criteria": [
+    {
+      "criterion_id": "c_remote",
+      "name": "Must be remote",
+      "field": "workplace_type",
+      "operator": "equals",
+      "expected_value": "remote",
+      "on_missing": "unknown"
+    },
+    {
+      "criterion_id": "c_onsite",
+      "name": "Must be onsite",
+      "field": "workplace_type",
+      "operator": "equals",
+      "expected_value": "onsite",
+      "on_missing": "unknown"
+    }
+  ],
+  "preferences": [],
+  "exclusions": [],
+  "missing_information_behavior": {},
+  "relevance_configuration": {
+    "score_scale": "0-100",
+    "min_score_threshold": null,
+    "broad_keywords": [],
+    "negative_keywords": []
+  },
+  "primary_context_strategy": "json"
+}
+

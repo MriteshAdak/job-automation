@@ -1,0 +1,29 @@
+{
+  "additionalProperties": false,
+  "description": "Request to describe metadata for a specific Salesforce sObject.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "call_id": {
+      "description": "Caller-generated operation UUID",
+      "format": "uuid",
+      "title": "Call Id",
+      "type": "string"
+    },
+    "object_name": {
+      "description": "Target sObject API name (e.g. Job__c)",
+      "title": "Object Name",
+      "type": "string"
+    }
+  },
+  "required": [
+    "object_name"
+  ],
+  "title": "DescribeObjectRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_describe_object_request.schema.json"
+}

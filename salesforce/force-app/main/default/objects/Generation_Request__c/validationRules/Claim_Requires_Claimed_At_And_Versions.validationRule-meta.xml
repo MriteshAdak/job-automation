@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Claim_Requires_Claimed_At_And_Versions</fullName>
+    <active>true</active>
+    <description>Enforces that Running, Upload Pending, or Ready for Review states must have Worker Claimed At and all four frozen versions.</description>
+    <errorConditionFormula>AND(OR(ISPICKVAL(Status__c, "Running"), ISPICKVAL(Status__c, "Upload_Pending"), ISPICKVAL(Status__c, "Ready_for_Review")), OR(ISBLANK(Worker_Claimed_At__c), ISBLANK(Frozen_Posting_Revision__c), ISBLANK(Frozen_Profile_Version__c), ISBLANK(Frozen_Policy_Version__c), ISBLANK(Frozen_Template_Version__c)))</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>Requests in Running, Upload Pending, or Ready for Review states must have Worker Claimed At and all four frozen input versions.</errorMessage>
+</ValidationRule>
+

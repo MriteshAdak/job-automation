@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Template_Id_Required</fullName>
+    <active>true</active>
+    <description>Ensures template ID is explicitly provided and non-blank.</description>
+    <errorConditionFormula>ISBLANK(Template_Id__c)</errorConditionFormula>
+    <errorDisplayField>Template_Id__c</errorDisplayField>
+    <errorMessage>Template ID is required and cannot be blank.</errorMessage>
+</ValidationRule>
+

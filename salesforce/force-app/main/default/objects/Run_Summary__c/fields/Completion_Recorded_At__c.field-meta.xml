@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Completion_Recorded_At__c</fullName>
+    <description>Salesforce server timestamp when the first terminal outcome was admitted into Salesforce (SF-09).</description>
+    <externalId>false</externalId>
+    <label>Completion Recorded At</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>DateTime</type>
+</CustomField>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unresolved_Notifications</fullName>
+    <columns>NAME</columns>
+    <columns>Run_Id__c</columns>
+    <columns>Notification_Status__c</columns>
+    <columns>Notification_Recipient__c</columns>
+    <columns>Notification_Attempt_Count__c</columns>
+    <columns>Notification_Error_Code__c</columns>
+    <columns>Notification_Next_Attempt_At__c</columns>
+    <columns>First_Status__c</columns>
+    <columns>Completion_Recorded_At__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Notification_Status__c</field>
+        <operation>equals</operation>
+        <value>pending,dispatching,failed,unknown</value>
+    </filters>
+    <label>Unresolved Notifications</label>
+</ListView>
+

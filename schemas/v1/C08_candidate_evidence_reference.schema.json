@@ -1,0 +1,37 @@
+{
+  "additionalProperties": false,
+  "description": "Reference citing an approved candidate profile fact.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_kind": {
+      "const": "candidate",
+      "default": "candidate",
+      "title": "Source Kind",
+      "type": "string"
+    },
+    "profile_version": {
+      "description": "Version of the profile snapshot",
+      "minLength": 1,
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "fact_id": {
+      "description": "UUID of the cited candidate fact",
+      "format": "uuid",
+      "title": "Fact Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "profile_version",
+    "fact_id"
+  ],
+  "title": "CandidateEvidenceReference",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/C08_candidate_evidence_reference.schema.json"
+}

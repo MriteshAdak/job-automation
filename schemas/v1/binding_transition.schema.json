@@ -1,0 +1,57 @@
+{
+  "additionalProperties": false,
+  "description": "Record of binding state change for an individual chunk identity.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "chunk_id": {
+      "description": "UUID of the affected chunk",
+      "format": "uuid",
+      "title": "Chunk Id",
+      "type": "string"
+    },
+    "old_binding": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Old binding fingerprint if present in base manifest",
+      "title": "Old Binding"
+    },
+    "new_binding": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "New binding fingerprint if present in target manifest",
+      "title": "New Binding"
+    },
+    "reason_code": {
+      "description": "Code: 'added', 'removed_tombstone', 'content_updated', 'rebound_snapshot'",
+      "minLength": 1,
+      "title": "Reason Code",
+      "type": "string"
+    }
+  },
+  "required": [
+    "chunk_id",
+    "reason_code"
+  ],
+  "title": "BindingTransition",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/binding_transition.schema.json"
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "schema_version": "1.0",
+      "source_key": "bad_policy_bounds",
+      "provider": "prov",
+      "board_id": "b1",
+      "acquisition_method": "api",
+      "base_url": "https://api.bounds.invalid/jobs",
+      "access_rules": null,
+      "attribution_rules": null,
+      "request_policy": {
+        "timeout_seconds": -5.0,
+        "max_attempts": 0,
+        "timeuot": 30
+      },
+      "enabled": false,
+      "inventory_semantics": "filtered_feed"
+    }
+  ]
+}
+

@@ -1,0 +1,310 @@
+{
+  "$defs": {
+    "CandidateEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing an approved candidate profile fact.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "candidate",
+          "default": "candidate",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Version of the profile snapshot",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "UUID of the cited candidate fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_version",
+        "fact_id"
+      ],
+      "title": "CandidateEvidenceReference",
+      "type": "object"
+    },
+    "JobEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing a specific job posting requirement or statement.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "job",
+          "default": "job",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "posting_revision": {
+          "description": "Content hash or revision ID of the posting",
+          "minLength": 1,
+          "title": "Posting Revision",
+          "type": "string"
+        },
+        "field_path": {
+          "description": "Path to the cited field (e.g. 'description', 'requirements')",
+          "minLength": 1,
+          "title": "Field Path",
+          "type": "string"
+        },
+        "quotation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Direct supporting quotation from the source text",
+          "title": "Quotation"
+        },
+        "source_span": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceSpan"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Character offsets of the cited passage in the field"
+        }
+      },
+      "required": [
+        "posting_revision",
+        "field_path"
+      ],
+      "title": "JobEvidenceReference",
+      "type": "object"
+    },
+    "SourceSpan": {
+      "additionalProperties": false,
+      "description": "Character offsets within a source field.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "start": {
+          "description": "0-based start character index",
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "description": "0-based end character index (exclusive)",
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "SourceSpan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Detailed factual or structural finding with full traceability.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "issue_id": {
+      "title": "Issue Id",
+      "type": "string"
+    },
+    "code": {
+      "pattern": "^[a-z][a-z0-9_]{0,47}$",
+      "title": "Code",
+      "type": "string"
+    },
+    "severity": {
+      "enum": [
+        "fatal",
+        "warning"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "message": {
+      "maxLength": 4000,
+      "minLength": 1,
+      "title": "Message",
+      "type": "string"
+    },
+    "document_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Document Path"
+    },
+    "section_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Section Id"
+    },
+    "entry_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Entry Id"
+    },
+    "claim_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Claim Id"
+    },
+    "block_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Block Id"
+    },
+    "evidence_reference": {
+      "anyOf": [
+        {
+          "discriminator": {
+            "mapping": {
+              "candidate": "#/$defs/CandidateEvidenceReference",
+              "job": "#/$defs/JobEvidenceReference"
+            },
+            "propertyName": "source_kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/CandidateEvidenceReference"
+            },
+            {
+              "$ref": "#/$defs/JobEvidenceReference"
+            }
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Evidence Reference"
+    },
+    "source_field": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Field"
+    },
+    "inherited_from": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Inherited From"
+    },
+    "review_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Review Reason"
+    },
+    "suggested_action": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Suggested Action"
+    },
+    "requires_human_review": {
+      "const": true,
+      "default": true,
+      "title": "Requires Human Review",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "code",
+    "severity",
+    "message"
+  ],
+  "title": "DocumentValidationIssue",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/document_validation_issue.schema.json"
+}

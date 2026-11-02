@@ -1,0 +1,266 @@
+{
+  "$defs": {
+    "CandidateEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing an approved candidate profile fact.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "candidate",
+          "default": "candidate",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Version of the profile snapshot",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "UUID of the cited candidate fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_version",
+        "fact_id"
+      ],
+      "title": "CandidateEvidenceReference",
+      "type": "object"
+    },
+    "FindingStatus": {
+      "description": "Status of a requirement match finding.",
+      "enum": [
+        "match",
+        "gap",
+        "unknown"
+      ],
+      "title": "FindingStatus",
+      "type": "string"
+    },
+    "JobEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing a specific job posting requirement or statement.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "job",
+          "default": "job",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "posting_revision": {
+          "description": "Content hash or revision ID of the posting",
+          "minLength": 1,
+          "title": "Posting Revision",
+          "type": "string"
+        },
+        "field_path": {
+          "description": "Path to the cited field (e.g. 'description', 'requirements')",
+          "minLength": 1,
+          "title": "Field Path",
+          "type": "string"
+        },
+        "quotation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Direct supporting quotation from the source text",
+          "title": "Quotation"
+        },
+        "source_span": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceSpan"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Character offsets of the cited passage in the field"
+        }
+      },
+      "required": [
+        "posting_revision",
+        "field_path"
+      ],
+      "title": "JobEvidenceReference",
+      "type": "object"
+    },
+    "RequirementFindingProposal": {
+      "additionalProperties": false,
+      "description": "Model-authored assessment proposal for a single requirement.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "requirement_id": {
+          "description": "Requirement identifier cited",
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/FindingStatus",
+          "description": "Proposed status: match, gap, or unknown"
+        },
+        "candidate_evidence": {
+          "description": "Candidate evidence cited to support finding",
+          "items": {
+            "$ref": "#/$defs/CandidateEvidenceReference"
+          },
+          "title": "Candidate Evidence",
+          "type": "array"
+        },
+        "job_evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/JobEvidenceReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Job posting evidence cited if specific passage is referenced"
+        },
+        "reason": {
+          "description": "Reasoning for the finding",
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "maximum": 100.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional requirement-level fit score on 0-100 scale",
+          "title": "Score"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "status",
+        "reason"
+      ],
+      "title": "RequirementFindingProposal",
+      "type": "object"
+    },
+    "SourceSpan": {
+      "additionalProperties": false,
+      "description": "Character offsets within a source field.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "start": {
+          "description": "0-based start character index",
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "description": "0-based end character index (exclusive)",
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "SourceSpan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Strict bounded model-owned generation output schema.\n\nEnforces:\n- Extra fields are strictly forbidden (model cannot invent final_disposition or rule_outcomes).\n- Every finding cites a requirement ID.\n- Score is strictly on 0-100 scale if provided.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "findings": {
+      "description": "One finding per admitted requirement",
+      "items": {
+        "$ref": "#/$defs/RequirementFindingProposal"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "relevance_score": {
+      "anyOf": [
+        {
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Overall relevance score on 0-100 scale",
+      "title": "Relevance Score"
+    },
+    "score_scale": {
+      "anyOf": [
+        {
+          "const": "0-100",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Declared scale for score; required if score is provided",
+      "title": "Score Scale"
+    },
+    "summary_reason": {
+      "description": "Concise synthesis explaining overall candidate fit",
+      "minLength": 1,
+      "title": "Summary Reason",
+      "type": "string"
+    }
+  },
+  "required": [
+    "summary_reason"
+  ],
+  "title": "AssessmentProposal",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/assessment_proposal.schema.json"
+}

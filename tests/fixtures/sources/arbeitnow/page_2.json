@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "slug": "logistik-gmbh-fahrer-0099",
+      "company_name": "Logistik GmbH",
+      "title": "Berufskraftfahrer (m/w/d)",
+      "description": "<p>Fahrerposition mit attraktiven Konditionen und stabilem Unternehmen.</p>",
+      "remote": false,
+      "url": "https://www.arbeitnow.com/view/logistik-gmbh-fahrer-0099",
+      "tags": [],
+      "job_types": ["Vollzeit", "Teilzeit"],
+      "location": "München, Bayern",
+      "created_at": 1730034900
+    }
+  ],
+  "links": {
+    "first": "https://www.arbeitnow.com/api/job-board-api?page=1",
+    "last": null,
+    "prev": "https://www.arbeitnow.com/api/job-board-api?page=1",
+    "next": "https://www.arbeitnow.com/api/job-board-api?page=3"
+  },
+  "meta": {
+    "current_page": 2,
+    "from": 101,
+    "last_page": null,
+    "path": "https://www.arbeitnow.com/api/job-board-api",
+    "per_page": 100,
+    "to": 101,
+    "total": null
+  }
+}
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Immutable_Run_Id</fullName>
+    <active>true</active>
+    <description>Run ID is immutable once created (SF-09).</description>
+    <errorConditionFormula>ISCHANGED(Run_Id__c) &amp;&amp; NOT(ISNEW())</errorConditionFormula>
+    <errorMessage>Run ID cannot be changed after creation.</errorMessage>
+</ValidationRule>
+

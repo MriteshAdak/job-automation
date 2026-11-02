@@ -1,0 +1,152 @@
+{
+  "$defs": {
+    "EvidenceFactKind": {
+      "description": "Kind of candidate evidence fact.",
+      "enum": [
+        "employment",
+        "education",
+        "certification",
+        "skill",
+        "language",
+        "project",
+        "publication",
+        "award",
+        "volunteer",
+        "other"
+      ],
+      "title": "EvidenceFactKind",
+      "type": "string"
+    },
+    "PrecisionDate": {
+      "additionalProperties": false,
+      "description": "Date with explicit precision: day, month, or year.\n\nMonth precision '2021-05' stays as-is; no day is fabricated.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "value": {
+          "description": "ISO date string matching the precision",
+          "title": "Value",
+          "type": "string"
+        },
+        "precision": {
+          "enum": [
+            "day",
+            "month",
+            "year"
+          ],
+          "title": "Precision",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "precision"
+      ],
+      "title": "PrecisionDate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Structured permitted ancestor anchor attached to child evidence.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "fact_id": {
+      "description": "UUID of the ancestor fact",
+      "format": "uuid",
+      "title": "Fact Id",
+      "type": "string"
+    },
+    "kind": {
+      "$ref": "#/$defs/EvidenceFactKind",
+      "description": "Evidence kind of the ancestor"
+    },
+    "title": {
+      "description": "Headline or title of the ancestor fact",
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "organization": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Employer, client, or institution organization",
+      "title": "Organization"
+    },
+    "start_date": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PrecisionDate"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Start date with explicit precision"
+    },
+    "end_date": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PrecisionDate"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "End date with explicit precision"
+    },
+    "parent_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Parent UUID of this ancestor if part of a deeper hierarchy",
+      "title": "Parent Id"
+    },
+    "provenance": {
+      "default": "unspecified",
+      "description": "Exact approved provenance string from C01",
+      "minLength": 1,
+      "title": "Provenance",
+      "type": "string"
+    },
+    "allowed_uses": {
+      "description": "Approved allowed uses of this ancestor fact",
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Uses",
+      "type": "array"
+    }
+  },
+  "required": [
+    "fact_id",
+    "kind",
+    "title"
+  ],
+  "title": "AncestorContext",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/ancestor_context.schema.json"
+}

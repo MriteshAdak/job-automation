@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Allow_Unavailable_Job__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Explicit candidate override allowing drafting for an unavailable or closed job posting (defaults to false).</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Check only if you deliberately want to generate documents for a closed or unavailable job.</inlineHelpText>
+    <label>Allow Unavailable Job</label>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>
+

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomNotificationType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customNotifTypeName>JA_Run_Completed</customNotifTypeName>
+    <description>Notification sent when a job search pipeline run completes (SF-09).</description>
+    <desktop>true</desktop>
+    <mobile>false</mobile>
+</CustomNotificationType>
+

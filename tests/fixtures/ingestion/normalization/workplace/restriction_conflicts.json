@@ -1,0 +1,17 @@
+{
+  "name": "restriction_conflicts",
+  "raw_payload": "{\"workplace\": \"onsite and remote\"}",
+  "mapped_fields": {
+    "title": "IT Support",
+    "company_name_hint": "Support AG",
+    "description": "IT helpdesk support.",
+    "source_url": "https://example.com/7",
+    "workplace_type_raw": "onsite and remote simultaneously",
+    "mapping_version": "1.0"
+  },
+  "expected": {
+    "workplace_type": "unknown",
+    "warnings": ["conflicting_values"]
+  }
+}
+

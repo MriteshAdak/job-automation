@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomPermission xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Grants candidate authority to review, approve, replace, or supersede delivered document versions (SF-07).</description>
+    <isLicensed>false</isLicensed>
+    <label>Review Generated Documents</label>
+</CustomPermission>
+

@@ -1,0 +1,52 @@
+{
+  "additionalProperties": false,
+  "description": "Observed organization API limits.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "daily_api_requests_max": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Daily Api Requests Max"
+    },
+    "daily_api_requests_remaining": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Daily Api Requests Remaining"
+    },
+    "raw_limits": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "type": "integer"
+        },
+        "type": "object"
+      },
+      "description": "Typed named limit categories",
+      "title": "Raw Limits",
+      "type": "object"
+    }
+  },
+  "title": "LimitsResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_limits_result.schema.json"
+}

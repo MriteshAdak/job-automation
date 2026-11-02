@@ -1,0 +1,45 @@
+{
+  "additionalProperties": false,
+  "description": "Configuration and rule set settings for GEN-04 validation.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "rule_set_id": {
+      "const": "gen04-extractive-v1",
+      "default": "gen04-extractive-v1",
+      "title": "Rule Set Id",
+      "type": "string"
+    },
+    "rule_set_version": {
+      "default": "1.0.0",
+      "title": "Rule Set Version",
+      "type": "string"
+    },
+    "max_issues": {
+      "default": 200,
+      "exclusiveMinimum": 0,
+      "title": "Max Issues",
+      "type": "integer"
+    },
+    "fail_on_first_fatal": {
+      "default": false,
+      "title": "Fail On First Fatal",
+      "type": "boolean"
+    },
+    "allowed_content_schema_versions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Content Schema Versions",
+      "type": "array"
+    }
+  },
+  "title": "DocumentValidationSettings",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/document_validation_settings.schema.json"
+}

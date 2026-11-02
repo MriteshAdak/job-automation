@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Composition example only; load with the GEN-03 composition described in docs/components/GEN-03.md",
+  "model_identifier": "REPLACE_WITH_INSTALLED_LOCAL_MODEL",
+  "model_digest": "REPLACE_WITH_VERIFIED_WEIGHTS_DIGEST",
+  "supported_languages": ["de", "en"],
+  "supported_content_templates": ["content-basic", "content-compact"],
+  "default_context_limit": 32768,
+  "default_output_reserve": 1024,
+  "default_safety_allowance": 64,
+  "require_exact_measurement": false
+}

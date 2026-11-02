@@ -1,0 +1,661 @@
+{
+  "$defs": {
+    "CandidateEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing an approved candidate profile fact.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "candidate",
+          "default": "candidate",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Version of the profile snapshot",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "UUID of the cited candidate fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_version",
+        "fact_id"
+      ],
+      "title": "CandidateEvidenceReference",
+      "type": "object"
+    },
+    "DocumentType": {
+      "description": "Type of generated document.",
+      "enum": [
+        "cv",
+        "cover_letter"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    },
+    "DocumentValidationIssue": {
+      "additionalProperties": false,
+      "description": "Detailed factual or structural finding with full traceability.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "issue_id": {
+          "title": "Issue Id",
+          "type": "string"
+        },
+        "code": {
+          "pattern": "^[a-z][a-z0-9_]{0,47}$",
+          "title": "Code",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "fatal",
+            "warning"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "message": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        },
+        "document_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Document Path"
+        },
+        "section_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Section Id"
+        },
+        "entry_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Entry Id"
+        },
+        "claim_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Claim Id"
+        },
+        "block_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Block Id"
+        },
+        "evidence_reference": {
+          "anyOf": [
+            {
+              "discriminator": {
+                "mapping": {
+                  "candidate": "#/$defs/CandidateEvidenceReference",
+                  "job": "#/$defs/JobEvidenceReference"
+                },
+                "propertyName": "source_kind"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/CandidateEvidenceReference"
+                },
+                {
+                  "$ref": "#/$defs/JobEvidenceReference"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Reference"
+        },
+        "source_field": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Field"
+        },
+        "inherited_from": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Inherited From"
+        },
+        "review_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Review Reason"
+        },
+        "suggested_action": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Suggested Action"
+        },
+        "requires_human_review": {
+          "const": true,
+          "default": true,
+          "title": "Requires Human Review",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "code",
+        "severity",
+        "message"
+      ],
+      "title": "DocumentValidationIssue",
+      "type": "object"
+    },
+    "JobEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing a specific job posting requirement or statement.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "job",
+          "default": "job",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "posting_revision": {
+          "description": "Content hash or revision ID of the posting",
+          "minLength": 1,
+          "title": "Posting Revision",
+          "type": "string"
+        },
+        "field_path": {
+          "description": "Path to the cited field (e.g. 'description', 'requirements')",
+          "minLength": 1,
+          "title": "Field Path",
+          "type": "string"
+        },
+        "quotation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Direct supporting quotation from the source text",
+          "title": "Quotation"
+        },
+        "source_span": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceSpan"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Character offsets of the cited passage in the field"
+        }
+      },
+      "required": [
+        "posting_revision",
+        "field_path"
+      ],
+      "title": "JobEvidenceReference",
+      "type": "object"
+    },
+    "RuleOutcome": {
+      "additionalProperties": false,
+      "description": "Outcome of evaluating a single validation rule.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "checked",
+            "not_applicable",
+            "not_checked"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        }
+      },
+      "required": [
+        "rule_id",
+        "status"
+      ],
+      "title": "RuleOutcome",
+      "type": "object"
+    },
+    "SourceSpan": {
+      "additionalProperties": false,
+      "description": "Character offsets within a source field.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "start": {
+          "description": "0-based start character index",
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "description": "0-based end character index (exclusive)",
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "SourceSpan",
+      "type": "object"
+    },
+    "ValidationInputBinding": {
+      "additionalProperties": false,
+      "description": "Verified input binding tying the draft to exact upstream frozen receipts.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "candidate_id": {
+          "format": "uuid",
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "canonical_job_id": {
+          "format": "uuid",
+          "title": "Canonical Job Id",
+          "type": "string"
+        },
+        "draft_id": {
+          "format": "uuid",
+          "title": "Draft Id",
+          "type": "string"
+        },
+        "draft_version": {
+          "title": "Draft Version",
+          "type": "string"
+        },
+        "draft_schema_version": {
+          "title": "Draft Schema Version",
+          "type": "string"
+        },
+        "draft_hash": {
+          "title": "Draft Hash",
+          "type": "string"
+        },
+        "receipt_id": {
+          "format": "uuid",
+          "title": "Receipt Id",
+          "type": "string"
+        },
+        "receipt_hash": {
+          "title": "Receipt Hash",
+          "type": "string"
+        },
+        "seal_id": {
+          "title": "Seal Id",
+          "type": "string"
+        },
+        "seal_hash": {
+          "title": "Seal Hash",
+          "type": "string"
+        },
+        "manifest_id": {
+          "title": "Manifest Id",
+          "type": "string"
+        },
+        "manifest_hash": {
+          "title": "Manifest Hash",
+          "type": "string"
+        },
+        "profile_version": {
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "profile_snapshot_digest": {
+          "title": "Profile Snapshot Digest",
+          "type": "string"
+        },
+        "posting_revision_id": {
+          "format": "uuid",
+          "title": "Posting Revision Id",
+          "type": "string"
+        },
+        "posting_revision_hash": {
+          "title": "Posting Revision Hash",
+          "type": "string"
+        },
+        "context_receipt_id": {
+          "format": "uuid",
+          "title": "Context Receipt Id",
+          "type": "string"
+        },
+        "context_hash": {
+          "title": "Context Hash",
+          "type": "string"
+        },
+        "admitted_fact_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Admitted Fact Ids",
+          "type": "array"
+        },
+        "document_type": {
+          "$ref": "#/$defs/DocumentType"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        },
+        "target_language": {
+          "enum": [
+            "de",
+            "en"
+          ],
+          "title": "Target Language",
+          "type": "string"
+        },
+        "template_id": {
+          "title": "Template Id",
+          "type": "string"
+        },
+        "template_version": {
+          "title": "Template Version",
+          "type": "string"
+        },
+        "template_content_digest": {
+          "title": "Template Content Digest",
+          "type": "string"
+        },
+        "rule_set_id": {
+          "title": "Rule Set Id",
+          "type": "string"
+        },
+        "rule_set_version": {
+          "title": "Rule Set Version",
+          "type": "string"
+        },
+        "rule_set_digest": {
+          "title": "Rule Set Digest",
+          "type": "string"
+        },
+        "binding_hash": {
+          "title": "Binding Hash",
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "candidate_id",
+        "canonical_job_id",
+        "draft_id",
+        "draft_version",
+        "draft_schema_version",
+        "draft_hash",
+        "receipt_id",
+        "receipt_hash",
+        "seal_id",
+        "seal_hash",
+        "manifest_id",
+        "manifest_hash",
+        "profile_version",
+        "profile_snapshot_digest",
+        "posting_revision_id",
+        "posting_revision_hash",
+        "context_receipt_id",
+        "context_hash",
+        "document_type",
+        "purpose",
+        "target_language",
+        "template_id",
+        "template_version",
+        "template_content_digest",
+        "rule_set_id",
+        "rule_set_version",
+        "rule_set_digest",
+        "binding_hash"
+      ],
+      "title": "ValidationInputBinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Immutable durable report from GEN-04 validation.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "report_id": {
+      "format": "uuid",
+      "title": "Report Id",
+      "type": "string"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "draft_id": {
+      "format": "uuid",
+      "title": "Draft Id",
+      "type": "string"
+    },
+    "validated_draft_hash": {
+      "title": "Validated Draft Hash",
+      "type": "string"
+    },
+    "input_binding": {
+      "$ref": "#/$defs/ValidationInputBinding"
+    },
+    "validator_version": {
+      "title": "Validator Version",
+      "type": "string"
+    },
+    "rule_set_id": {
+      "title": "Rule Set Id",
+      "type": "string"
+    },
+    "rule_outcomes": {
+      "additionalProperties": {
+        "$ref": "#/$defs/RuleOutcome"
+      },
+      "title": "Rule Outcomes",
+      "type": "object"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/DocumentValidationIssue"
+      },
+      "title": "Issues",
+      "type": "array"
+    },
+    "fatal_count": {
+      "minimum": 0,
+      "title": "Fatal Count",
+      "type": "integer"
+    },
+    "warning_count": {
+      "minimum": 0,
+      "title": "Warning Count",
+      "type": "integer"
+    },
+    "evaluation_status": {
+      "enum": [
+        "complete",
+        "incomplete"
+      ],
+      "title": "Evaluation Status",
+      "type": "string"
+    },
+    "render_decision": {
+      "enum": [
+        "blocked",
+        "allowed_for_review"
+      ],
+      "title": "Render Decision",
+      "type": "string"
+    },
+    "requires_human_review": {
+      "const": true,
+      "default": true,
+      "title": "Requires Human Review",
+      "type": "boolean"
+    },
+    "semantic_limits_notice": {
+      "default": "Source references and code checks verify traceability to supplied inputs. They do not certify real-world accuracy, factual completeness, or that generated sentences are entailed by their sources. Structural excerpts may omit surrounding qualifications or imply unintended causality. Human semantic review remains mandatory before document approval or use.",
+      "maxLength": 4000,
+      "minLength": 1,
+      "title": "Semantic Limits Notice",
+      "type": "string"
+    },
+    "completed_at": {
+      "format": "date-time",
+      "title": "Completed At",
+      "type": "string"
+    },
+    "report_hash": {
+      "title": "Report Hash",
+      "type": "string"
+    }
+  },
+  "required": [
+    "request_id",
+    "draft_id",
+    "validated_draft_hash",
+    "input_binding",
+    "validator_version",
+    "rule_set_id",
+    "rule_outcomes",
+    "fatal_count",
+    "warning_count",
+    "evaluation_status",
+    "render_decision",
+    "completed_at",
+    "report_hash"
+  ],
+  "title": "DocumentValidationReport",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/document_validation_report.schema.json"
+}

@@ -1,0 +1,455 @@
+{
+  "$defs": {
+    "CandidateEligibility": {
+      "additionalProperties": false,
+      "description": "Explicit eligibility facts confirmed by the candidate.\n\nDistinct from desired job preferences. An absent proficiency is unknown,\nnot absent capability.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "work_authorization_countries": {
+          "description": "ISO 3166-1 alpha-2 country codes where candidate is authorized to work",
+          "items": {
+            "type": "string"
+          },
+          "title": "Work Authorization Countries",
+          "type": "array"
+        },
+        "target_locations": {
+          "description": "Locations candidate is eligible/willing to work in",
+          "items": {
+            "type": "string"
+          },
+          "title": "Target Locations",
+          "type": "array"
+        },
+        "remote_eligible": {
+          "default": true,
+          "description": "Whether candidate is eligible for remote work",
+          "title": "Remote Eligible",
+          "type": "boolean"
+        },
+        "min_salary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MoneyAmount"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Minimum acceptable compensation; null means unspecified/unknown"
+        },
+        "language_proficiencies": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Language codes (e.g. 'de', 'en') mapped to CEFR levels (e.g. 'C1', 'B2') or descriptions",
+          "title": "Language Proficiencies",
+          "type": "object"
+        }
+      },
+      "title": "CandidateEligibility",
+      "type": "object"
+    },
+    "CandidateFact": {
+      "additionalProperties": false,
+      "description": "Individual approved evidence record.\n\nTraced to specific parent roles/projects, dated with explicit precision,\nand tagged with allowed uses (e.g. cv, cover_letter, assessment).",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "Unique ID for this candidate fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/EvidenceFactKind",
+          "description": "Category of evidence fact"
+        },
+        "parent_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Parent role or project ID if hierarchical",
+          "title": "Parent Id"
+        },
+        "title": {
+          "description": "Fact headline (e.g. role title or degree)",
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "organization": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Employer, institution, or client organization",
+          "title": "Organization"
+        },
+        "start_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Start date with explicit precision"
+        },
+        "end_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "End date with explicit precision; null if ongoing/present"
+        },
+        "claims": {
+          "description": "Specific factual claims / accomplishments",
+          "items": {
+            "type": "string"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "skills": {
+          "description": "Demonstrated skills / technologies",
+          "items": {
+            "type": "string"
+          },
+          "title": "Skills",
+          "type": "array"
+        },
+        "metrics": {
+          "description": "Verified quantitative metrics / achievements",
+          "items": {
+            "type": "string"
+          },
+          "title": "Metrics",
+          "type": "array"
+        },
+        "provenance": {
+          "description": "Source reference (e.g. 'contract-2023', 'cv_v2_import')",
+          "minLength": 1,
+          "title": "Provenance",
+          "type": "string"
+        },
+        "allowed_uses": {
+          "description": "Permitted contexts for this fact",
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed Uses",
+          "type": "array"
+        }
+      },
+      "required": [
+        "fact_id",
+        "kind",
+        "title",
+        "provenance"
+      ],
+      "title": "CandidateFact",
+      "type": "object"
+    },
+    "EvidenceFactKind": {
+      "description": "Kind of candidate evidence fact.",
+      "enum": [
+        "employment",
+        "education",
+        "certification",
+        "skill",
+        "language",
+        "project",
+        "publication",
+        "award",
+        "volunteer",
+        "other"
+      ],
+      "title": "EvidenceFactKind",
+      "type": "string"
+    },
+    "MoneyAmount": {
+      "additionalProperties": false,
+      "description": "Monetary amount with explicit currency.\n\nA null amount means unknown, not zero. An explicit zero means zero.\nCurrency uses ISO 4217 three-letter codes.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "Monetary value; null at parent level means unknown",
+          "title": "Amount"
+        },
+        "currency": {
+          "description": "ISO 4217 currency code",
+          "maxLength": 3,
+          "minLength": 3,
+          "pattern": "^[A-Z]{3}$",
+          "title": "Currency",
+          "type": "string"
+        }
+      },
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "title": "MoneyAmount",
+      "type": "object"
+    },
+    "PrecisionDate": {
+      "additionalProperties": false,
+      "description": "Date with explicit precision: day, month, or year.\n\nMonth precision '2021-05' stays as-is; no day is fabricated.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "value": {
+          "description": "ISO date string matching the precision",
+          "title": "Value",
+          "type": "string"
+        },
+        "precision": {
+          "enum": [
+            "day",
+            "month",
+            "year"
+          ],
+          "title": "Precision",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "precision"
+      ],
+      "title": "PrecisionDate",
+      "type": "object"
+    },
+    "ProfileApprovalMetadata": {
+      "additionalProperties": false,
+      "description": "Metadata recording human approval of the candidate profile.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "is_approved": {
+          "description": "Whether this profile snapshot is approved for use",
+          "title": "Is Approved",
+          "type": "boolean"
+        },
+        "approved_by": {
+          "description": "Identity of the approver (candidate)",
+          "minLength": 1,
+          "title": "Approved By",
+          "type": "string"
+        },
+        "approved_at": {
+          "description": "UTC timestamp of approval",
+          "format": "date-time",
+          "title": "Approved At",
+          "type": "string"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional approval notes or version summary",
+          "title": "Notes"
+        }
+      },
+      "required": [
+        "is_approved",
+        "approved_by",
+        "approved_at"
+      ],
+      "title": "ProfileApprovalMetadata",
+      "type": "object"
+    },
+    "ProfileSnapshot": {
+      "additionalProperties": false,
+      "description": "C01 Candidate Profile Snapshot.\n\nImmutable snapshot of candidate facts and explicit eligibility.\nBoth context strategies consume this exact approved snapshot.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "candidate_id": {
+          "description": "Persistent candidate UUID",
+          "format": "uuid",
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Version string for this snapshot",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "approval_metadata": {
+          "$ref": "#/$defs/ProfileApprovalMetadata"
+        },
+        "explicit_eligibility": {
+          "$ref": "#/$defs/CandidateEligibility"
+        },
+        "evidence_records": {
+          "description": "List of approved candidate evidence facts",
+          "items": {
+            "$ref": "#/$defs/CandidateFact"
+          },
+          "title": "Evidence Records",
+          "type": "array"
+        }
+      },
+      "required": [
+        "candidate_id",
+        "profile_version",
+        "approval_metadata",
+        "explicit_eligibility"
+      ],
+      "title": "ProfileSnapshot",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Exact approved candidate profile facts, approval metadata, and purpose permissions.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "candidate_id": {
+      "format": "uuid",
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "profile_version": {
+      "minLength": 1,
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "snapshot": {
+      "$ref": "#/$defs/ProfileSnapshot"
+    },
+    "approved_by": {
+      "minLength": 1,
+      "title": "Approved By",
+      "type": "string"
+    },
+    "approved_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Approved At",
+      "type": "string"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    },
+    "purpose": {
+      "minLength": 1,
+      "title": "Purpose",
+      "type": "string"
+    },
+    "inclusion_rule_version": {
+      "default": "v1",
+      "title": "Inclusion Rule Version",
+      "type": "string"
+    },
+    "mandatory_policy_version": {
+      "default": "v1",
+      "title": "Mandatory Policy Version",
+      "type": "string"
+    },
+    "explicit_mandatory_fact_ids": {
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Explicit Mandatory Fact Ids",
+      "type": "array"
+    },
+    "eligible_fact_ids": {
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Eligible Fact Ids",
+      "type": "array"
+    },
+    "snapshot_digest": {
+      "minLength": 1,
+      "title": "Snapshot Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "candidate_id",
+    "profile_version",
+    "snapshot",
+    "approved_by",
+    "approved_at",
+    "purpose",
+    "snapshot_digest"
+  ],
+  "title": "FrozenProfileSnapshot",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/frozen_profile_snapshot.schema.json"
+}

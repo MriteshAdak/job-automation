@@ -1,0 +1,69 @@
+{
+  "additionalProperties": false,
+  "description": "Summary of a single HTTP attempt during a gateway operation.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "attempt_number": {
+      "description": "1-based attempt sequence index",
+      "minimum": 1,
+      "title": "Attempt Number",
+      "type": "integer"
+    },
+    "purpose": {
+      "description": "Purpose of attempt (e.g. token_acquisition, resource_request)",
+      "title": "Purpose",
+      "type": "string"
+    },
+    "http_status": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "HTTP response status code if response received",
+      "title": "Http Status"
+    },
+    "duration_ms": {
+      "description": "Observed roundtrip duration in milliseconds",
+      "minimum": 0.0,
+      "title": "Duration Ms",
+      "type": "number"
+    },
+    "safe_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Allowlisted safe status/error code",
+      "title": "Safe Code"
+    },
+    "uncertain_transmission": {
+      "default": false,
+      "description": "Whether request transmission to Salesforce was uncertain (e.g. timeout after send)",
+      "title": "Uncertain Transmission",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "attempt_number",
+    "purpose",
+    "duration_ms"
+  ],
+  "title": "AttemptSummary",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_attempt_summary.schema.json"
+}

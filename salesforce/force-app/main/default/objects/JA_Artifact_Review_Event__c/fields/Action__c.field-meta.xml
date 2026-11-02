@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Action__c</fullName>
+    <description>Review action executed: approve, approve_and_replace, or supersede (SF-07).</description>
+    <externalId>false</externalId>
+    <label>Action</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>approve</fullName>
+                <default>false</default>
+                <label>Approve</label>
+            </value>
+            <value>
+                <fullName>approve_and_replace</fullName>
+                <default>false</default>
+                <label>Approve and Replace</label>
+            </value>
+            <value>
+                <fullName>supersede</fullName>
+                <default>false</default>
+                <label>Supersede</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
+

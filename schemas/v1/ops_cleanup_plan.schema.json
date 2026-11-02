@@ -1,0 +1,173 @@
+{
+  "$defs": {
+    "CleanupCandidate": {
+      "additionalProperties": false,
+      "description": "A specific item selected for deletion in a cleanup plan.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "candidate_id": {
+          "description": "Item identifier",
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "root_relative_path": {
+          "description": "Path relative to deployment data root",
+          "title": "Root Relative Path",
+          "type": "string"
+        },
+        "item_class": {
+          "$ref": "#/$defs/ItemClass"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        },
+        "expected_hash": {
+          "title": "Expected Hash",
+          "type": "string"
+        },
+        "age_days": {
+          "minimum": 0.0,
+          "title": "Age Days",
+          "type": "number"
+        },
+        "cutoff_time": {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "title": "Cutoff Time",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidate_id",
+        "root_relative_path",
+        "item_class",
+        "size_bytes",
+        "expected_hash",
+        "age_days",
+        "cutoff_time",
+        "reason"
+      ],
+      "title": "CleanupCandidate",
+      "type": "object"
+    },
+    "ItemClass": {
+      "description": "Classification of managed data storage items.",
+      "enum": [
+        "raw_payload",
+        "profile_evidence",
+        "artifact",
+        "context_index",
+        "database",
+        "log",
+        "config",
+        "metadata",
+        "unknown"
+      ],
+      "title": "ItemClass",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Reviewable, immutable plan for deleting eligible expired unreferenced files.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "plan_id": {
+      "format": "uuid",
+      "title": "Plan Id",
+      "type": "string"
+    },
+    "created_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "expires_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Expires At",
+      "type": "string"
+    },
+    "store_fingerprint": {
+      "title": "Store Fingerprint",
+      "type": "string"
+    },
+    "policy_fingerprint": {
+      "title": "Policy Fingerprint",
+      "type": "string"
+    },
+    "plan_hash": {
+      "title": "Plan Hash",
+      "type": "string"
+    },
+    "cutoff_time": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Cutoff Time",
+      "type": "string"
+    },
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/CleanupCandidate"
+      },
+      "title": "Candidates",
+      "type": "array"
+    },
+    "protected_items_count": {
+      "minimum": 0,
+      "title": "Protected Items Count",
+      "type": "integer"
+    },
+    "blocked_items_count": {
+      "minimum": 0,
+      "title": "Blocked Items Count",
+      "type": "integer"
+    },
+    "protected_by_class": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Protected By Class",
+      "type": "object"
+    },
+    "estimated_reclaim_bytes": {
+      "minimum": 0,
+      "title": "Estimated Reclaim Bytes",
+      "type": "integer"
+    },
+    "status": {
+      "default": "planned",
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "created_at",
+    "expires_at",
+    "store_fingerprint",
+    "policy_fingerprint",
+    "plan_hash",
+    "cutoff_time",
+    "protected_items_count",
+    "blocked_items_count",
+    "estimated_reclaim_bytes"
+  ],
+  "title": "CleanupPlan",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/ops_cleanup_plan.schema.json"
+}

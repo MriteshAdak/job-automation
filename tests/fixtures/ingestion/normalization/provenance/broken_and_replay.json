@@ -1,0 +1,16 @@
+{
+  "name": "broken_and_replay",
+  "cases": [
+    {
+      "type": "unresolved_ref",
+      "raw_reference": "memory://missing_ref",
+      "expected_code": "raw_reference_unresolved"
+    },
+    {
+      "type": "hash_mismatch",
+      "raw_reference": "memory://mismatch_ref",
+      "expected_code": "raw_hash_mismatch"
+    }
+  ]
+}
+

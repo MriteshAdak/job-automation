@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Completed_At_Not_Before_Claimed</fullName>
+    <active>true</active>
+    <description>Ensures Completed At is not earlier than Worker Claimed At when both are present.</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(Completed_At__c)), NOT(ISBLANK(Worker_Claimed_At__c)), Completed_At__c &lt; Worker_Claimed_At__c)</errorConditionFormula>
+    <errorDisplayField>Completed_At__c</errorDisplayField>
+    <errorMessage>Completed At cannot be earlier than Worker Claimed At.</errorMessage>
+</ValidationRule>
+

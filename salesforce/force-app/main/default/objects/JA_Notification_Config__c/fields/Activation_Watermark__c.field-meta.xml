@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activation_Watermark__c</fullName>
+    <description>Activation watermark suppressing retrospective notification dispatch for prior requests (SF-08).</description>
+    <externalId>false</externalId>
+    <label>Activation Watermark</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>DateTime</type>
+</CustomField>
+

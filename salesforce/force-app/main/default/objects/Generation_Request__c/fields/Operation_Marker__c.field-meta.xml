@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Operation_Marker__c</fullName>
+    <description>Operation token for projection reconciliation and lost-response deduplication.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Worker operation token.</inlineHelpText>
+    <label>Operation Marker</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
+

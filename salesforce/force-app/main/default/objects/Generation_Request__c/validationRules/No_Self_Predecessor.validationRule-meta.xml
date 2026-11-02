@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_Self_Predecessor</fullName>
+    <active>true</active>
+    <description>Prevents a request from referencing itself as its predecessor.</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(Predecessor_Request__c)), Predecessor_Request__c = Id)</errorConditionFormula>
+    <errorDisplayField>Predecessor_Request__c</errorDisplayField>
+    <errorMessage>A generation request cannot reference itself as its predecessor.</errorMessage>
+</ValidationRule>
+

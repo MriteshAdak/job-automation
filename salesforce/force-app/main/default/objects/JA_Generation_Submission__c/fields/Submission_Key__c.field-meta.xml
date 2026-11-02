@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Submission_Key__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <description>Unique deterministic submission key (UserId:Token) to detect identical intent replays and enforce concurrency limits (SF-06).</description>
+    <externalId>true</externalId>
+    <label>Submission Key</label>
+    <length>255</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>
+

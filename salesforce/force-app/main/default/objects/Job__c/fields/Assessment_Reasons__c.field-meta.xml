@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assessment_Reasons__c</fullName>
+    <description>Machine-generated assessment summary and criteria reasoning from C11 Assessment contract.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Summary of matching criteria and evaluation reasons.</inlineHelpText>
+    <label>Assessment Reasons</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>6</visibleLines>
+</CustomField>
+

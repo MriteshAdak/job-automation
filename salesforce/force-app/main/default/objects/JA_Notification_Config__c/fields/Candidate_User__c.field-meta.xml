@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Candidate_User__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Explicit candidate User designated to receive generation notifications (SF-08).</description>
+    <externalId>false</externalId>
+    <label>Candidate User</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Notification_Configs</relationshipName>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Lookup</type>
+</CustomField>
+

@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "run_id": "33333333-3333-4333-8333-333333333333",
+  "source_key": "arbeitnow_de",
+  "scope_id": "tech-jobs",
+  "start_time": "2026-10-27T10:00:00+00:00",
+  "end_time": "2026-10-27T10:02:00+00:00",
+  "cursor_in": null,
+  "cursor_out": "page_2",
+  "page_count": 1,
+  "raw_response_refs": [
+    "raw/run_1_page_1.json"
+  ],
+  "observed_posting_identities": [
+    "post-101",
+    "post-102"
+  ],
+  "outcome": "complete",
+  "inventory_semantics": "filtered_feed",
+  "error": null
+}

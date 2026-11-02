@@ -1,0 +1,100 @@
+{
+  "candidate_id": "11111111-1111-4111-8111-111111111111",
+  "base_profile_version": "v1",
+  "proposed_eligibility": {
+    "work_authorization_countries": ["DE", "AT"],
+    "target_locations": ["Berlin", "Remote"],
+    "remote_eligible": true,
+    "language_proficiencies": {
+      "de": "C1",
+      "en": "C2"
+    }
+  },
+  "facts": [
+    {
+      "fact_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "kind": "employment",
+      "parent_id": null,
+      "title": "Lead Python Architect (Corrected Title)",
+      "organization": "Synthetic Tech GmbH",
+      "start_date": {
+        "value": "2021-05",
+        "precision": "month"
+      },
+      "end_date": null,
+      "is_ongoing": true,
+      "claims": [
+        "Architected scalable data processing services across Germany",
+        "Implemented atomic persistence layer in SQLite with WAL mode"
+      ],
+      "skills": [
+        "Python",
+        "SQLite",
+        "FastAPI",
+        "Docker"
+      ],
+      "metrics": [
+        "Processed 20k events/sec with sub-5ms p95 latency"
+      ],
+      "provenance": "synthetic_contract_amendment_2023.pdf",
+      "allowed_uses": [
+        "cv",
+        "cover_letter",
+        "assessment"
+      ]
+    },
+    {
+      "fact_id": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+      "kind": "project",
+      "parent_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "title": "Job Search Automation Project",
+      "organization": "Synthetic Tech GmbH",
+      "start_date": {
+        "value": "2023-01",
+        "precision": "month"
+      },
+      "end_date": {
+        "value": "2024-06",
+        "precision": "month"
+      },
+      "is_ongoing": false,
+      "claims": [
+        "Confidential research project — restricted from assessment"
+      ],
+      "skills": [
+        "Python",
+        "Pydantic"
+      ],
+      "metrics": [],
+      "provenance": "synthetic_project_repo",
+      "allowed_uses": []
+    },
+    {
+      "fact_id": "cccccccc-cccc-4ccc-8ccc-cccccccccccc",
+      "kind": "certification",
+      "parent_id": null,
+      "title": "Certified Cloud Solutions Architect",
+      "organization": "Cloud Provider Certification",
+      "start_date": {
+        "value": "2023-09-15",
+        "precision": "day"
+      },
+      "end_date": null,
+      "claims": [
+        "Passed professional architecture certification"
+      ],
+      "skills": [
+        "Cloud Architecture"
+      ],
+      "metrics": [],
+      "provenance": "cert_verification_2023",
+      "allowed_uses": [
+        "cv",
+        "assessment"
+      ]
+    }
+  ],
+  "provenance_records": [],
+  "notes": "Synthetic correction draft fixture based on v1"
+}
+

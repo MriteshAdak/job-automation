@@ -1,0 +1,8 @@
+{
+  "model": "llama3:8b-instruct-q4_K_M",
+  "created_at": "2026-10-28T12:00:00Z",
+  "response": "```json\n{\"assessment_id\": \"11111111-1111-4111-8111-111111111111\"}\n```\nHere is your assessment.",
+  "done": true,
+  "done_reason": "stop"
+}
+

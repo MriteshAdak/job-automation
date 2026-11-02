@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Lookup relationship linking this job vacancy to its parent employer Company. Restricts deletion while referenced.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Parent company offering this position.</inlineHelpText>
+    <label>Company</label>
+    <referenceTo>Company__c</referenceTo>
+    <relationshipLabel>Jobs</relationshipLabel>
+    <relationshipName>Jobs</relationshipName>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Lookup</type>
+</CustomField>
+

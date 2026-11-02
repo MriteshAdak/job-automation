@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "policy-de-office-example-v1",
+  "regions": [
+    "DE"
+  ],
+  "role_aliases": {
+    "Projektmanager": [
+      "Project Manager",
+      "Projektleiter",
+      "Projektleiterin",
+      "IT Project Manager"
+    ],
+    "Teamassistent": [
+      "Team Assistant",
+      "Teamassistentin",
+      "Office Manager"
+    ]
+  },
+  "skill_aliases": {
+    "Scrum": [
+      "Agile Scrum",
+      "Scrum Framework"
+    ],
+    "Budgetierung": [
+      "Budgeting",
+      "Budget Planning",
+      "Finanzplanung"
+    ]
+  },
+  "hard_criteria": [
+    {
+      "criterion_id": "crit_office_location",
+      "name": "Location in Germany",
+      "field": "locations.country",
+      "operator": "equals",
+      "expected_value": "DE",
+      "on_missing": "unknown"
+    },
+    {
+      "criterion_id": "crit_employment",
+      "name": "Full-Time Position",
+      "field": "employment_type",
+      "operator": "equals",
+      "expected_value": "full_time",
+      "on_missing": "unknown"
+    }
+  ],
+  "preferences": [
+    {
+      "rule_id": "pref_office_workplace",
+      "name": "Hybrid or Remote Workplace",
+      "field": "workplace_type",
+      "weight": 0.7,
+      "preferred_values": [
+        "hybrid",
+        "remote"
+      ]
+    }
+  ],
+  "exclusions": [
+    "Zeitarbeit",
+    "Callcenter"
+  ],
+  "missing_information_behavior": {
+    "compensation": "unknown"
+  },
+  "relevance_configuration": {
+    "score_scale": "0-100",
+    "min_score_threshold": 65.0,
+    "broad_keywords": [
+      "Projektmanagement",
+      "Scrum",
+      "Koordination"
+    ],
+    "negative_keywords": [
+      "Praktikum",
+      "Unbezahlt"
+    ]
+  },
+  "primary_context_strategy": "rag"
+}
+

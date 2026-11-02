@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Action to launch the Generate CV screen Flow for the current Job (SF-06).</description>
+    <flowDefinition>JA_Generate_CV</flowDefinition>
+    <label>Generate CV</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>
+

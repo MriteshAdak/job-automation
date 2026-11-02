@@ -1,0 +1,77 @@
+{
+  "$defs": {
+    "DocumentType": {
+      "description": "Type of generated document.",
+      "enum": [
+        "cv",
+        "cover_letter"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Content specification requirements pinned for a template and document type.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "policy_id": {
+      "const": "gen04-extractive-v1",
+      "default": "gen04-extractive-v1",
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "template_id": {
+      "enum": [
+        "content-basic",
+        "content-compact"
+      ],
+      "title": "Template Id",
+      "type": "string"
+    },
+    "document_type": {
+      "$ref": "#/$defs/DocumentType"
+    },
+    "required_sections": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Required Sections",
+      "type": "array"
+    },
+    "allowed_optional_sections": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Optional Sections",
+      "type": "array"
+    },
+    "allowed_section_order": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Section Order",
+      "type": "array"
+    },
+    "policy_digest": {
+      "title": "Policy Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "template_id",
+    "document_type",
+    "required_sections",
+    "allowed_optional_sections",
+    "allowed_section_order",
+    "policy_digest"
+  ],
+  "title": "ValidationContentRequirements",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/validation_content_requirements.schema.json"
+}

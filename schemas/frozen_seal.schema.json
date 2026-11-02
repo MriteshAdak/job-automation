@@ -1,0 +1,1938 @@
+{
+  "$defs": {
+    "AvailabilityCheck": {
+      "additionalProperties": false,
+      "description": "Durable receipt of the authoritative availability check at the time of sealing.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "check_id": {
+          "format": "uuid",
+          "title": "Check Id",
+          "type": "string"
+        },
+        "canonical_job_id": {
+          "format": "uuid",
+          "title": "Canonical Job Id",
+          "type": "string"
+        },
+        "checked_at": {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "title": "Checked At",
+          "type": "string"
+        },
+        "canonical_availability": {
+          "$ref": "#/$defs/PostingAvailability"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "source_states": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Source States",
+          "type": "array"
+        },
+        "decision_outcome": {
+          "description": "'proceed', 'proceed_with_warning', or 'rejected'",
+          "title": "Decision Outcome",
+          "type": "string"
+        },
+        "allow_unavailable_job": {
+          "default": false,
+          "title": "Allow Unavailable Job",
+          "type": "boolean"
+        },
+        "override_applied": {
+          "default": false,
+          "title": "Override Applied",
+          "type": "boolean"
+        },
+        "override_provenance": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Override Provenance"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        },
+        "earliest_seen": {
+          "anyOf": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Earliest Seen"
+        },
+        "latest_seen": {
+          "anyOf": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Latest Seen"
+        },
+        "check_digest": {
+          "minLength": 1,
+          "title": "Check Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "canonical_job_id",
+        "checked_at",
+        "canonical_availability",
+        "explanation",
+        "decision_outcome",
+        "check_digest"
+      ],
+      "title": "AvailabilityCheck",
+      "type": "object"
+    },
+    "CandidateEligibility": {
+      "additionalProperties": false,
+      "description": "Explicit eligibility facts confirmed by the candidate.\n\nDistinct from desired job preferences. An absent proficiency is unknown,\nnot absent capability.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "work_authorization_countries": {
+          "description": "ISO 3166-1 alpha-2 country codes where candidate is authorized to work",
+          "items": {
+            "type": "string"
+          },
+          "title": "Work Authorization Countries",
+          "type": "array"
+        },
+        "target_locations": {
+          "description": "Locations candidate is eligible/willing to work in",
+          "items": {
+            "type": "string"
+          },
+          "title": "Target Locations",
+          "type": "array"
+        },
+        "remote_eligible": {
+          "default": true,
+          "description": "Whether candidate is eligible for remote work",
+          "title": "Remote Eligible",
+          "type": "boolean"
+        },
+        "min_salary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MoneyAmount"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Minimum acceptable compensation; null means unspecified/unknown"
+        },
+        "language_proficiencies": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Language codes (e.g. 'de', 'en') mapped to CEFR levels (e.g. 'C1', 'B2') or descriptions",
+          "title": "Language Proficiencies",
+          "type": "object"
+        }
+      },
+      "title": "CandidateEligibility",
+      "type": "object"
+    },
+    "CandidateFact": {
+      "additionalProperties": false,
+      "description": "Individual approved evidence record.\n\nTraced to specific parent roles/projects, dated with explicit precision,\nand tagged with allowed uses (e.g. cv, cover_letter, assessment).",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "Unique ID for this candidate fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/EvidenceFactKind",
+          "description": "Category of evidence fact"
+        },
+        "parent_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Parent role or project ID if hierarchical",
+          "title": "Parent Id"
+        },
+        "title": {
+          "description": "Fact headline (e.g. role title or degree)",
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "organization": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Employer, institution, or client organization",
+          "title": "Organization"
+        },
+        "start_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Start date with explicit precision"
+        },
+        "end_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "End date with explicit precision; null if ongoing/present"
+        },
+        "claims": {
+          "description": "Specific factual claims / accomplishments",
+          "items": {
+            "type": "string"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "skills": {
+          "description": "Demonstrated skills / technologies",
+          "items": {
+            "type": "string"
+          },
+          "title": "Skills",
+          "type": "array"
+        },
+        "metrics": {
+          "description": "Verified quantitative metrics / achievements",
+          "items": {
+            "type": "string"
+          },
+          "title": "Metrics",
+          "type": "array"
+        },
+        "provenance": {
+          "description": "Source reference (e.g. 'contract-2023', 'cv_v2_import')",
+          "minLength": 1,
+          "title": "Provenance",
+          "type": "string"
+        },
+        "allowed_uses": {
+          "description": "Permitted contexts for this fact",
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed Uses",
+          "type": "array"
+        }
+      },
+      "required": [
+        "fact_id",
+        "kind",
+        "title",
+        "provenance"
+      ],
+      "title": "CandidateFact",
+      "type": "object"
+    },
+    "CompensationProvenance": {
+      "description": "Origin of compensation data.",
+      "enum": [
+        "employer_provided",
+        "estimated",
+        "unknown"
+      ],
+      "title": "CompensationProvenance",
+      "type": "string"
+    },
+    "ContextStrategy": {
+      "description": "Context construction strategy for candidate evidence.",
+      "enum": [
+        "json",
+        "rag"
+      ],
+      "title": "ContextStrategy",
+      "type": "string"
+    },
+    "DocumentType": {
+      "description": "Type of generated document.",
+      "enum": [
+        "cv",
+        "cover_letter"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    },
+    "EmbeddingConfiguration": {
+      "additionalProperties": false,
+      "description": "Measured embedding model configuration, dimensions, and execution parameters.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "configuration_version": {
+          "default": "v1",
+          "title": "Configuration Version",
+          "type": "string"
+        },
+        "model_identifier": {
+          "description": "Model identifier or tag (e.g. nomic-embed-text)",
+          "minLength": 1,
+          "title": "Model Identifier",
+          "type": "string"
+        },
+        "dimension": {
+          "description": "Embedding vector dimension",
+          "exclusiveMinimum": 0,
+          "title": "Dimension",
+          "type": "integer"
+        },
+        "model_digest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Immutable SHA-256 digest of model weights/manifest if verified",
+          "title": "Model Digest"
+        },
+        "expected_digest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Expected model digest configured for drift detection",
+          "title": "Expected Digest"
+        },
+        "verification_provenance": {
+          "default": "model_02_recommendation",
+          "description": "Origin of verification (e.g. 'model_02_recommendation', 'synthetic_fake')",
+          "title": "Verification Provenance",
+          "type": "string"
+        },
+        "runtime_version": {
+          "default": "1.0",
+          "minLength": 1,
+          "title": "Runtime Version",
+          "type": "string"
+        },
+        "provider_version": {
+          "default": "1.0",
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "document_prefix": {
+          "default": "",
+          "description": "Prefix prepended to document chunks before embedding (e.g. 'search_document: ')",
+          "title": "Document Prefix",
+          "type": "string"
+        },
+        "query_prefix": {
+          "default": "",
+          "description": "Prefix prepended to query text before embedding (e.g. 'search_query: ')",
+          "title": "Query Prefix",
+          "type": "string"
+        },
+        "output_affecting_options": {
+          "additionalProperties": true,
+          "description": "Options that affect numerical embedding output",
+          "title": "Output Affecting Options",
+          "type": "object"
+        },
+        "measurement_method": {
+          "default": "character_ratio",
+          "description": "Tokenizer or estimator method used for input measurement",
+          "title": "Measurement Method",
+          "type": "string"
+        },
+        "max_input_tokens": {
+          "default": 512,
+          "description": "Maximum tokens per single text chunk",
+          "exclusiveMinimum": 0,
+          "title": "Max Input Tokens",
+          "type": "integer"
+        },
+        "max_batch_items": {
+          "default": 32,
+          "description": "Maximum items per embedding API call",
+          "exclusiveMinimum": 0,
+          "title": "Max Batch Items",
+          "type": "integer"
+        },
+        "max_batch_bytes": {
+          "default": 1048576,
+          "description": "Maximum combined UTF-8 bytes per embedding batch",
+          "exclusiveMinimum": 0,
+          "title": "Max Batch Bytes",
+          "type": "integer"
+        },
+        "model_02_report_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference identifier or file path of MODEL-02 benchmark report",
+          "title": "Model 02 Report Ref"
+        },
+        "model_02_report_hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "SHA-256 content hash of MODEL-02 benchmark report",
+          "title": "Model 02 Report Hash"
+        }
+      },
+      "required": [
+        "model_identifier",
+        "dimension"
+      ],
+      "title": "EmbeddingConfiguration",
+      "type": "object"
+    },
+    "EmploymentType": {
+      "description": "Employment arrangement type.",
+      "enum": [
+        "full_time",
+        "part_time",
+        "contract",
+        "internship",
+        "temporary",
+        "unknown"
+      ],
+      "title": "EmploymentType",
+      "type": "string"
+    },
+    "EvidenceFactKind": {
+      "description": "Kind of candidate evidence fact.",
+      "enum": [
+        "employment",
+        "education",
+        "certification",
+        "skill",
+        "language",
+        "project",
+        "publication",
+        "award",
+        "volunteer",
+        "other"
+      ],
+      "title": "EvidenceFactKind",
+      "type": "string"
+    },
+    "FreezeManifest": {
+      "additionalProperties": false,
+      "description": "Immutable input snapshot manifest prepared by GEN-02.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "manifest_id": {
+          "minLength": 1,
+          "title": "Manifest Id",
+          "type": "string"
+        },
+        "manifest_hash": {
+          "minLength": 1,
+          "title": "Manifest Hash",
+          "type": "string"
+        },
+        "canonical_job_id": {
+          "format": "uuid",
+          "title": "Canonical Job Id",
+          "type": "string"
+        },
+        "posting_revision_id": {
+          "minLength": 1,
+          "title": "Posting Revision Id",
+          "type": "string"
+        },
+        "posting_revision_hash": {
+          "minLength": 1,
+          "title": "Posting Revision Hash",
+          "type": "string"
+        },
+        "profile_version": {
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "policy_version": {
+          "minLength": 1,
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "template_id": {
+          "minLength": 1,
+          "title": "Template Id",
+          "type": "string"
+        },
+        "template_version": {
+          "minLength": 1,
+          "title": "Template Version",
+          "type": "string"
+        },
+        "context_strategy": {
+          "$ref": "#/$defs/ContextStrategy",
+          "default": "json"
+        },
+        "target_language": {
+          "default": "de",
+          "title": "Target Language",
+          "type": "string"
+        },
+        "options_digest": {
+          "minLength": 1,
+          "title": "Options Digest",
+          "type": "string"
+        },
+        "availability_status": {
+          "default": "active",
+          "title": "Availability Status",
+          "type": "string"
+        },
+        "allow_unavailable_job": {
+          "default": false,
+          "title": "Allow Unavailable Job",
+          "type": "boolean"
+        },
+        "frozen_at": {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "title": "Frozen At",
+          "type": "string"
+        },
+        "snapshot_refs": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Snapshot Refs",
+          "type": "object"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "manifest_id",
+        "manifest_hash",
+        "canonical_job_id",
+        "posting_revision_id",
+        "posting_revision_hash",
+        "profile_version",
+        "policy_version",
+        "template_id",
+        "template_version",
+        "options_digest",
+        "frozen_at"
+      ],
+      "title": "FreezeManifest",
+      "type": "object"
+    },
+    "FrozenContextRecipe": {
+      "additionalProperties": false,
+      "description": "Frozen context assembly recipe, instructions, model parameters, and RAG configuration.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "recipe_id": {
+          "minLength": 1,
+          "title": "Recipe Id",
+          "type": "string"
+        },
+        "recipe_version": {
+          "default": "v1",
+          "title": "Recipe Version",
+          "type": "string"
+        },
+        "instruction_text": {
+          "default": "",
+          "title": "Instruction Text",
+          "type": "string"
+        },
+        "output_schema_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Output Schema Text"
+        },
+        "requirements": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Requirements",
+          "type": "array"
+        },
+        "requirements_extraction_hash": {
+          "minLength": 1,
+          "title": "Requirements Extraction Hash",
+          "type": "string"
+        },
+        "model_identifier": {
+          "minLength": 1,
+          "title": "Model Identifier",
+          "type": "string"
+        },
+        "context_limit": {
+          "exclusiveMinimum": 0,
+          "title": "Context Limit",
+          "type": "integer"
+        },
+        "output_reserve": {
+          "default": 512,
+          "minimum": 0,
+          "title": "Output Reserve",
+          "type": "integer"
+        },
+        "safety_allowance": {
+          "default": 64,
+          "minimum": 0,
+          "title": "Safety Allowance",
+          "type": "integer"
+        },
+        "require_exact_measurement": {
+          "default": false,
+          "title": "Require Exact Measurement",
+          "type": "boolean"
+        },
+        "builder_version": {
+          "default": "v1",
+          "title": "Builder Version",
+          "type": "string"
+        },
+        "serialization_version": {
+          "default": "v1",
+          "title": "Serialization Version",
+          "type": "string"
+        },
+        "inclusion_rule_version": {
+          "default": "v1",
+          "title": "Inclusion Rule Version",
+          "type": "string"
+        },
+        "mandatory_policy_version": {
+          "default": "v1",
+          "title": "Mandatory Policy Version",
+          "type": "string"
+        },
+        "template_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Template Name"
+        },
+        "chat_template_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Chat Template Version"
+        },
+        "retrieval_settings": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RetrievalSettings"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "embedding_config": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EmbeddingConfiguration"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "recipe_digest": {
+          "minLength": 1,
+          "title": "Recipe Digest",
+          "type": "string"
+        },
+        "content_recipe_json": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content Recipe Json"
+        }
+      },
+      "required": [
+        "recipe_id",
+        "requirements_extraction_hash",
+        "model_identifier",
+        "context_limit",
+        "recipe_digest"
+      ],
+      "title": "FrozenContextRecipe",
+      "type": "object"
+    },
+    "FrozenGenerationOptions": {
+      "additionalProperties": false,
+      "description": "Canonicalized and validated generation options frozen at request acceptance.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "document_type": {
+          "$ref": "#/$defs/DocumentType"
+        },
+        "purpose": {
+          "description": "Derived document purpose ('cv' or 'cover_letter')",
+          "title": "Purpose",
+          "type": "string"
+        },
+        "target_language": {
+          "default": "de",
+          "title": "Target Language",
+          "type": "string"
+        },
+        "template_id": {
+          "minLength": 1,
+          "title": "Template Id",
+          "type": "string"
+        },
+        "template_version": {
+          "minLength": 1,
+          "title": "Template Version",
+          "type": "string"
+        },
+        "template_content_digest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Template Content Digest"
+        },
+        "context_strategy": {
+          "$ref": "#/$defs/ContextStrategy",
+          "default": "json"
+        },
+        "allow_unavailable_job": {
+          "default": false,
+          "title": "Allow Unavailable Job",
+          "type": "boolean"
+        },
+        "override_provenance": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Override Provenance"
+        },
+        "override_timestamp": {
+          "anyOf": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Override Timestamp"
+        },
+        "generation_settings": {
+          "additionalProperties": true,
+          "title": "Generation Settings",
+          "type": "object"
+        },
+        "output_formats": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Output Formats",
+          "type": "array"
+        },
+        "options_digest": {
+          "minLength": 1,
+          "title": "Options Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "document_type",
+        "purpose",
+        "template_id",
+        "template_version",
+        "options_digest"
+      ],
+      "title": "FrozenGenerationOptions",
+      "type": "object"
+    },
+    "FrozenJobSnapshot": {
+      "additionalProperties": false,
+      "description": "Exact frozen job posting content, revision binding, and identity metadata.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "canonical_job_id": {
+          "format": "uuid",
+          "title": "Canonical Job Id",
+          "type": "string"
+        },
+        "company_name": {
+          "title": "Company Name",
+          "type": "string"
+        },
+        "posting_revision_id": {
+          "minLength": 1,
+          "title": "Posting Revision Id",
+          "type": "string"
+        },
+        "posting_revision_hash": {
+          "description": "Material content hash",
+          "minLength": 1,
+          "title": "Posting Revision Hash",
+          "type": "string"
+        },
+        "raw_content_hash": {
+          "description": "Raw C06 content hash",
+          "minLength": 1,
+          "title": "Raw Content Hash",
+          "type": "string"
+        },
+        "source_key": {
+          "$ref": "#/$defs/SourceKey"
+        },
+        "normalized_posting": {
+          "$ref": "#/$defs/NormalizedPosting"
+        },
+        "raw_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Raw Reference"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        },
+        "application_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Application Url"
+        },
+        "observed_at": {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "title": "Observed At",
+          "type": "string"
+        },
+        "first_seen_at": {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "title": "First Seen At",
+          "type": "string"
+        },
+        "last_seen_at": {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "title": "Last Seen At",
+          "type": "string"
+        },
+        "normalizer_version": {
+          "default": "v1",
+          "title": "Normalizer Version",
+          "type": "string"
+        },
+        "hash_algorithm_version": {
+          "default": "v1",
+          "title": "Hash Algorithm Version",
+          "type": "string"
+        },
+        "snapshot_digest": {
+          "minLength": 1,
+          "title": "Snapshot Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "canonical_job_id",
+        "company_name",
+        "posting_revision_id",
+        "posting_revision_hash",
+        "raw_content_hash",
+        "source_key",
+        "normalized_posting",
+        "observed_at",
+        "first_seen_at",
+        "last_seen_at",
+        "snapshot_digest"
+      ],
+      "title": "FrozenJobSnapshot",
+      "type": "object"
+    },
+    "FrozenProfileSnapshot": {
+      "additionalProperties": false,
+      "description": "Exact approved candidate profile facts, approval metadata, and purpose permissions.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "candidate_id": {
+          "format": "uuid",
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "profile_version": {
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "snapshot": {
+          "$ref": "#/$defs/ProfileSnapshot"
+        },
+        "approved_by": {
+          "minLength": 1,
+          "title": "Approved By",
+          "type": "string"
+        },
+        "approved_at": {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "title": "Approved At",
+          "type": "string"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        },
+        "purpose": {
+          "minLength": 1,
+          "title": "Purpose",
+          "type": "string"
+        },
+        "inclusion_rule_version": {
+          "default": "v1",
+          "title": "Inclusion Rule Version",
+          "type": "string"
+        },
+        "mandatory_policy_version": {
+          "default": "v1",
+          "title": "Mandatory Policy Version",
+          "type": "string"
+        },
+        "explicit_mandatory_fact_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Explicit Mandatory Fact Ids",
+          "type": "array"
+        },
+        "eligible_fact_ids": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Eligible Fact Ids",
+          "type": "array"
+        },
+        "snapshot_digest": {
+          "minLength": 1,
+          "title": "Snapshot Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidate_id",
+        "profile_version",
+        "snapshot",
+        "approved_by",
+        "approved_at",
+        "purpose",
+        "snapshot_digest"
+      ],
+      "title": "FrozenProfileSnapshot",
+      "type": "object"
+    },
+    "JobCompensation": {
+      "additionalProperties": false,
+      "description": "Compensation details retaining currency, period, and provenance.\n\nNo implicit annualization or cross-currency conversion is performed.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "min_amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Minimum compensation amount",
+          "title": "Min Amount"
+        },
+        "max_amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Maximum compensation amount",
+          "title": "Max Amount"
+        },
+        "currency": {
+          "default": "EUR",
+          "maxLength": 3,
+          "minLength": 3,
+          "pattern": "^[A-Z]{3}$",
+          "title": "Currency",
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/SalaryPeriod",
+          "default": "yearly"
+        },
+        "is_gross": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "True if gross, False if net, None if unknown",
+          "title": "Is Gross"
+        },
+        "provenance": {
+          "$ref": "#/$defs/CompensationProvenance",
+          "default": "unknown",
+          "description": "Whether compensation is employer-provided or estimated"
+        }
+      },
+      "title": "JobCompensation",
+      "type": "object"
+    },
+    "MoneyAmount": {
+      "additionalProperties": false,
+      "description": "Monetary amount with explicit currency.\n\nA null amount means unknown, not zero. An explicit zero means zero.\nCurrency uses ISO 4217 three-letter codes.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "Monetary value; null at parent level means unknown",
+          "title": "Amount"
+        },
+        "currency": {
+          "description": "ISO 4217 currency code",
+          "maxLength": 3,
+          "minLength": 3,
+          "pattern": "^[A-Z]{3}$",
+          "title": "Currency",
+          "type": "string"
+        }
+      },
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "title": "MoneyAmount",
+      "type": "object"
+    },
+    "NormalizedPosting": {
+      "additionalProperties": false,
+      "description": "C06 Normalized Posting.\n\nUniform schema produced by common normalization. Missing title or usable\nsource identity produces a validation issue, never a fabricated replacement.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_key": {
+          "$ref": "#/$defs/SourceKey",
+          "description": "Scoped source identity"
+        },
+        "normalizer_version": {
+          "description": "Version of the normalizer used",
+          "minLength": 1,
+          "title": "Normalizer Version",
+          "type": "string"
+        },
+        "raw_reference": {
+          "description": "Reference to raw posting data",
+          "minLength": 1,
+          "title": "Raw Reference",
+          "type": "string"
+        },
+        "raw_content_hash": {
+          "description": "SHA-256 hash of raw input content",
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Raw Content Hash",
+          "type": "string"
+        },
+        "company_name_hint": {
+          "description": "Extracted company name hint",
+          "minLength": 1,
+          "title": "Company Name Hint",
+          "type": "string"
+        },
+        "company_id_hint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider-scoped company/employer ID if present",
+          "title": "Company Id Hint"
+        },
+        "title": {
+          "description": "Job title; required",
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "description_clean": {
+          "description": "Cleaned, HTML-stripped description text",
+          "minLength": 1,
+          "title": "Description Clean",
+          "type": "string"
+        },
+        "source_url": {
+          "description": "Original posting source URL",
+          "minLength": 1,
+          "title": "Source Url",
+          "type": "string"
+        },
+        "application_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Direct application URL if distinct from source URL",
+          "title": "Application Url"
+        },
+        "locations": {
+          "description": "Structured locations preserving original text",
+          "items": {
+            "$ref": "#/$defs/StructuredLocation"
+          },
+          "title": "Locations",
+          "type": "array"
+        },
+        "workplace_type": {
+          "$ref": "#/$defs/WorkplaceType",
+          "default": "unknown",
+          "description": "Onsite, hybrid, remote, or unknown"
+        },
+        "remote_eligibility_restrictions": {
+          "description": "Geographic restrictions on remote eligibility (e.g. ['DE', 'EU'])",
+          "items": {
+            "type": "string"
+          },
+          "title": "Remote Eligibility Restrictions",
+          "type": "array"
+        },
+        "employment_type": {
+          "$ref": "#/$defs/EmploymentType",
+          "default": "unknown",
+          "description": "Full-time, part-time, contract, internship, etc."
+        },
+        "compensation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/JobCompensation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Structured compensation; null if unstated in advert"
+        },
+        "advert_language": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Detected or declared advert language code (e.g. 'de', 'en')",
+          "title": "Advert Language"
+        },
+        "source_published_at": {
+          "anyOf": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Publication timestamp stated by the source (UTC)",
+          "title": "Source Published At"
+        },
+        "source_updated_at": {
+          "anyOf": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Last update timestamp stated by the source (UTC)",
+          "title": "Source Updated At"
+        },
+        "source_deadline_at": {
+          "anyOf": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Application closing date stated by the source; null if absent",
+          "title": "Source Deadline At"
+        },
+        "observed_at": {
+          "description": "Locally observed timestamp when this posting was fetched/processed",
+          "format": "date-time",
+          "title": "Observed At",
+          "type": "string"
+        },
+        "field_provenance": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Provenance mapping for individual fields (e.g. {'title': 'raw.job_title'})",
+          "title": "Field Provenance",
+          "type": "object"
+        }
+      },
+      "required": [
+        "source_key",
+        "normalizer_version",
+        "raw_reference",
+        "raw_content_hash",
+        "company_name_hint",
+        "title",
+        "description_clean",
+        "source_url",
+        "observed_at"
+      ],
+      "title": "NormalizedPosting",
+      "type": "object"
+    },
+    "PostingAvailability": {
+      "description": "Posting availability status. Authority: source observations.",
+      "enum": [
+        "active",
+        "not_seen",
+        "unavailable",
+        "unknown"
+      ],
+      "title": "PostingAvailability",
+      "type": "string"
+    },
+    "PrecisionDate": {
+      "additionalProperties": false,
+      "description": "Date with explicit precision: day, month, or year.\n\nMonth precision '2021-05' stays as-is; no day is fabricated.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "value": {
+          "description": "ISO date string matching the precision",
+          "title": "Value",
+          "type": "string"
+        },
+        "precision": {
+          "enum": [
+            "day",
+            "month",
+            "year"
+          ],
+          "title": "Precision",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "precision"
+      ],
+      "title": "PrecisionDate",
+      "type": "object"
+    },
+    "ProfileApprovalMetadata": {
+      "additionalProperties": false,
+      "description": "Metadata recording human approval of the candidate profile.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "is_approved": {
+          "description": "Whether this profile snapshot is approved for use",
+          "title": "Is Approved",
+          "type": "boolean"
+        },
+        "approved_by": {
+          "description": "Identity of the approver (candidate)",
+          "minLength": 1,
+          "title": "Approved By",
+          "type": "string"
+        },
+        "approved_at": {
+          "description": "UTC timestamp of approval",
+          "format": "date-time",
+          "title": "Approved At",
+          "type": "string"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional approval notes or version summary",
+          "title": "Notes"
+        }
+      },
+      "required": [
+        "is_approved",
+        "approved_by",
+        "approved_at"
+      ],
+      "title": "ProfileApprovalMetadata",
+      "type": "object"
+    },
+    "ProfileSnapshot": {
+      "additionalProperties": false,
+      "description": "C01 Candidate Profile Snapshot.\n\nImmutable snapshot of candidate facts and explicit eligibility.\nBoth context strategies consume this exact approved snapshot.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "candidate_id": {
+          "description": "Persistent candidate UUID",
+          "format": "uuid",
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Version string for this snapshot",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "approval_metadata": {
+          "$ref": "#/$defs/ProfileApprovalMetadata"
+        },
+        "explicit_eligibility": {
+          "$ref": "#/$defs/CandidateEligibility"
+        },
+        "evidence_records": {
+          "description": "List of approved candidate evidence facts",
+          "items": {
+            "$ref": "#/$defs/CandidateFact"
+          },
+          "title": "Evidence Records",
+          "type": "array"
+        }
+      },
+      "required": [
+        "candidate_id",
+        "profile_version",
+        "approval_metadata",
+        "explicit_eligibility"
+      ],
+      "title": "ProfileSnapshot",
+      "type": "object"
+    },
+    "RetrievalSettings": {
+      "additionalProperties": false,
+      "description": "Validated settings governing keyword/semantic retrieval and reciprocal rank fusion.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "algorithm_version": {
+          "default": "v1",
+          "title": "Algorithm Version",
+          "type": "string"
+        },
+        "query_format_version": {
+          "default": "v1",
+          "title": "Query Format Version",
+          "type": "string"
+        },
+        "top_k": {
+          "default": 8,
+          "description": "Maximum number of optional primary facts admitted (0 is allowed)",
+          "minimum": 0,
+          "title": "Top K",
+          "type": "integer"
+        },
+        "per_channel_limit": {
+          "default": 20,
+          "description": "Per-query candidate pool limit for each channel (keyword and semantic)",
+          "exclusiveMinimum": 0,
+          "title": "Per Channel Limit",
+          "type": "integer"
+        },
+        "keyword_metric": {
+          "default": "distinct_terms",
+          "description": "Keyword scoring metric",
+          "enum": [
+            "distinct_terms",
+            "bm25"
+          ],
+          "title": "Keyword Metric",
+          "type": "string"
+        },
+        "semantic_metric": {
+          "default": "cosine",
+          "description": "Semantic similarity metric",
+          "enum": [
+            "cosine",
+            "dot_product"
+          ],
+          "title": "Semantic Metric",
+          "type": "string"
+        },
+        "fusion_method": {
+          "const": "rrf",
+          "default": "rrf",
+          "description": "Rank fusion method (Reciprocal Rank Fusion)",
+          "title": "Fusion Method",
+          "type": "string"
+        },
+        "rrf_k": {
+          "default": 60,
+          "description": "RRF smoothing constant k in sum(1 / (k + rank))",
+          "exclusiveMinimum": 0,
+          "title": "Rrf K",
+          "type": "integer"
+        },
+        "multi_query_aggregation": {
+          "default": "max",
+          "description": "Aggregation method across multiple requirement queries",
+          "enum": [
+            "max",
+            "sum"
+          ],
+          "title": "Multi Query Aggregation",
+          "type": "string"
+        },
+        "tie_break_order": {
+          "description": "Ordered tie-break criteria for equal fused scores",
+          "items": {
+            "type": "string"
+          },
+          "title": "Tie Break Order",
+          "type": "array"
+        },
+        "strict_parents": {
+          "default": false,
+          "description": "If True, missing/restricted optional parent raises permission error",
+          "title": "Strict Parents",
+          "type": "boolean"
+        },
+        "semantic_threshold": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional minimum semantic similarity cutoff; None initially",
+          "title": "Semantic Threshold"
+        },
+        "max_queries": {
+          "default": 20,
+          "description": "Maximum number of requirement queries processed",
+          "exclusiveMinimum": 0,
+          "title": "Max Queries",
+          "type": "integer"
+        },
+        "max_query_chars": {
+          "default": 500,
+          "description": "Maximum character length per requirement query",
+          "exclusiveMinimum": 0,
+          "title": "Max Query Chars",
+          "type": "integer"
+        }
+      },
+      "title": "RetrievalSettings",
+      "type": "object"
+    },
+    "SalaryPeriod": {
+      "description": "Salary payment period.",
+      "enum": [
+        "hourly",
+        "monthly",
+        "yearly"
+      ],
+      "title": "SalaryPeriod",
+      "type": "string"
+    },
+    "SourceKey": {
+      "additionalProperties": false,
+      "description": "Unique source posting identity: (provider, board_id, source_posting_id).\n\nTwo postings with the same tuple are the same source posting.\nDifferent board_ids under the same provider are distinct.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "provider": {
+          "minLength": 1,
+          "title": "Provider",
+          "type": "string"
+        },
+        "board_id": {
+          "minLength": 1,
+          "title": "Board Id",
+          "type": "string"
+        },
+        "source_posting_id": {
+          "minLength": 1,
+          "title": "Source Posting Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "board_id",
+        "source_posting_id"
+      ],
+      "title": "SourceKey",
+      "type": "object"
+    },
+    "StructuredLocation": {
+      "additionalProperties": false,
+      "description": "Structured location preserving original raw text.\n\nA single job posting may have multiple locations.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "raw_text": {
+          "description": "Original unparsed location string",
+          "minLength": 1,
+          "title": "Raw Text",
+          "type": "string"
+        },
+        "country": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "ISO 3166-1 alpha-2 country code (e.g. 'DE')",
+          "title": "Country"
+        },
+        "region": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Sub-national region or Bundesland (e.g. 'Berlin')",
+          "title": "Region"
+        },
+        "city": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "City name",
+          "title": "City"
+        },
+        "postal_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Postal / ZIP code",
+          "title": "Postal Code"
+        }
+      },
+      "required": [
+        "raw_text"
+      ],
+      "title": "StructuredLocation",
+      "type": "object"
+    },
+    "WorkplaceType": {
+      "description": "Workplace arrangement type.",
+      "enum": [
+        "onsite",
+        "hybrid",
+        "remote",
+        "unknown"
+      ],
+      "title": "WorkplaceType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Complete, immutable seal binding all inputs for a generation request.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "seal_id": {
+      "minLength": 1,
+      "title": "Seal Id",
+      "type": "string"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "candidate_id": {
+      "format": "uuid",
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "canonical_job_id": {
+      "format": "uuid",
+      "title": "Canonical Job Id",
+      "type": "string"
+    },
+    "manifest": {
+      "$ref": "#/$defs/FreezeManifest"
+    },
+    "options": {
+      "$ref": "#/$defs/FrozenGenerationOptions"
+    },
+    "job_snapshot": {
+      "$ref": "#/$defs/FrozenJobSnapshot"
+    },
+    "profile_snapshot": {
+      "$ref": "#/$defs/FrozenProfileSnapshot"
+    },
+    "availability_check": {
+      "$ref": "#/$defs/AvailabilityCheck"
+    },
+    "recipe": {
+      "$ref": "#/$defs/FrozenContextRecipe"
+    },
+    "pinned_index_generation_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Pinned Index Generation Id"
+    },
+    "index_pin_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Index Pin Id"
+    },
+    "sealed_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Sealed At",
+      "type": "string"
+    },
+    "seal_hash": {
+      "minLength": 1,
+      "title": "Seal Hash",
+      "type": "string"
+    },
+    "body_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Body Hash"
+    }
+  },
+  "required": [
+    "seal_id",
+    "request_id",
+    "candidate_id",
+    "canonical_job_id",
+    "manifest",
+    "options",
+    "job_snapshot",
+    "profile_snapshot",
+    "availability_check",
+    "recipe",
+    "sealed_at",
+    "seal_hash"
+  ],
+  "title": "FrozenSeal",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/frozen_seal.schema.json"
+}

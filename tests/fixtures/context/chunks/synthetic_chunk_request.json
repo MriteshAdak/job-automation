@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "snapshot": {
+    "schema_version": "1.0",
+    "candidate_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "profile_version": "v1",
+    "approval_metadata": {
+      "schema_version": "1.0",
+      "is_approved": true,
+      "approved_at": "2026-10-28T12:00:00Z",
+      "approved_by": "reviewer@example.com",
+      "notes": "Approved baseline candidate facts"
+    },
+    "explicit_eligibility": {
+      "schema_version": "1.0",
+      "work_authorization_countries": [
+        "DE"
+      ],
+      "target_locations": [
+        "Berlin"
+      ],
+      "remote_eligible": true
+    },
+    "evidence_records": [
+      {
+        "schema_version": "1.0",
+        "fact_id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+        "kind": "employment",
+        "title": "Principal Software Engineer",
+        "organization": "Cloud Native Technologies GmbH",
+        "start_date": {
+          "schema_version": "1.0",
+          "value": "2020-03",
+          "precision": "month"
+        },
+        "end_date": {
+          "schema_version": "1.0",
+          "value": "2023-08",
+          "precision": "month"
+        },
+        "skills": [
+          "Python",
+          "FastAPI",
+          "PostgreSQL"
+        ],
+        "claims": [
+          "Led architecture of distributed microservices processing 1M events/day",
+          "Achieved 99.99% service availability across 3 regions"
+        ],
+        "metrics": [
+          "Latency reduced by 40%",
+          "Zero downtime deployment achieved"
+        ],
+        "provenance": "arbeitszeugnis_2023.pdf",
+        "allowed_uses": [
+          "assessment",
+          "cv",
+          "cover_letter"
+        ]
+      }
+    ]
+  },
+  "purpose": "assessment",
+  "settings": {
+    "schema_version": "1.0",
+    "algorithm_version": "v1",
+    "identity_scheme_version": "v1",
+    "rendering_version": "v1",
+    "parent_policy_version": "v1",
+    "granularity": "whole_fact",
+    "max_chunk_chars": null,
+    "strict_parents": false,
+    "size_unit": "chars",
+    "overflow_behavior": "error"
+  },
+  "explicit_required_fact_ids": []
+}

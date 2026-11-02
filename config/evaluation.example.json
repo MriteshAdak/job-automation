@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvaluationSettingsExample",
+  "description": "Example non-secret configuration for EVAL-01 paired evaluation harness.",
+  "eval_root": "C:\\ProgramData\\job_automation\\evaluation",
+  "production_db_path": "C:\\ProgramData\\job_automation\\job_automation.db",
+  "model_service_url": "http://127.0.0.1:11434",
+  "model_identifier": "qwen2.5:7b-instruct",
+  "enable_sync": false,
+  "timeout_seconds": 60.0,
+  "max_retries": 2,
+  "batch_concurrency": 1
+}
+

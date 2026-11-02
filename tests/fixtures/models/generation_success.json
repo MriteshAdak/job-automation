@@ -1,0 +1,14 @@
+{
+  "model": "llama3:8b-instruct-q4_K_M",
+  "created_at": "2026-10-28T12:00:00Z",
+  "response": "{\"schema_version\":\"1.0\",\"assessment_id\":\"11111111-1111-4111-8111-111111111111\",\"canonical_job_id\":\"22222222-2222-4222-8222-222222222222\",\"posting_revision\":\"rev-sha256-test\",\"profile_version\":\"v2026.1\",\"policy_version\":\"pol-1.0\",\"assessment_method\":\"llm\",\"rule_outcomes\":[],\"relevance_decision\":\"eligible\",\"relevance_score\":92.0,\"score_scale\":\"0-100\",\"summary_reason\":\"Candidate aligns with core backend requirements\",\"final_disposition\":\"eligible\",\"model_metadata\":{\"model_identifier\":\"llama3:8b-instruct-q4_K_M\",\"prompt_version\":\"assess_v1\",\"context_strategy\":\"json\"}}",
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 1240500000,
+  "load_duration": 50000000,
+  "prompt_eval_count": 450,
+  "prompt_eval_duration": 400000000,
+  "eval_count": 85,
+  "eval_duration": 700000000
+}
+

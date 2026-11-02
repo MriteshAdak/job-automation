@@ -1,0 +1,169 @@
+{
+  "$defs": {
+    "ClassifiedError": {
+      "additionalProperties": false,
+      "description": "Classified operational or domain error.\n\nDistinguishes recoverable failures from permanent errors and maps\nto the system error taxonomy without arbitrary tool or shell authority.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/ErrorCategory"
+        },
+        "message": {
+          "description": "Safe diagnostic message without credentials or tokens",
+          "title": "Message",
+          "type": "string"
+        },
+        "recoverable": {
+          "description": "Whether this error category is eligible for bounded retry",
+          "title": "Recoverable",
+          "type": "boolean"
+        },
+        "field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional field path if the error pertains to a specific field",
+          "title": "Field Path"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Safe non-sensitive contextual details",
+          "title": "Details"
+        }
+      },
+      "required": [
+        "category",
+        "message",
+        "recoverable"
+      ],
+      "title": "ClassifiedError",
+      "type": "object"
+    },
+    "ErrorCategory": {
+      "description": "Classified error category for failure handling and recovery.",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ],
+      "title": "ErrorCategory",
+      "type": "string"
+    },
+    "OperationStatus": {
+      "description": "Execution status for maintenance operations.",
+      "enum": [
+        "succeeded",
+        "partial",
+        "failed"
+      ],
+      "title": "OperationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Outcome of restoring and verifying a backup set.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "plan_id": {
+      "format": "uuid",
+      "title": "Plan Id",
+      "type": "string"
+    },
+    "backup_id": {
+      "format": "uuid",
+      "title": "Backup Id",
+      "type": "string"
+    },
+    "target_data_root": {
+      "title": "Target Data Root",
+      "type": "string"
+    },
+    "restored_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Restored At",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/OperationStatus"
+    },
+    "restored_files_count": {
+      "minimum": 0,
+      "title": "Restored Files Count",
+      "type": "integer"
+    },
+    "relocated_paths_count": {
+      "minimum": 0,
+      "title": "Relocated Paths Count",
+      "type": "integer"
+    },
+    "integrity_check_passed": {
+      "title": "Integrity Check Passed",
+      "type": "boolean"
+    },
+    "foreign_key_check_passed": {
+      "title": "Foreign Key Check Passed",
+      "type": "boolean"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/ClassifiedError"
+      },
+      "title": "Issues",
+      "type": "array"
+    },
+    "activation_checklist": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Activation Checklist",
+      "type": "array"
+    }
+  },
+  "required": [
+    "plan_id",
+    "backup_id",
+    "target_data_root",
+    "restored_at",
+    "status",
+    "restored_files_count",
+    "relocated_paths_count",
+    "integrity_check_passed",
+    "foreign_key_check_passed"
+  ],
+  "title": "RestoreResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/ops_restore_result.schema.json"
+}

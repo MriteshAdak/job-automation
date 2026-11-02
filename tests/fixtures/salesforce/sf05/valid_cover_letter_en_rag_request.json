@@ -1,0 +1,15 @@
+{
+  "attributes": {
+    "type": "Generation_Request__c"
+  },
+  "Job__c": "a01000000000002AAA",
+  "Document_Type__c": "cover_letter",
+  "Language__c": "en",
+  "Template_Id__c": "formal_letter_en",
+  "Context_Strategy__c": "rag",
+  "Allow_Unavailable_Job__c": true,
+  "Contract_Schema_Version__c": "1.0",
+  "Status__c": "Pending",
+  "Client_Request_Key__c": "client:test-cov-001"
+}
+

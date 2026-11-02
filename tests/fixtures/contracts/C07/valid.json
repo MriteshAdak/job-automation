@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "canonical_job_id": "44444444-4444-4444-8444-444444444444",
+  "canonical_company_id": "55555555-5555-4555-8555-555555555555",
+  "company_name": "Tech Corp GmbH",
+  "linked_source_keys": [
+    {
+      "schema_version": "1.0",
+      "provider": "arbeitnow",
+      "board_id": "default",
+      "source_posting_id": "101"
+    }
+  ],
+  "revisions": [
+    {
+      "schema_version": "1.0",
+      "revision_id": "66666666-6666-4666-8666-666666666666",
+      "canonical_job_id": "44444444-4444-4444-8444-444444444444",
+      "source_key": {
+        "schema_version": "1.0",
+        "provider": "arbeitnow",
+        "board_id": "default",
+        "source_posting_id": "101"
+      },
+      "content_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "title": "Senior Python Backend Engineer",
+      "first_seen_at": "2026-10-27T10:00:00+00:00",
+      "last_seen_at": "2026-10-27T10:00:00+00:00",
+      "source_urls": [
+        "https://example.com/jobs/101"
+      ],
+      "application_urls": [
+        "https://example.com/jobs/101/apply"
+      ],
+      "availability": "active"
+    }
+  ],
+  "current_revision_id": "66666666-6666-4666-8666-666666666666",
+  "first_seen_at": "2026-10-27T10:00:00+00:00",
+  "last_seen_at": "2026-10-27T10:00:00+00:00",
+  "availability": "active",
+  "merge_lineage": [
+    "initial_registration"
+  ]
+}

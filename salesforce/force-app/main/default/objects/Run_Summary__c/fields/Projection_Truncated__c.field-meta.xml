@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Projection_Truncated__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates whether long lists or structured text were safely truncated to stay within storage bounds (SF-09).</description>
+    <externalId>false</externalId>
+    <label>Projection Truncated</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

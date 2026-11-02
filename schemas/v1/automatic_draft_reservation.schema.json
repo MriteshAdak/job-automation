@@ -1,0 +1,121 @@
+{
+  "$defs": {
+    "ReservationStatus": {
+      "description": "Status of an automatic quota reservation.",
+      "enum": [
+        "active",
+        "consumed",
+        "released"
+      ],
+      "title": "ReservationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Atomic quota reservation record.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "reservation_id": {
+      "description": "Unique reservation UUID",
+      "format": "uuid",
+      "title": "Reservation Id",
+      "type": "string"
+    },
+    "candidate_id": {
+      "description": "Candidate UUID",
+      "format": "uuid",
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "salesforce_org_id": {
+      "description": "Salesforce Org ID",
+      "title": "Salesforce Org Id",
+      "type": "string"
+    },
+    "canonical_job_id": {
+      "description": "Canonical job UUID",
+      "format": "uuid",
+      "title": "Canonical Job Id",
+      "type": "string"
+    },
+    "evaluation_run_id": {
+      "description": "Evaluation run UUID",
+      "format": "uuid",
+      "title": "Evaluation Run Id",
+      "type": "string"
+    },
+    "intent_id": {
+      "description": "Associated intent UUID",
+      "format": "uuid",
+      "title": "Intent Id",
+      "type": "string"
+    },
+    "client_request_key": {
+      "description": "Associated client request key",
+      "title": "Client Request Key",
+      "type": "string"
+    },
+    "document_units": {
+      "default": 1,
+      "description": "Logical document request units charged",
+      "minimum": 1,
+      "title": "Document Units",
+      "type": "integer"
+    },
+    "status": {
+      "$ref": "#/$defs/ReservationStatus",
+      "default": "active",
+      "description": "Reservation status"
+    },
+    "reserved_at": {
+      "description": "When capacity was reserved",
+      "format": "date-time",
+      "title": "Reserved At",
+      "type": "string"
+    },
+    "released_at": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "When capacity was released",
+      "title": "Released At"
+    },
+    "release_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Reason for release",
+      "title": "Release Reason"
+    }
+  },
+  "required": [
+    "candidate_id",
+    "salesforce_org_id",
+    "canonical_job_id",
+    "evaluation_run_id",
+    "intent_id",
+    "client_request_key"
+  ],
+  "title": "AutomaticDraftReservation",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/automatic_draft_reservation.schema.json"
+}

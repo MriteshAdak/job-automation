@@ -1,0 +1,304 @@
+{
+  "$defs": {
+    "DeliveryState": {
+      "description": "Lifecycle state of a local SummaryDelivery outbox record.",
+      "enum": [
+        "pending",
+        "in_flight",
+        "retry_wait",
+        "reconcile_required",
+        "delivered",
+        "blocked",
+        "exhausted"
+      ],
+      "title": "DeliveryState",
+      "type": "string"
+    },
+    "NotificationState": {
+      "description": "Observed state of remote Salesforce completion notification execution.",
+      "enum": [
+        "none",
+        "pending",
+        "confirmed",
+        "failed",
+        "unknown"
+      ],
+      "title": "NotificationState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Durable outbox entity representing the summary delivery lane for a run.\n\nEnforces:\n- Exactly one delivery lane per (org_id, run_id).\n- Monotonically increasing revisions with immutable payload hashes.\n- Durable attempt counters and retry deadlines that survive process restarts.\n- Explicit decoupling between summary-record delivery and Flow notification execution.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "delivery_id": {
+      "description": "Unique delivery outbox record UUID",
+      "format": "uuid",
+      "title": "Delivery Id",
+      "type": "string"
+    },
+    "run_id": {
+      "description": "Stable logical run UUID",
+      "format": "uuid",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "org_id": {
+      "description": "Target Salesforce Organization ID",
+      "title": "Org Id",
+      "type": "string"
+    },
+    "completion_key": {
+      "description": "Composite completion key (org_id:run_id)",
+      "title": "Completion Key",
+      "type": "string"
+    },
+    "revision": {
+      "default": 1,
+      "description": "Current summary revision number",
+      "minimum": 1,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "state": {
+      "$ref": "#/$defs/DeliveryState",
+      "default": "pending",
+      "description": "Delivery lifecycle state"
+    },
+    "target_object": {
+      "default": "Run_Summary__c",
+      "description": "Target Salesforce sObject API name",
+      "title": "Target Object",
+      "type": "string"
+    },
+    "target_external_id_field": {
+      "default": "Run_Id__c",
+      "description": "Target external ID field name",
+      "title": "Target External Id Field",
+      "type": "string"
+    },
+    "payload_json": {
+      "description": "Serialized JSON representation of current RunSummaryProjection",
+      "title": "Payload Json",
+      "type": "string"
+    },
+    "payload_hash": {
+      "description": "SHA-256 hash of the current revision payload",
+      "title": "Payload Hash",
+      "type": "string"
+    },
+    "first_completion_hash": {
+      "description": "Immutable SHA-256 hash of the initial completion payload",
+      "title": "First Completion Hash",
+      "type": "string"
+    },
+    "dispatch_attempts": {
+      "default": 0,
+      "description": "Lifetime dispatch/send attempts executed",
+      "minimum": 0,
+      "title": "Dispatch Attempts",
+      "type": "integer"
+    },
+    "reconcile_attempts": {
+      "default": 0,
+      "description": "Lifetime reconciliation/query attempts executed",
+      "minimum": 0,
+      "title": "Reconcile Attempts",
+      "type": "integer"
+    },
+    "retry_window_start": {
+      "description": "Timestamp when retry window opened",
+      "format": "date-time",
+      "title": "Retry Window Start",
+      "type": "string"
+    },
+    "retry_deadline": {
+      "description": "Hard deadline after which automatic retries cease",
+      "format": "date-time",
+      "title": "Retry Deadline",
+      "type": "string"
+    },
+    "next_due_at": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Next eligible dispatch timestamp after backoff/jitter",
+      "title": "Next Due At"
+    },
+    "remote_record_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Remote Salesforce Record ID once created or acknowledged",
+      "title": "Remote Record Id"
+    },
+    "acknowledged_revision": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Revision successfully acknowledged by Salesforce",
+      "title": "Acknowledged Revision"
+    },
+    "acknowledged_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Payload hash confirmed by remote acknowledgment",
+      "title": "Acknowledged Hash"
+    },
+    "notification_state": {
+      "$ref": "#/$defs/NotificationState",
+      "default": "none",
+      "description": "Observed state of remote completion notification execution"
+    },
+    "notification_receipt_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Remote notification receipt identifier if observed",
+      "title": "Notification Receipt Id"
+    },
+    "last_error_category": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Category of the most recent failure",
+      "title": "Last Error Category"
+    },
+    "last_error_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Safe error code from most recent failure",
+      "title": "Last Error Code"
+    },
+    "last_error_message": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Safe error message summary from most recent failure",
+      "title": "Last Error Message"
+    },
+    "claim_token": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Worker lock claim token during in_flight dispatch",
+      "title": "Claim Token"
+    },
+    "claimed_at": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Timestamp when work was claimed by worker",
+      "title": "Claimed At"
+    },
+    "created_at": {
+      "description": "Record creation timestamp in UTC",
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "updated_at": {
+      "description": "Last update timestamp in UTC",
+      "format": "date-time",
+      "title": "Updated At",
+      "type": "string"
+    },
+    "acknowledged_at": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Timestamp when delivery was acknowledged in UTC",
+      "title": "Acknowledged At"
+    }
+  },
+  "required": [
+    "run_id",
+    "org_id",
+    "completion_key",
+    "payload_json",
+    "payload_hash",
+    "first_completion_hash",
+    "retry_window_start",
+    "retry_deadline"
+  ],
+  "title": "SummaryDelivery",
+  "type": "object"
+}

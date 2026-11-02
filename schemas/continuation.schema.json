@@ -1,0 +1,74 @@
+{
+  "additionalProperties": false,
+  "description": "Opaque pagination or resumption token bound to source and scope.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "description": "Contract schema version",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "description": "Continuation kind: cursor, page, offset, or local_record",
+      "title": "Kind",
+      "type": "string"
+    },
+    "value": {
+      "description": "Opaque continuation value (string-encoded for persistence)",
+      "title": "Value",
+      "type": "string"
+    },
+    "source_key": {
+      "description": "Configuration source key",
+      "title": "Source Key",
+      "type": "string"
+    },
+    "scope_id": {
+      "description": "Deterministic scope identifier",
+      "title": "Scope Id",
+      "type": "string"
+    },
+    "adapter_name": {
+      "description": "Adapter identifier or version binding",
+      "title": "Adapter Name",
+      "type": "string"
+    },
+    "input_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "SHA-256 hash of input bytes for manual sources",
+      "title": "Input Hash"
+    },
+    "options_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Hash of parsing/paging options for manual sources",
+      "title": "Options Hash"
+    }
+  },
+  "required": [
+    "kind",
+    "value",
+    "source_key",
+    "scope_id",
+    "adapter_name"
+  ],
+  "title": "Continuation",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/continuation.schema.json"
+}

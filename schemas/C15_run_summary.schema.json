@@ -1,0 +1,218 @@
+{
+  "$defs": {
+    "ClassifiedError": {
+      "additionalProperties": false,
+      "description": "Classified operational or domain error.\n\nDistinguishes recoverable failures from permanent errors and maps\nto the system error taxonomy without arbitrary tool or shell authority.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/ErrorCategory"
+        },
+        "message": {
+          "description": "Safe diagnostic message without credentials or tokens",
+          "title": "Message",
+          "type": "string"
+        },
+        "recoverable": {
+          "description": "Whether this error category is eligible for bounded retry",
+          "title": "Recoverable",
+          "type": "boolean"
+        },
+        "field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional field path if the error pertains to a specific field",
+          "title": "Field Path"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Safe non-sensitive contextual details",
+          "title": "Details"
+        }
+      },
+      "required": [
+        "category",
+        "message",
+        "recoverable"
+      ],
+      "title": "ClassifiedError",
+      "type": "object"
+    },
+    "ErrorCategory": {
+      "description": "Classified error category for failure handling and recovery.",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ],
+      "title": "ErrorCategory",
+      "type": "string"
+    },
+    "RunStatus": {
+      "description": "Overall pipeline run status.",
+      "enum": [
+        "success",
+        "partial",
+        "failed"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "C15 Pipeline Run Summary.\n\nSummarizes the execution of a discovery, assessment, and sync pipeline run.\nAll counters have explicit documented units to prevent confusing source postings\nwith canonical jobs.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_id": {
+      "description": "Unique pipeline execution UUID",
+      "format": "uuid",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "start_time": {
+      "description": "Pipeline run start timestamp (UTC)",
+      "format": "date-time",
+      "title": "Start Time",
+      "type": "string"
+    },
+    "end_time": {
+      "description": "Pipeline run completion timestamp (UTC)",
+      "format": "date-time",
+      "title": "End Time",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/RunStatus",
+      "description": "Overall run status: success, partial, or failed"
+    },
+    "source_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "description": "Map of source_key -> count of source postings observed",
+      "title": "Source Counts",
+      "type": "object"
+    },
+    "source_postings_count": {
+      "default": 0,
+      "description": "Total source postings observed across all sources in this run",
+      "minimum": 0,
+      "title": "Source Postings Count",
+      "type": "integer"
+    },
+    "canonical_jobs_new": {
+      "default": 0,
+      "description": "Count of newly discovered canonical jobs registered",
+      "minimum": 0,
+      "title": "Canonical Jobs New",
+      "type": "integer"
+    },
+    "canonical_jobs_updated": {
+      "default": 0,
+      "description": "Count of existing canonical jobs that received new revisions",
+      "minimum": 0,
+      "title": "Canonical Jobs Updated",
+      "type": "integer"
+    },
+    "canonical_jobs_duplicate": {
+      "default": 0,
+      "description": "Count of postings identified as duplicates of existing canonical jobs",
+      "minimum": 0,
+      "title": "Canonical Jobs Duplicate",
+      "type": "integer"
+    },
+    "eligible_count": {
+      "default": 0,
+      "description": "Count of canonical jobs classified as eligible",
+      "minimum": 0,
+      "title": "Eligible Count",
+      "type": "integer"
+    },
+    "review_count": {
+      "default": 0,
+      "description": "Count of canonical jobs flagged for candidate review",
+      "minimum": 0,
+      "title": "Review Count",
+      "type": "integer"
+    },
+    "rejected_count": {
+      "default": 0,
+      "description": "Count of canonical jobs classified as rejected",
+      "minimum": 0,
+      "title": "Rejected Count",
+      "type": "integer"
+    },
+    "sync_operations_succeeded": {
+      "default": 0,
+      "description": "Count of sync operations successfully delivered to Salesforce",
+      "minimum": 0,
+      "title": "Sync Operations Succeeded",
+      "type": "integer"
+    },
+    "sync_operations_failed": {
+      "default": 0,
+      "description": "Count of sync operations that failed delivery",
+      "minimum": 0,
+      "title": "Sync Operations Failed",
+      "type": "integer"
+    },
+    "errors": {
+      "description": "Classified errors encountered during the run",
+      "items": {
+        "$ref": "#/$defs/ClassifiedError"
+      },
+      "title": "Errors",
+      "type": "array"
+    },
+    "pending_work": {
+      "description": "Descriptions of deferred or retry-waiting items",
+      "items": {
+        "type": "string"
+      },
+      "title": "Pending Work",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "start_time",
+    "end_time",
+    "status"
+  ],
+  "title": "RunSummary",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/C15_run_summary.schema.json"
+}

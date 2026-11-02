@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "schema_version": "1.0",
+      "source_key": "arbeitnow_de",
+      "provider": "arbeitnow",
+      "board_id": "default",
+      "acquisition_method": "api",
+      "base_url": "https://www.arbeitnow.com/api/job-board-api",
+      "access_rules": "{\"status\": \"permitted\", \"reviewed_at\": \"2026-10-28T00:00:00Z\", \"evidence_ref\": \"E3-arbeitnow-terms-section-11\", \"permitted_methods\": [\"api\"], \"restrictions\": [\"as_available_basis\", \"access_may_be_revoked\", \"no_excessive_requests\", \"max_2_redirects_per_request\", \"body_limit_10mib\", \"persistent_storage_and_salesforce_transfer_scope_under_review_U07\"], \"notes\": \"E3 section 11 permits free API use on an as-available basis; E3 section 2 limits website-material copying/public display separately. The interaction with durable API storage and Salesforce transfer is not expressly resolved in the reviewed text; U07 remains open and must be resolved before enabling persistent ingestion at scale.\"}",
+      "attribution_rules": "{\"status\": \"required\", \"notice\": \"Source: Arbeitnow\", \"link\": \"https://www.arbeitnow.com\", \"notes\": \"E3 section 11 requires a link back to Arbeitnow.com on the platform. API meta.info also requests link-back. Adapter propagates attribution through derived envelope and source_mapped_fields. Display/retention owners must honour credit before publication.\"}",
+      "request_policy": {
+        "timeout_seconds": 30.0,
+        "request_spacing_seconds": 60.0,
+        "max_attempts": 1,
+        "max_pages": 2,
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "enabled": false,
+      "inventory_semantics": "filtered_feed"
+    }
+  ]
+}

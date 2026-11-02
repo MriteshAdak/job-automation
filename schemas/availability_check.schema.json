@@ -1,0 +1,134 @@
+{
+  "$defs": {
+    "PostingAvailability": {
+      "description": "Posting availability status. Authority: source observations.",
+      "enum": [
+        "active",
+        "not_seen",
+        "unavailable",
+        "unknown"
+      ],
+      "title": "PostingAvailability",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Durable receipt of the authoritative availability check at the time of sealing.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "check_id": {
+      "format": "uuid",
+      "title": "Check Id",
+      "type": "string"
+    },
+    "canonical_job_id": {
+      "format": "uuid",
+      "title": "Canonical Job Id",
+      "type": "string"
+    },
+    "checked_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Checked At",
+      "type": "string"
+    },
+    "canonical_availability": {
+      "$ref": "#/$defs/PostingAvailability"
+    },
+    "explanation": {
+      "title": "Explanation",
+      "type": "string"
+    },
+    "source_states": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Source States",
+      "type": "array"
+    },
+    "decision_outcome": {
+      "description": "'proceed', 'proceed_with_warning', or 'rejected'",
+      "title": "Decision Outcome",
+      "type": "string"
+    },
+    "allow_unavailable_job": {
+      "default": false,
+      "title": "Allow Unavailable Job",
+      "type": "boolean"
+    },
+    "override_applied": {
+      "default": false,
+      "title": "Override Applied",
+      "type": "boolean"
+    },
+    "override_provenance": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Override Provenance"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "earliest_seen": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Earliest Seen"
+    },
+    "latest_seen": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Latest Seen"
+    },
+    "check_digest": {
+      "minLength": 1,
+      "title": "Check Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "canonical_job_id",
+    "checked_at",
+    "canonical_availability",
+    "explanation",
+    "decision_outcome",
+    "check_digest"
+  ],
+  "title": "AvailabilityCheck",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/availability_check.schema.json"
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <description>Durable outbox lifecycle status (SF-08).</description>
+    <externalId>false</externalId>
+    <label>Status</label>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pending</fullName>
+                <default>true</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>Blocked</fullName>
+                <default>false</default>
+                <label>Blocked</label>
+            </value>
+            <value>
+                <fullName>Dispatching</fullName>
+                <default>false</default>
+                <label>Dispatching</label>
+            </value>
+            <value>
+                <fullName>Accepted</fullName>
+                <default>false</default>
+                <label>Accepted</label>
+            </value>
+            <value>
+                <fullName>Retry_Wait</fullName>
+                <default>false</default>
+                <label>Retry Wait</label>
+            </value>
+            <value>
+                <fullName>Uncertain</fullName>
+                <default>false</default>
+                <label>Uncertain</label>
+            </value>
+            <value>
+                <fullName>Suppressed</fullName>
+                <default>false</default>
+                <label>Suppressed</label>
+            </value>
+            <value>
+                <fullName>Dead_Letter</fullName>
+                <default>false</default>
+                <label>Dead Letter</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
+

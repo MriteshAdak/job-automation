@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Claimed_At_Not_Before_Created</fullName>
+    <active>true</active>
+    <description>Ensures Worker Claimed At is not earlier than CreatedDate.</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(Worker_Claimed_At__c)), Worker_Claimed_At__c &lt; CreatedDate)</errorConditionFormula>
+    <errorDisplayField>Worker_Claimed_At__c</errorDisplayField>
+    <errorMessage>Worker Claimed At cannot be earlier than CreatedDate.</errorMessage>
+</ValidationRule>
+

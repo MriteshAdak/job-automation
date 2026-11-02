@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Candidate_Notes__c</fullName>
+    <description>Candidate personal notes, reflections, and thoughts. Candidate-owned; never modified or cleared by machine sync.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Personal notes and thoughts about this job opportunity.</inlineHelpText>
+    <label>Candidate Notes</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>6</visibleLines>
+</CustomField>
+

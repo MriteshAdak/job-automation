@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Frozen_Profile_Version__c</fullName>
+    <description>Candidate profile version frozen at claim time.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Frozen candidate profile version.</inlineHelpText>
+    <label>Frozen Profile Version</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
+

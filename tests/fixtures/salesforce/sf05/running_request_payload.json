@@ -1,0 +1,10 @@
+{
+  "Status__c": "Running",
+  "Worker_Claimed_At__c": "2026-11-01T12:00:00Z",
+  "Frozen_Posting_Revision__c": "rev_hash_abc123456789",
+  "Frozen_Profile_Version__c": "profile_v2_20261028",
+  "Frozen_Policy_Version__c": "policy_v1_standard",
+  "Frozen_Template_Version__c": "template_v1_de",
+  "Operation_Marker__c": "op_claim_12345"
+}
+

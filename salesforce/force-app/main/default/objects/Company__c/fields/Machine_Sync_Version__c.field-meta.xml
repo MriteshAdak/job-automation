@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Machine_Sync_Version__c</fullName>
+    <description>Monotonically increasing integer version assigned by the machine sync pipeline to detect stale out-of-order writes.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Entity sync version number.</inlineHelpText>
+    <label>Machine Sync Version</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
+

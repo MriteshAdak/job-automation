@@ -1,0 +1,14 @@
+{
+  "attributes": {
+    "type": "Generation_Request__c"
+  },
+  "Job__c": "a01000000000001AAA",
+  "Document_Type__c": "cv",
+  "Language__c": "de",
+  "Template_Id__c": "modern_cv_de",
+  "Context_Strategy__c": "json",
+  "Allow_Unavailable_Job__c": false,
+  "Contract_Schema_Version__c": "1.0",
+  "Status__c": "Pending"
+}
+

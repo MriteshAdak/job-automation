@@ -1,0 +1,14 @@
+{
+  "Status__c": "Upload_Pending",
+  "Worker_Claimed_At__c": "2026-11-01T12:00:00Z",
+  "Frozen_Posting_Revision__c": "rev_hash_abc123456789",
+  "Frozen_Profile_Version__c": "profile_v2_20261028",
+  "Frozen_Policy_Version__c": "policy_v1_standard",
+  "Frozen_Template_Version__c": "template_v1_de",
+  "Local_Artifact_Ref__c": "c14_art_777888",
+  "Operation_Marker__c": "op_upload_pending_67890",
+  "Error_Category__c": "capacity",
+  "Error_Reason__c": "storage_quota_exceeded",
+  "Error_Message__c": "Temporary storage quota exceeded on target; upload enqueued for retry."
+}
+

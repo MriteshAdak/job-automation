@@ -1,0 +1,357 @@
+{
+  "$defs": {
+    "AutomaticVolumeLimits": {
+      "additionalProperties": false,
+      "description": "Finite, non-negative volume limits for automatic draft creation.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "max_requests_per_run": {
+          "default": 5,
+          "description": "Maximum logical requests created in one evaluation run",
+          "minimum": 0,
+          "title": "Max Requests Per Run",
+          "type": "integer"
+        },
+        "max_requests_per_window": {
+          "default": 10,
+          "description": "Maximum logical requests admitted in a rolling window",
+          "minimum": 0,
+          "title": "Max Requests Per Window",
+          "type": "integer"
+        },
+        "window_hours": {
+          "default": 24.0,
+          "description": "Rolling window duration in civil hours",
+          "exclusiveMinimum": 0.0,
+          "title": "Window Hours",
+          "type": "number"
+        },
+        "max_requests_per_job": {
+          "default": 2,
+          "description": "Maximum logical requests per candidate/job across material changes",
+          "minimum": 0,
+          "title": "Max Requests Per Job",
+          "type": "integer"
+        },
+        "max_outstanding_requests": {
+          "default": 5,
+          "description": "Maximum concurrent unreviewed/in-flight automatic requests",
+          "minimum": 0,
+          "title": "Max Outstanding Requests",
+          "type": "integer"
+        }
+      },
+      "title": "AutomaticVolumeLimits",
+      "type": "object"
+    },
+    "ContextStrategy": {
+      "description": "Context construction strategy for candidate evidence.",
+      "enum": [
+        "json",
+        "rag"
+      ],
+      "title": "ContextStrategy",
+      "type": "string"
+    },
+    "DocumentType": {
+      "description": "Type of generated document.",
+      "enum": [
+        "cv",
+        "cover_letter"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    },
+    "DocumentVariantConfig": {
+      "additionalProperties": false,
+      "description": "Specification of a document variant admitted for automatic drafting.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "document_type": {
+          "$ref": "#/$defs/DocumentType",
+          "description": "Document type: cv or cover_letter"
+        },
+        "target_language": {
+          "default": "de",
+          "description": "Target document language (e.g. 'de', 'en')",
+          "title": "Target Language",
+          "type": "string"
+        },
+        "template_id": {
+          "default": "standard-cv",
+          "description": "Layout template identifier",
+          "minLength": 1,
+          "title": "Template Id",
+          "type": "string"
+        },
+        "context_strategy": {
+          "$ref": "#/$defs/ContextStrategy",
+          "default": "json",
+          "description": "Context strategy: json or rag"
+        },
+        "formats": {
+          "description": "Rendered file formats",
+          "items": {
+            "type": "string"
+          },
+          "title": "Formats",
+          "type": "array"
+        },
+        "content_specification": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Supplemental content recipe/spec",
+          "title": "Content Specification"
+        },
+        "layout_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Physical layout identifier",
+          "title": "Layout Id"
+        },
+        "layout_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Layout version",
+          "title": "Layout Version"
+        },
+        "recipe_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Content generation recipe ID",
+          "title": "Recipe Id"
+        },
+        "recipe_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Content generation recipe version",
+          "title": "Recipe Version"
+        }
+      },
+      "required": [
+        "document_type"
+      ],
+      "title": "DocumentVariantConfig",
+      "type": "object"
+    },
+    "RepeatMode": {
+      "description": "Repeat generation strategy for a candidate and canonical opportunity.",
+      "enum": [
+        "first_only",
+        "on_material_change"
+      ],
+      "title": "RepeatMode",
+      "type": "string"
+    },
+    "RepeatPolicy": {
+      "additionalProperties": false,
+      "description": "Repeat generation rules for changes to previously drafted jobs.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "mode": {
+          "$ref": "#/$defs/RepeatMode",
+          "default": "first_only",
+          "description": "first_only or on_material_change"
+        },
+        "allowed_change_classes": {
+          "description": "Permitted material change classes that authorize new drafts under on_material_change",
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed Change Classes",
+          "type": "array"
+        },
+        "cooldown_hours": {
+          "default": 24.0,
+          "description": "Minimum cooldown hours between drafts of the same canonical job",
+          "minimum": 0.0,
+          "title": "Cooldown Hours",
+          "type": "number"
+        }
+      },
+      "title": "RepeatPolicy",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "C17 Automatic drafting policy configuration.\n\nGoverns threshold evaluation, volume limits, freshness constraints,\nallowed candidate states, and repeat generation rules.\nDisabled by default; requires explicit opt-in configuration.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "description": "Contract schema version",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "policy_id": {
+      "default": "auto-draft-v1",
+      "description": "Policy identifier",
+      "minLength": 1,
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "policy_version": {
+      "default": "v1.0",
+      "description": "Immutable policy version",
+      "minLength": 1,
+      "title": "Policy Version",
+      "type": "string"
+    },
+    "enabled": {
+      "default": false,
+      "description": "Opt-in flag: False disables all automatic draft creation",
+      "title": "Enabled",
+      "type": "boolean"
+    },
+    "candidate_id": {
+      "description": "Authoritative candidate UUID scope",
+      "format": "uuid",
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "salesforce_org_id": {
+      "description": "Target Salesforce Org ID scope",
+      "maxLength": 18,
+      "minLength": 15,
+      "title": "Salesforce Org Id",
+      "type": "string"
+    },
+    "minimum_relevance_score": {
+      "default": 75.0,
+      "description": "Relevance score threshold on 0-100 scale (score >= threshold qualifies)",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Minimum Relevance Score",
+      "type": "number"
+    },
+    "score_scale": {
+      "default": "0-100",
+      "description": "Declared score scale",
+      "title": "Score Scale",
+      "type": "string"
+    },
+    "allowed_application_states": {
+      "description": "Candidate-owned application states permitting automatic draft requests",
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Application States",
+      "type": "array"
+    },
+    "max_assessment_age_hours": {
+      "default": 72.0,
+      "description": "Maximum age of MATCH-02 assessment in hours",
+      "exclusiveMinimum": 0.0,
+      "title": "Max Assessment Age Hours",
+      "type": "number"
+    },
+    "max_availability_age_hours": {
+      "default": 48.0,
+      "description": "Maximum age of availability observation in hours",
+      "exclusiveMinimum": 0.0,
+      "title": "Max Availability Age Hours",
+      "type": "number"
+    },
+    "max_candidate_control_age_hours": {
+      "default": 24.0,
+      "description": "Maximum age of candidate status / opt-out observation in hours",
+      "exclusiveMinimum": 0.0,
+      "title": "Max Candidate Control Age Hours",
+      "type": "number"
+    },
+    "clock_skew_tolerance_seconds": {
+      "default": 60,
+      "description": "Allowed clock skew in seconds when comparing timestamps",
+      "minimum": 0,
+      "title": "Clock Skew Tolerance Seconds",
+      "type": "integer"
+    },
+    "volume_limits": {
+      "$ref": "#/$defs/AutomaticVolumeLimits"
+    },
+    "document_variants": {
+      "description": "Document variants to create (e.g. CV, Cover Letter)",
+      "items": {
+        "$ref": "#/$defs/DocumentVariantConfig"
+      },
+      "title": "Document Variants",
+      "type": "array"
+    },
+    "repeat_policy": {
+      "$ref": "#/$defs/RepeatPolicy"
+    },
+    "policy_engine_version": {
+      "default": "1.0",
+      "description": "Engine algorithm version",
+      "title": "Policy Engine Version",
+      "type": "string"
+    },
+    "policy_content_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "SHA-256 digest of canonical policy content",
+      "title": "Policy Content Hash"
+    }
+  },
+  "required": [
+    "candidate_id",
+    "salesforce_org_id"
+  ],
+  "title": "AutomaticDraftPolicy",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/automatic_draft_policy.schema.json"
+}

@@ -1,0 +1,209 @@
+{
+  "$defs": {
+    "InventoryItem": {
+      "additionalProperties": false,
+      "description": "A managed data item tracked in the retention inventory.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "item_id": {
+          "description": "Unique identifier for the item (e.g. relative path or record ID)",
+          "title": "Item Id",
+          "type": "string"
+        },
+        "root_relative_path": {
+          "description": "Normalized path relative to deployment data root",
+          "title": "Root Relative Path",
+          "type": "string"
+        },
+        "item_class": {
+          "$ref": "#/$defs/ItemClass",
+          "description": "Classification of this item"
+        },
+        "size_bytes": {
+          "description": "Size in bytes",
+          "minimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        },
+        "content_hash": {
+          "description": "SHA-256 content hash",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "observed_at": {
+          "description": "Observation or last modified timestamp in UTC",
+          "format": "date-time",
+          "title": "Observed At",
+          "type": "string"
+        },
+        "is_referenced": {
+          "default": true,
+          "description": "True if referenced by active or historical database records",
+          "title": "Is Referenced",
+          "type": "boolean"
+        },
+        "referencing_records": {
+          "description": "List of record references (e.g. 'raw_postings:arbeitnow/default/123')",
+          "items": {
+            "type": "string"
+          },
+          "title": "Referencing Records",
+          "type": "array"
+        },
+        "is_protected": {
+          "default": true,
+          "description": "True if protected from deletion",
+          "title": "Is Protected",
+          "type": "boolean"
+        },
+        "protection_reasons": {
+          "description": "Reasons justifying protection",
+          "items": {
+            "$ref": "#/$defs/ProtectionReason"
+          },
+          "title": "Protection Reasons",
+          "type": "array"
+        },
+        "source_policy_restriction": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Specific source or legal restriction",
+          "title": "Source Policy Restriction"
+        }
+      },
+      "required": [
+        "item_id",
+        "root_relative_path",
+        "item_class",
+        "size_bytes",
+        "content_hash",
+        "observed_at"
+      ],
+      "title": "InventoryItem",
+      "type": "object"
+    },
+    "ItemClass": {
+      "description": "Classification of managed data storage items.",
+      "enum": [
+        "raw_payload",
+        "profile_evidence",
+        "artifact",
+        "context_index",
+        "database",
+        "log",
+        "config",
+        "metadata",
+        "unknown"
+      ],
+      "title": "ItemClass",
+      "type": "string"
+    },
+    "ProtectionReason": {
+      "description": "Reason why an item is protected from deletion.",
+      "enum": [
+        "referenced_by_record",
+        "unfinished_work",
+        "profile_fact",
+        "active_index",
+        "pinned_index",
+        "retention_disabled",
+        "within_retention_period",
+        "source_policy_protected",
+        "unknown_schema_or_format",
+        "quarantine_protected"
+      ],
+      "title": "ProtectionReason",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Complete inventory of all stored items and references across the deployment.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "inventory_id": {
+      "format": "uuid",
+      "title": "Inventory Id",
+      "type": "string"
+    },
+    "data_root": {
+      "description": "Deployment data root directory",
+      "title": "Data Root",
+      "type": "string"
+    },
+    "scanned_at": {
+      "description": "Timestamp when inventory scan completed",
+      "format": "date-time",
+      "title": "Scanned At",
+      "type": "string"
+    },
+    "store_fingerprint": {
+      "description": "Deterministic hash of schema and table counts",
+      "title": "Store Fingerprint",
+      "type": "string"
+    },
+    "total_files_count": {
+      "minimum": 0,
+      "title": "Total Files Count",
+      "type": "integer"
+    },
+    "total_files_bytes": {
+      "minimum": 0,
+      "title": "Total Files Bytes",
+      "type": "integer"
+    },
+    "items": {
+      "items": {
+        "$ref": "#/$defs/InventoryItem"
+      },
+      "title": "Items",
+      "type": "array"
+    },
+    "table_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Table Counts",
+      "type": "object"
+    },
+    "unknown_files": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unknown Files",
+      "type": "array"
+    },
+    "protection_summary": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Protection Summary",
+      "type": "object"
+    }
+  },
+  "required": [
+    "data_root",
+    "scanned_at",
+    "store_fingerprint",
+    "total_files_count",
+    "total_files_bytes"
+  ],
+  "title": "RetentionInventory",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/ops_retention_inventory.schema.json"
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "assessment_id": "88888888-8888-4888-8888-888888888888",
+  "canonical_job_id": "44444444-4444-4444-8444-444444444444",
+  "posting_revision": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "profile_version": "v2026.1",
+  "policy_version": "pol-de-v1",
+  "assessment_method": "rules",
+  "rule_outcomes": [
+    {
+      "schema_version": "1.0",
+      "criterion_id": "crit_location",
+      "criterion_name": "Location Check",
+      "result": "pass",
+      "reason": "Remote in DE matches criteria"
+    }
+  ],
+  "relevance_decision": "eligible",
+  "relevance_score": null,
+  "score_scale": null,
+  "identified_gaps": [],
+  "identified_unknowns": [],
+  "summary_reason": "Hard rules satisfied",
+  "final_disposition": "eligible",
+  "model_metadata": null
+}

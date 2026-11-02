@@ -1,0 +1,472 @@
+{
+  "$defs": {
+    "ClassifiedError": {
+      "additionalProperties": false,
+      "description": "Classified operational or domain error.\n\nDistinguishes recoverable failures from permanent errors and maps\nto the system error taxonomy without arbitrary tool or shell authority.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/ErrorCategory"
+        },
+        "message": {
+          "description": "Safe diagnostic message without credentials or tokens",
+          "title": "Message",
+          "type": "string"
+        },
+        "recoverable": {
+          "description": "Whether this error category is eligible for bounded retry",
+          "title": "Recoverable",
+          "type": "boolean"
+        },
+        "field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional field path if the error pertains to a specific field",
+          "title": "Field Path"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Safe non-sensitive contextual details",
+          "title": "Details"
+        }
+      },
+      "required": [
+        "category",
+        "message",
+        "recoverable"
+      ],
+      "title": "ClassifiedError",
+      "type": "object"
+    },
+    "Continuation": {
+      "additionalProperties": false,
+      "description": "Opaque pagination or resumption token bound to source and scope.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "description": "Contract schema version",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Continuation kind: cursor, page, offset, or local_record",
+          "title": "Kind",
+          "type": "string"
+        },
+        "value": {
+          "description": "Opaque continuation value (string-encoded for persistence)",
+          "title": "Value",
+          "type": "string"
+        },
+        "source_key": {
+          "description": "Configuration source key",
+          "title": "Source Key",
+          "type": "string"
+        },
+        "scope_id": {
+          "description": "Deterministic scope identifier",
+          "title": "Scope Id",
+          "type": "string"
+        },
+        "adapter_name": {
+          "description": "Adapter identifier or version binding",
+          "title": "Adapter Name",
+          "type": "string"
+        },
+        "input_hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "SHA-256 hash of input bytes for manual sources",
+          "title": "Input Hash"
+        },
+        "options_hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Hash of parsing/paging options for manual sources",
+          "title": "Options Hash"
+        }
+      },
+      "required": [
+        "kind",
+        "value",
+        "source_key",
+        "scope_id",
+        "adapter_name"
+      ],
+      "title": "Continuation",
+      "type": "object"
+    },
+    "ErrorCategory": {
+      "description": "Classified error category for failure handling and recovery.",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ],
+      "title": "ErrorCategory",
+      "type": "string"
+    },
+    "RawPosting": {
+      "additionalProperties": false,
+      "description": "C05 Raw Posting.\n\nPreserves unaltered raw response content with source identity and hash.\nAllows malformed upstream data to be preserved as evidence.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "raw_payload_ref": {
+          "description": "Local path or storage reference for raw payload",
+          "minLength": 1,
+          "title": "Raw Payload Ref",
+          "type": "string"
+        },
+        "raw_content_hash": {
+          "description": "SHA-256 hash of the raw payload bytes",
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Raw Content Hash",
+          "type": "string"
+        },
+        "source_key": {
+          "$ref": "#/$defs/SourceKey",
+          "description": "Scoped source identity"
+        },
+        "fetch_time": {
+          "description": "When the raw posting was fetched (UTC)",
+          "format": "date-time",
+          "title": "Fetch Time",
+          "type": "string"
+        },
+        "raw_headers": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Raw HTTP response headers if available",
+          "title": "Raw Headers"
+        },
+        "raw_payload": {
+          "description": "Raw payload text (JSON or HTML)",
+          "title": "Raw Payload",
+          "type": "string"
+        }
+      },
+      "required": [
+        "raw_payload_ref",
+        "raw_content_hash",
+        "source_key",
+        "fetch_time",
+        "raw_payload"
+      ],
+      "title": "RawPosting",
+      "type": "object"
+    },
+    "RecordIssue": {
+      "additionalProperties": false,
+      "description": "Record-level validation or mapping issue with exact input locator.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "description": "Contract schema version",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "input_ref": {
+          "description": "Reference or URI of the input source",
+          "title": "Input Ref",
+          "type": "string"
+        },
+        "input_hash": {
+          "description": "Content hash of the input",
+          "title": "Input Hash",
+          "type": "string"
+        },
+        "record_index": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "1-based logical record index within input",
+          "title": "Record Index"
+        },
+        "line_start": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "1-based physical start line",
+          "title": "Line Start"
+        },
+        "line_end": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "1-based physical end line",
+          "title": "Line End"
+        },
+        "source_key": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceKey"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Scoped source identity if established"
+        },
+        "field_path": {
+          "default": "",
+          "description": "Field path within record associated with issue",
+          "title": "Field Path",
+          "type": "string"
+        },
+        "code": {
+          "description": "Stable programmatic issue code",
+          "title": "Code",
+          "type": "string"
+        },
+        "severity": {
+          "default": "error",
+          "description": "Issue severity: 'error' (blocking) or 'warning'",
+          "title": "Severity",
+          "type": "string"
+        },
+        "message": {
+          "description": "Safe human-readable issue description",
+          "title": "Message",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/ErrorCategory",
+          "default": "validation",
+          "description": "Classified error category"
+        }
+      },
+      "required": [
+        "input_ref",
+        "input_hash",
+        "code",
+        "message"
+      ],
+      "title": "RecordIssue",
+      "type": "object"
+    },
+    "SourceKey": {
+      "additionalProperties": false,
+      "description": "Unique source posting identity: (provider, board_id, source_posting_id).\n\nTwo postings with the same tuple are the same source posting.\nDifferent board_ids under the same provider are distinct.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "provider": {
+          "minLength": 1,
+          "title": "Provider",
+          "type": "string"
+        },
+        "board_id": {
+          "minLength": 1,
+          "title": "Board Id",
+          "type": "string"
+        },
+        "source_posting_id": {
+          "minLength": 1,
+          "title": "Source Posting Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "board_id",
+        "source_posting_id"
+      ],
+      "title": "SourceKey",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Page of raw postings produced by an Adapter.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "description": "Contract schema version",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "items": {
+      "description": "Ordered C05 raw records on this page",
+      "items": {
+        "$ref": "#/$defs/RawPosting"
+      },
+      "title": "Items",
+      "type": "array"
+    },
+    "issues": {
+      "description": "Ordered record issues encountered on this page",
+      "items": {
+        "$ref": "#/$defs/RecordIssue"
+      },
+      "title": "Issues",
+      "type": "array"
+    },
+    "raw_response_refs": {
+      "description": "References to captured raw response payloads",
+      "items": {
+        "type": "string"
+      },
+      "title": "Raw Response Refs",
+      "type": "array"
+    },
+    "continuation_in": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Continuation"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Continuation token used to fetch this page"
+    },
+    "continuation_out": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Continuation"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Continuation token to fetch the next page"
+    },
+    "exhausted": {
+      "default": false,
+      "description": "True if no more records are available from this source",
+      "title": "Exhausted",
+      "type": "boolean"
+    },
+    "truncated": {
+      "default": false,
+      "description": "True if page was cut short by a budget or limit",
+      "title": "Truncated",
+      "type": "boolean"
+    },
+    "truncation_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Explanation if truncated",
+      "title": "Truncation Reason"
+    },
+    "page_error": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ClassifiedError"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Classified error if page-level fetch failed"
+    },
+    "record_count": {
+      "default": 0,
+      "description": "Number of raw records on this page",
+      "minimum": 0,
+      "title": "Record Count",
+      "type": "integer"
+    },
+    "issue_count": {
+      "default": 0,
+      "description": "Number of record issues on this page",
+      "minimum": 0,
+      "title": "Issue Count",
+      "type": "integer"
+    }
+  },
+  "title": "AdapterPage",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/adapter_page.schema.json"
+}

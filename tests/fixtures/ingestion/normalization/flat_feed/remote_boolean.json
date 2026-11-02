@@ -1,0 +1,18 @@
+{
+  "name": "remote_boolean",
+  "raw_payload": "{\"title\": \"Software Engineer\", \"company_name\": \"Tech AG\", \"remote\": true, \"description\": \"<p>Remote role</p>\", \"url\": \"https://example.com/job/1\"}",
+  "mapped_fields": {
+    "title": "Software Engineer",
+    "company_name_hint": "Tech AG",
+    "description": "<p>Remote role</p>",
+    "source_url": "https://example.com/job/1",
+    "workplace_type_raw": true,
+    "remote_eligibility_restrictions": null,
+    "mapping_version": "1.0"
+  },
+  "expected": {
+    "workplace_type": "remote",
+    "remote_eligibility_restrictions": []
+  }
+}
+

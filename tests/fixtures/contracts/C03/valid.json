@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "source_key": "arbeitnow_de",
+  "provider": "arbeitnow",
+  "board_id": "default",
+  "acquisition_method": "api",
+  "base_url": "https://job-board-api.com/api/v1/jobs",
+  "access_rules": "Max 1 req/sec",
+  "attribution_rules": "Attribution to Arbeitnow API",
+  "request_policy": {
+    "timeout": 30
+  },
+  "enabled": false,
+  "inventory_semantics": "filtered_feed"
+}

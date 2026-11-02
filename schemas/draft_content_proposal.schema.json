@@ -1,0 +1,392 @@
+{
+  "$defs": {
+    "CandidateEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing an approved candidate profile fact.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "candidate",
+          "default": "candidate",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Version of the profile snapshot",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "UUID of the cited candidate fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_version",
+        "fact_id"
+      ],
+      "title": "CandidateEvidenceReference",
+      "type": "object"
+    },
+    "DraftClaim": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "claim_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,47}$",
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "claim_subject": {
+          "enum": [
+            "candidate",
+            "job"
+          ],
+          "title": "Claim Subject",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "evidence_reference": {
+          "discriminator": {
+            "mapping": {
+              "candidate": "#/$defs/CandidateEvidenceReference",
+              "job": "#/$defs/JobEvidenceReference"
+            },
+            "propertyName": "source_kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/CandidateEvidenceReference"
+            },
+            {
+              "$ref": "#/$defs/JobEvidenceReference"
+            }
+          ],
+          "title": "Evidence Reference"
+        },
+        "source_field": {
+          "enum": [
+            "title",
+            "organization",
+            "start_date",
+            "end_date",
+            "skills",
+            "metrics",
+            "claims",
+            "description_clean",
+            "company_name_hint"
+          ],
+          "title": "Source Field",
+          "type": "string"
+        },
+        "source_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Index"
+        }
+      },
+      "required": [
+        "claim_id",
+        "claim_subject",
+        "text",
+        "evidence_reference",
+        "source_field"
+      ],
+      "title": "DraftClaim",
+      "type": "object"
+    },
+    "DraftEntry": {
+      "additionalProperties": false,
+      "description": "Ordered role/education entry or letter paragraph containing atomic claims.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "entry_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,47}$",
+          "title": "Entry Id",
+          "type": "string"
+        },
+        "claim_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,47}$",
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Claim Ids",
+          "type": "array"
+        },
+        "subjective_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,47}$",
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Subjective Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "entry_id"
+      ],
+      "title": "DraftEntry",
+      "type": "object"
+    },
+    "DraftSection": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "section_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,47}$",
+          "title": "Section Id",
+          "type": "string"
+        },
+        "heading_key": {
+          "enum": [
+            "summary",
+            "experience",
+            "education",
+            "skills",
+            "motivation",
+            "opening",
+            "closing"
+          ],
+          "title": "Heading Key",
+          "type": "string"
+        },
+        "claim_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,47}$",
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Claim Ids",
+          "type": "array"
+        },
+        "subjective_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]{0,47}$",
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Subjective Ids",
+          "type": "array"
+        },
+        "entries": {
+          "items": {
+            "$ref": "#/$defs/DraftEntry"
+          },
+          "maxItems": 40,
+          "title": "Entries",
+          "type": "array"
+        }
+      },
+      "required": [
+        "section_id",
+        "heading_key"
+      ],
+      "title": "DraftSection",
+      "type": "object"
+    },
+    "JobEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing a specific job posting requirement or statement.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "job",
+          "default": "job",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "posting_revision": {
+          "description": "Content hash or revision ID of the posting",
+          "minLength": 1,
+          "title": "Posting Revision",
+          "type": "string"
+        },
+        "field_path": {
+          "description": "Path to the cited field (e.g. 'description', 'requirements')",
+          "minLength": 1,
+          "title": "Field Path",
+          "type": "string"
+        },
+        "quotation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Direct supporting quotation from the source text",
+          "title": "Quotation"
+        },
+        "source_span": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceSpan"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Character offsets of the cited passage in the field"
+        }
+      },
+      "required": [
+        "posting_revision",
+        "field_path"
+      ],
+      "title": "JobEvidenceReference",
+      "type": "object"
+    },
+    "SourceSpan": {
+      "additionalProperties": false,
+      "description": "Character offsets within a source field.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "start": {
+          "description": "0-based start character index",
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "description": "0-based end character index (exclusive)",
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "SourceSpan",
+      "type": "object"
+    },
+    "SubjectiveBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "block_id": {
+          "pattern": "^[a-z][a-z0-9_]{0,47}$",
+          "title": "Block Id",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "requires_human_review": {
+          "const": true,
+          "default": true,
+          "title": "Requires Human Review",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "block_id",
+        "text"
+      ],
+      "title": "SubjectiveBlock",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "No request identity, approval, paths, headings with hidden facts, or tools.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sections": {
+      "items": {
+        "$ref": "#/$defs/DraftSection"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "title": "Sections",
+      "type": "array"
+    },
+    "claims": {
+      "items": {
+        "$ref": "#/$defs/DraftClaim"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Claims",
+      "type": "array"
+    },
+    "subjective_blocks": {
+      "items": {
+        "$ref": "#/$defs/SubjectiveBlock"
+      },
+      "maxItems": 20,
+      "title": "Subjective Blocks",
+      "type": "array"
+    }
+  },
+  "required": [
+    "sections",
+    "claims"
+  ],
+  "title": "DraftContentProposal",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/draft_content_proposal.schema.json"
+}

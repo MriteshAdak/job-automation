@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approved_At__c</fullName>
+    <description>Server UTC timestamp when this exact version was approved by the candidate (SF-07).</description>
+    <externalId>false</externalId>
+    <label>Approved At</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>DateTime</type>
+</CustomField>
+

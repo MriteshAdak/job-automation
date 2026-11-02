@@ -1,0 +1,23 @@
+{
+  "$schema": "../schemas/v1/salesforce_portability_settings.schema.json",
+  "export_root": "local_data/exports",
+  "staging_root": "local_data/staging/exports",
+  "batch_size": 100,
+  "freshness_hours": 24.0,
+  "require_company_closure": true,
+  "export_field_history": true,
+  "max_retries": 3,
+  "capacity": {
+    "data_storage_reserve_mb": 5.0,
+    "data_storage_reserve_percent": 10.0,
+    "file_storage_reserve_mb": 10.0,
+    "file_storage_reserve_percent": 10.0,
+    "api_requests_reserve": 100,
+    "api_requests_reserve_percent": 5.0,
+    "warning_multiplier": 2.0,
+    "freshness_hours": 1.0,
+    "recheck_delay_seconds": 300,
+    "per_record_data_bytes_estimate": 2048
+  }
+}
+

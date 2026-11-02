@@ -1,0 +1,13 @@
+{
+  "Status__c": "Ready_for_Review",
+  "Worker_Claimed_At__c": "2026-11-01T12:00:00Z",
+  "Completed_At__c": "2026-11-01T12:05:00Z",
+  "Frozen_Posting_Revision__c": "rev_hash_abc123456789",
+  "Frozen_Profile_Version__c": "profile_v2_20261028",
+  "Frozen_Policy_Version__c": "policy_v1_standard",
+  "Frozen_Template_Version__c": "template_v1_de",
+  "Local_Artifact_Ref__c": "c14_art_777888",
+  "Result_Artifact_Ref__c": "069000000000001AAA",
+  "Operation_Marker__c": "op_ready_99999"
+}
+

@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "syn-cand-field-v1",
+  "regions": ["DE"],
+  "role_aliases": {},
+  "skill_aliases": {},
+  "hard_criteria": [
+    {
+      "criterion_id": "c_cand_lang",
+      "name": "Candidate must speak German",
+      "field": "candidate.language_proficiencies",
+      "operator": "contains",
+      "expected_value": "de",
+      "on_missing": "unknown"
+    }
+  ],
+  "preferences": [],
+  "exclusions": [],
+  "missing_information_behavior": {},
+  "relevance_configuration": {
+    "score_scale": "0-100",
+    "min_score_threshold": null,
+    "broad_keywords": [],
+    "negative_keywords": []
+  },
+  "primary_context_strategy": "json"
+}
+

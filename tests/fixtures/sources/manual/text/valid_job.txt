@@ -1,0 +1,10 @@
+<h3>Senior Python Entwickler (m/w/d)</h3>
+<p>Standort: Berlin / Remote (Deutschland)</p>
+<p>Vergütung: 70.000 - 85.000 EUR brutto/Jahr</p>
+<p>Wir suchen einen erfahrenen Entwickler zur Verstärkung unseres Teams.</p>
+<ul>
+  <li>5+ Jahre Erfahrung mit Python und FastAPI / Django</li>
+  <li>Erfahrung mit PostgreSQL und Cloud-Infrastruktur</li>
+  <li>Fließende Deutsch- und Englischkenntnisse</li>
+</ul>
+

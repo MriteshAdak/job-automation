@@ -1,0 +1,25 @@
+{
+  "name": "absent_null_empty",
+  "raw_payload": "{\"title\": \"Data Analyst\", \"company\": \"Analytics GmbH\", \"url\": \"https://example.com/3\", \"text\": \"Data analysis work\"}",
+  "mapped_fields": {
+    "title": "Data Analyst",
+    "company_name_hint": "Analytics GmbH",
+    "description": "Data analysis work",
+    "source_url": "https://example.com/3",
+    "locations_raw": null,
+    "workplace_type_raw": null,
+    "compensation_raw": null,
+    "source_deadline_raw": null,
+    "application_url": null,
+    "mapping_version": "1.0"
+  },
+  "expected": {
+    "locations": [],
+    "workplace_type": "unknown",
+    "remote_eligibility_restrictions": [],
+    "compensation": null,
+    "source_deadline_at": null,
+    "application_url": null
+  }
+}
+

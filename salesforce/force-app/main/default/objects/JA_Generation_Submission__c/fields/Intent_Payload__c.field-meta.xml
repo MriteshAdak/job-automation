@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Intent_Payload__c</fullName>
+    <description>Canonical JSON payload of the submission intent used for exact parameter equality verification on replay (SF-06).</description>
+    <externalId>false</externalId>
+    <label>Intent Payload</label>
+    <length>32768</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>
+

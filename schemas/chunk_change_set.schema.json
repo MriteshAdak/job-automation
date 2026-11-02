@@ -1,0 +1,166 @@
+{
+  "$defs": {
+    "BindingTransition": {
+      "additionalProperties": false,
+      "description": "Record of binding state change for an individual chunk identity.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "chunk_id": {
+          "description": "UUID of the affected chunk",
+          "format": "uuid",
+          "title": "Chunk Id",
+          "type": "string"
+        },
+        "old_binding": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Old binding fingerprint if present in base manifest",
+          "title": "Old Binding"
+        },
+        "new_binding": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "New binding fingerprint if present in target manifest",
+          "title": "New Binding"
+        },
+        "reason_code": {
+          "description": "Code: 'added', 'removed_tombstone', 'content_updated', 'rebound_snapshot'",
+          "minLength": 1,
+          "title": "Reason Code",
+          "type": "string"
+        }
+      },
+      "required": [
+        "chunk_id",
+        "reason_code"
+      ],
+      "title": "BindingTransition",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Detailed invalidation and diff report between base and target chunk sets.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "candidate_id": {
+      "description": "UUID of the candidate",
+      "format": "uuid",
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "purpose": {
+      "description": "Inclusion purpose applied",
+      "minLength": 1,
+      "title": "Purpose",
+      "type": "string"
+    },
+    "base_manifest_fingerprint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Manifest fingerprint of base ChunkSet, or None for initial build",
+      "title": "Base Manifest Fingerprint"
+    },
+    "target_manifest_fingerprint": {
+      "description": "Manifest fingerprint of target ChunkSet",
+      "minLength": 1,
+      "title": "Target Manifest Fingerprint",
+      "type": "string"
+    },
+    "added_chunk_ids": {
+      "description": "Chunk IDs present in target but not in base",
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Added Chunk Ids",
+      "type": "array"
+    },
+    "removed_chunk_ids": {
+      "description": "Chunk IDs present in base but absent from target (tombstones)",
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Removed Chunk Ids",
+      "type": "array"
+    },
+    "content_changed_chunk_ids": {
+      "description": "Chunk IDs present in both with changed content version",
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Content Changed Chunk Ids",
+      "type": "array"
+    },
+    "rebound_unchanged_chunk_ids": {
+      "description": "Chunk IDs present in both with identical content version but new binding",
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Rebound Unchanged Chunk Ids",
+      "type": "array"
+    },
+    "binding_transitions": {
+      "description": "Per-chunk transition descriptors",
+      "items": {
+        "$ref": "#/$defs/BindingTransition"
+      },
+      "title": "Binding Transitions",
+      "type": "array"
+    },
+    "reasons": {
+      "description": "Summary diagnostic reason strings",
+      "items": {
+        "type": "string"
+      },
+      "title": "Reasons",
+      "type": "array"
+    },
+    "replacement_required": {
+      "default": false,
+      "description": "True if downstream index requires mutation/replacement",
+      "title": "Replacement Required",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "candidate_id",
+    "purpose",
+    "target_manifest_fingerprint"
+  ],
+  "title": "ChunkChangeSet",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/chunk_change_set.schema.json"
+}

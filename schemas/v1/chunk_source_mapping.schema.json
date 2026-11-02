@@ -1,0 +1,140 @@
+{
+  "$defs": {
+    "CandidateEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing an approved candidate profile fact.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "candidate",
+          "default": "candidate",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Version of the profile snapshot",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "UUID of the cited candidate fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_version",
+        "fact_id"
+      ],
+      "title": "CandidateEvidenceReference",
+      "type": "object"
+    },
+    "SourceSpan": {
+      "additionalProperties": false,
+      "description": "Character offsets within a source field.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "start": {
+          "description": "0-based start character index",
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "description": "0-based end character index (exclusive)",
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "SourceSpan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Fine-grained mapping linking a chunk assertion back to an approved C01 field.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "reference": {
+      "$ref": "#/$defs/CandidateEvidenceReference",
+      "description": "C08 candidate reference (profile_version, fact_id)"
+    },
+    "field_path": {
+      "description": "Field path in source fact (e.g. 'title', 'claims[0]', 'skills[2]')",
+      "minLength": 1,
+      "title": "Field Path",
+      "type": "string"
+    },
+    "list_index": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "0-based list index for claims, skills, or metrics",
+      "title": "List Index"
+    },
+    "exact_value": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Exact string value from the approved source field",
+      "title": "Exact Value"
+    },
+    "char_span": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SourceSpan"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Optional character span within the field"
+    },
+    "is_ancestor_context": {
+      "default": false,
+      "description": "True if this mapping cites ancestor context rather than primary evidence",
+      "title": "Is Ancestor Context",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "reference",
+    "field_path"
+  ],
+  "title": "ChunkSourceMapping",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/chunk_source_mapping.schema.json"
+}

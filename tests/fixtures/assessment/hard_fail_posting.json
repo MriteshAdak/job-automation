@@ -1,0 +1,32 @@
+{
+  "source_key": {
+    "provider": "synthetic",
+    "board_id": "berlin_tech",
+    "source_posting_id": "synth_job_02"
+  },
+  "normalizer_version": "1.0",
+  "raw_reference": "synthetic/raw/synth_job_02.json",
+  "raw_content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "company_name_hint": "Traditional Office Services",
+  "title": "Python Backend Developer",
+  "description_clean": "Onsite position requiring mandatory physical attendance 5 days a week at our Munich office.",
+  "source_url": "https://example.com/jobs/synth_02",
+  "locations": [
+    {
+      "raw_text": "Munich, Germany",
+      "country": "DE",
+      "city": "Munich"
+    }
+  ],
+  "workplace_type": "onsite",
+  "remote_eligibility_restrictions": [],
+  "employment_type": "full_time",
+  "compensation": {
+    "min_amount": "70000",
+    "max_amount": "80000",
+    "currency": "EUR",
+    "period": "yearly"
+  },
+  "advert_language": "en",
+  "observed_at": "2026-10-28T12:00:00Z"
+}

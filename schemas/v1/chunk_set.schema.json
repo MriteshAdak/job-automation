@@ -1,0 +1,611 @@
+{
+  "$defs": {
+    "AncestorContext": {
+      "additionalProperties": false,
+      "description": "Structured permitted ancestor anchor attached to child evidence.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "UUID of the ancestor fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/EvidenceFactKind",
+          "description": "Evidence kind of the ancestor"
+        },
+        "title": {
+          "description": "Headline or title of the ancestor fact",
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "organization": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Employer, client, or institution organization",
+          "title": "Organization"
+        },
+        "start_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Start date with explicit precision"
+        },
+        "end_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "End date with explicit precision"
+        },
+        "parent_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Parent UUID of this ancestor if part of a deeper hierarchy",
+          "title": "Parent Id"
+        },
+        "provenance": {
+          "default": "unspecified",
+          "description": "Exact approved provenance string from C01",
+          "minLength": 1,
+          "title": "Provenance",
+          "type": "string"
+        },
+        "allowed_uses": {
+          "description": "Approved allowed uses of this ancestor fact",
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed Uses",
+          "type": "array"
+        }
+      },
+      "required": [
+        "fact_id",
+        "kind",
+        "title"
+      ],
+      "title": "AncestorContext",
+      "type": "object"
+    },
+    "CandidateEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing an approved candidate profile fact.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "candidate",
+          "default": "candidate",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Version of the profile snapshot",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "UUID of the cited candidate fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_version",
+        "fact_id"
+      ],
+      "title": "CandidateEvidenceReference",
+      "type": "object"
+    },
+    "ChunkSourceMapping": {
+      "additionalProperties": false,
+      "description": "Fine-grained mapping linking a chunk assertion back to an approved C01 field.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "reference": {
+          "$ref": "#/$defs/CandidateEvidenceReference",
+          "description": "C08 candidate reference (profile_version, fact_id)"
+        },
+        "field_path": {
+          "description": "Field path in source fact (e.g. 'title', 'claims[0]', 'skills[2]')",
+          "minLength": 1,
+          "title": "Field Path",
+          "type": "string"
+        },
+        "list_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "0-based list index for claims, skills, or metrics",
+          "title": "List Index"
+        },
+        "exact_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Exact string value from the approved source field",
+          "title": "Exact Value"
+        },
+        "char_span": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceSpan"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional character span within the field"
+        },
+        "is_ancestor_context": {
+          "default": false,
+          "description": "True if this mapping cites ancestor context rather than primary evidence",
+          "title": "Is Ancestor Context",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reference",
+        "field_path"
+      ],
+      "title": "ChunkSourceMapping",
+      "type": "object"
+    },
+    "EvidenceChunk": {
+      "additionalProperties": false,
+      "description": "Deterministic, versioned evidence chunk representing one primary fact.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "chunk_id": {
+          "description": "Stable UUIDv5 derived from candidate_id, purpose, fact_id, slot",
+          "format": "uuid",
+          "title": "Chunk Id",
+          "type": "string"
+        },
+        "chunk_version": {
+          "description": "SHA-256 content fingerprint over normalized projection",
+          "minLength": 1,
+          "title": "Chunk Version",
+          "type": "string"
+        },
+        "candidate_id": {
+          "description": "UUID of the candidate",
+          "format": "uuid",
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Exact C01 profile version cited",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "purpose": {
+          "description": "Inclusion purpose applied",
+          "minLength": 1,
+          "title": "Purpose",
+          "type": "string"
+        },
+        "primary_fact_id": {
+          "description": "UUID of the primary CandidateFact",
+          "format": "uuid",
+          "title": "Primary Fact Id",
+          "type": "string"
+        },
+        "primary_kind": {
+          "$ref": "#/$defs/EvidenceFactKind",
+          "description": "Kind of the primary fact"
+        },
+        "parent_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Original direct parent ID if hierarchical",
+          "title": "Parent Id"
+        },
+        "ancestor_context": {
+          "description": "Ordered permitted ancestor anchors",
+          "items": {
+            "$ref": "#/$defs/AncestorContext"
+          },
+          "title": "Ancestor Context",
+          "type": "array"
+        },
+        "title": {
+          "description": "Primary headline / title",
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "organization": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Primary employer or institution",
+          "title": "Organization"
+        },
+        "start_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Primary start date"
+        },
+        "end_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Primary end date"
+        },
+        "skills": {
+          "description": "Demonstrated skills attached to this primary fact",
+          "items": {
+            "type": "string"
+          },
+          "title": "Skills",
+          "type": "array"
+        },
+        "claims": {
+          "description": "Specific factual claims / accomplishments",
+          "items": {
+            "type": "string"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "metrics": {
+          "description": "Verified quantitative metrics",
+          "items": {
+            "type": "string"
+          },
+          "title": "Metrics",
+          "type": "array"
+        },
+        "provenance": {
+          "default": "unspecified",
+          "description": "Exact approved provenance string from primary fact",
+          "minLength": 1,
+          "title": "Provenance",
+          "type": "string"
+        },
+        "primary_allowed_uses": {
+          "description": "Allowed uses declared on the primary fact",
+          "items": {
+            "type": "string"
+          },
+          "title": "Primary Allowed Uses",
+          "type": "array"
+        },
+        "effective_allowed_uses": {
+          "description": "Intersection of allowed uses across primary and included ancestors",
+          "items": {
+            "type": "string"
+          },
+          "title": "Effective Allowed Uses",
+          "type": "array"
+        },
+        "sources": {
+          "description": "Complete field-level source mappings to approved snapshot",
+          "items": {
+            "$ref": "#/$defs/ChunkSourceMapping"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "retrieval_text": {
+          "description": "Deterministic formatted text for retrieval and model consumption",
+          "minLength": 1,
+          "title": "Retrieval Text",
+          "type": "string"
+        },
+        "dependency_fingerprints": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "SHA-256 fingerprint for each contributing fact (primary and ancestors)",
+          "title": "Dependency Fingerprints",
+          "type": "object"
+        },
+        "contextual_limitations": {
+          "description": "Explicit limitations (e.g. omitted restricted parent references)",
+          "items": {
+            "type": "string"
+          },
+          "title": "Contextual Limitations",
+          "type": "array"
+        },
+        "binding_fingerprint": {
+          "description": "SHA-256 fingerprint binding chunk to exact snapshot and C08 citations",
+          "minLength": 1,
+          "title": "Binding Fingerprint",
+          "type": "string"
+        }
+      },
+      "required": [
+        "chunk_id",
+        "chunk_version",
+        "candidate_id",
+        "profile_version",
+        "purpose",
+        "primary_fact_id",
+        "primary_kind",
+        "title",
+        "retrieval_text",
+        "binding_fingerprint"
+      ],
+      "title": "EvidenceChunk",
+      "type": "object"
+    },
+    "EvidenceFactKind": {
+      "description": "Kind of candidate evidence fact.",
+      "enum": [
+        "employment",
+        "education",
+        "certification",
+        "skill",
+        "language",
+        "project",
+        "publication",
+        "award",
+        "volunteer",
+        "other"
+      ],
+      "title": "EvidenceFactKind",
+      "type": "string"
+    },
+    "PrecisionDate": {
+      "additionalProperties": false,
+      "description": "Date with explicit precision: day, month, or year.\n\nMonth precision '2021-05' stays as-is; no day is fabricated.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "value": {
+          "description": "ISO date string matching the precision",
+          "title": "Value",
+          "type": "string"
+        },
+        "precision": {
+          "enum": [
+            "day",
+            "month",
+            "year"
+          ],
+          "title": "Precision",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "precision"
+      ],
+      "title": "PrecisionDate",
+      "type": "object"
+    },
+    "SourceSpan": {
+      "additionalProperties": false,
+      "description": "Character offsets within a source field.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "start": {
+          "description": "0-based start character index",
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "description": "0-based end character index (exclusive)",
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "SourceSpan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Complete manifest of evidence chunks for an approved snapshot and purpose.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "candidate_id": {
+      "description": "UUID of the candidate",
+      "format": "uuid",
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "profile_version": {
+      "description": "Exact profile snapshot version",
+      "minLength": 1,
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "purpose": {
+      "description": "Inclusion purpose applied",
+      "minLength": 1,
+      "title": "Purpose",
+      "type": "string"
+    },
+    "snapshot_fingerprint": {
+      "description": "SHA-256 digest of the approved profile snapshot",
+      "minLength": 1,
+      "title": "Snapshot Fingerprint",
+      "type": "string"
+    },
+    "inclusion_rule_version": {
+      "default": "v1",
+      "minLength": 1,
+      "title": "Inclusion Rule Version",
+      "type": "string"
+    },
+    "chunking_version": {
+      "default": "v1",
+      "minLength": 1,
+      "title": "Chunking Version",
+      "type": "string"
+    },
+    "settings_fingerprint": {
+      "description": "SHA-256 digest of effective chunking settings",
+      "minLength": 1,
+      "title": "Settings Fingerprint",
+      "type": "string"
+    },
+    "chunks": {
+      "description": "Ordered list of evidence chunks",
+      "items": {
+        "$ref": "#/$defs/EvidenceChunk"
+      },
+      "title": "Chunks",
+      "type": "array"
+    },
+    "eligible_fact_ids": {
+      "description": "All eligible fact UUIDs in deterministic order",
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Eligible Fact Ids",
+      "type": "array"
+    },
+    "coverage_fact_ids": {
+      "description": "Fact UUIDs covered by chunks",
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Coverage Fact Ids",
+      "type": "array"
+    },
+    "excluded_fact_count": {
+      "default": 0,
+      "description": "Count of facts excluded by purpose permissions",
+      "minimum": 0,
+      "title": "Excluded Fact Count",
+      "type": "integer"
+    },
+    "warnings": {
+      "description": "Deterministic inclusion and chunking warnings",
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "manifest_fingerprint": {
+      "description": "SHA-256 digest over the complete manifest binding",
+      "minLength": 1,
+      "title": "Manifest Fingerprint",
+      "type": "string"
+    }
+  },
+  "required": [
+    "candidate_id",
+    "profile_version",
+    "purpose",
+    "snapshot_fingerprint",
+    "settings_fingerprint",
+    "manifest_fingerprint"
+  ],
+  "title": "ChunkSet",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/chunk_set.schema.json"
+}

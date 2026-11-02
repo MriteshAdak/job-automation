@@ -1,0 +1,227 @@
+{
+  "$defs": {
+    "AutomaticDraftOutcome": {
+      "description": "Categorized outcome of automatic drafting policy evaluation.",
+      "enum": [
+        "admitted",
+        "reused",
+        "below_threshold",
+        "ineligible",
+        "review_required",
+        "suppressed",
+        "deferred",
+        "blocked",
+        "disabled",
+        "excluded"
+      ],
+      "title": "AutomaticDraftOutcome",
+      "type": "string"
+    },
+    "DocumentType": {
+      "description": "Type of generated document.",
+      "enum": [
+        "cv",
+        "cover_letter"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Immutable policy decision explaining the outcome of evaluating a candidate.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "decision_id": {
+      "description": "Unique decision UUID",
+      "format": "uuid",
+      "title": "Decision Id",
+      "type": "string"
+    },
+    "candidate_id": {
+      "description": "Candidate UUID",
+      "format": "uuid",
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "salesforce_org_id": {
+      "description": "Salesforce Org ID",
+      "title": "Salesforce Org Id",
+      "type": "string"
+    },
+    "canonical_job_id": {
+      "description": "Canonical job UUID",
+      "format": "uuid",
+      "title": "Canonical Job Id",
+      "type": "string"
+    },
+    "evaluation_run_id": {
+      "description": "Logical evaluation run UUID",
+      "format": "uuid",
+      "title": "Evaluation Run Id",
+      "type": "string"
+    },
+    "evaluation_attempt_id": {
+      "description": "Evaluation attempt UUID",
+      "format": "uuid",
+      "title": "Evaluation Attempt Id",
+      "type": "string"
+    },
+    "policy_id": {
+      "description": "Evaluated policy ID",
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "policy_version": {
+      "description": "Evaluated policy version",
+      "title": "Policy Version",
+      "type": "string"
+    },
+    "policy_content_hash": {
+      "description": "Evaluated policy content hash",
+      "title": "Policy Content Hash",
+      "type": "string"
+    },
+    "decision_input_fingerprint": {
+      "description": "SHA-256 decision-input fingerprint",
+      "title": "Decision Input Fingerprint",
+      "type": "string"
+    },
+    "outcome": {
+      "$ref": "#/$defs/AutomaticDraftOutcome",
+      "description": "Outcome classification"
+    },
+    "reason_codes": {
+      "description": "Structured reason codes",
+      "items": {
+        "type": "string"
+      },
+      "title": "Reason Codes",
+      "type": "array"
+    },
+    "summary_reason": {
+      "description": "Human-readable explanation of decision",
+      "title": "Summary Reason",
+      "type": "string"
+    },
+    "evaluated_at": {
+      "description": "Timestamp of evaluation",
+      "format": "date-time",
+      "title": "Evaluated At",
+      "type": "string"
+    },
+    "relevance_score": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Observed relevance score",
+      "title": "Relevance Score"
+    },
+    "threshold_applied": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Threshold applied",
+      "title": "Threshold Applied"
+    },
+    "assessment_ref": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Associated assessment UUID",
+      "title": "Assessment Ref"
+    },
+    "existing_intent_key": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Client key of prior intent if reused/duplicate",
+      "title": "Existing Intent Key"
+    },
+    "existing_request_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Local C13 UUID of prior request",
+      "title": "Existing Request Id"
+    },
+    "proposed_document_types": {
+      "description": "Document types proposed if admitted",
+      "items": {
+        "$ref": "#/$defs/DocumentType"
+      },
+      "title": "Proposed Document Types",
+      "type": "array"
+    },
+    "quota_snapshot": {
+      "additionalProperties": true,
+      "description": "Snapshot of quota state",
+      "title": "Quota Snapshot",
+      "type": "object"
+    },
+    "review_route": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Inspection or review link",
+      "title": "Review Route"
+    }
+  },
+  "required": [
+    "candidate_id",
+    "salesforce_org_id",
+    "canonical_job_id",
+    "evaluation_run_id",
+    "policy_id",
+    "policy_version",
+    "policy_content_hash",
+    "decision_input_fingerprint",
+    "outcome",
+    "summary_reason"
+  ],
+  "title": "AutomaticDraftDecision",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/automatic_draft_decision.schema.json"
+}

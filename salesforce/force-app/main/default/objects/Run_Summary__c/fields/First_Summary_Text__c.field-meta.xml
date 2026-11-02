@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>First_Summary_Text__c</fullName>
+    <description>Immutable summary text snapshot captured on initial completion (SF-09).</description>
+    <externalId>false</externalId>
+    <label>First Summary Text</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>4</visibleLines>
+</CustomField>

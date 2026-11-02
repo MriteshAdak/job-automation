@@ -1,0 +1,34 @@
+{
+  "source_key": {
+    "provider": "synthetic",
+    "board_id": "berlin_tech",
+    "source_posting_id": "synth_job_01"
+  },
+  "normalizer_version": "1.0",
+  "raw_reference": "synthetic/raw/synth_job_01.json",
+  "raw_content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "company_name_hint": "Modern Cloud Labs",
+  "title": "Senior Python Backend Developer",
+  "description_clean": "We are seeking a senior engineer with Python and microservices experience to join our core backend engineering team.",
+  "source_url": "https://example.com/jobs/synth_01",
+  "locations": [
+    {
+      "raw_text": "Berlin, Germany",
+      "country": "DE",
+      "city": "Berlin"
+    }
+  ],
+  "workplace_type": "remote",
+  "remote_eligibility_restrictions": [
+    "DE"
+  ],
+  "employment_type": "full_time",
+  "compensation": {
+    "min_amount": "75000",
+    "max_amount": "90000",
+    "currency": "EUR",
+    "period": "yearly"
+  },
+  "advert_language": "en",
+  "observed_at": "2026-10-28T12:00:00Z"
+}

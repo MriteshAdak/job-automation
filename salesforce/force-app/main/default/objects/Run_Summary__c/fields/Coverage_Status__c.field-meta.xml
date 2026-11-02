@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coverage_Status__c</fullName>
+    <description>Configured-scope source coverage status: complete, partial, or unavailable (SF-09).</description>
+    <externalId>false</externalId>
+    <label>Coverage Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>complete</fullName>
+                <default>false</default>
+                <label>complete</label>
+            </value>
+            <value>
+                <fullName>partial</fullName>
+                <default>false</default>
+                <label>partial</label>
+            </value>
+            <value>
+                <fullName>unavailable</fullName>
+                <default>false</default>
+                <label>unavailable</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

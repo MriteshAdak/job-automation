@@ -1,0 +1,36 @@
+{
+  "name": "Job__c",
+  "label": "Job",
+  "custom": true,
+  "keyPrefix": "a00",
+  "fields": [
+    {
+      "name": "Id",
+      "label": "Record ID",
+      "type": "id",
+      "createable": false,
+      "updateable": false,
+      "idLookup": true,
+      "externalId": false
+    },
+    {
+      "name": "External_Id__c",
+      "label": "External ID",
+      "type": "string",
+      "createable": true,
+      "updateable": true,
+      "idLookup": true,
+      "externalId": true
+    },
+    {
+      "name": "Title__c",
+      "label": "Job Title",
+      "type": "string",
+      "createable": true,
+      "updateable": true,
+      "idLookup": false,
+      "externalId": false
+    }
+  ]
+}
+

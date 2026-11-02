@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "syn-office-v1",
+  "regions": ["DE", "AT"],
+  "role_aliases": {
+    "Projektmanager": ["Project Manager", "Projektleiter"]
+  },
+  "skill_aliases": {
+    "Scrum": ["Agile Scrum"]
+  },
+  "hard_criteria": [
+    {
+      "criterion_id": "c_office_loc",
+      "name": "Location DE",
+      "field": "locations.country",
+      "operator": "equals",
+      "expected_value": "DE",
+      "on_missing": "unknown"
+    }
+  ],
+  "preferences": [
+    {
+      "rule_id": "p_office_wp",
+      "name": "Prefer hybrid",
+      "field": "workplace_type",
+      "weight": 0.5,
+      "preferred_values": ["hybrid"]
+    }
+  ],
+  "exclusions": ["Zeitarbeit"],
+  "missing_information_behavior": {},
+  "relevance_configuration": {
+    "score_scale": "0-100",
+    "min_score_threshold": null,
+    "broad_keywords": ["Koordination"],
+    "negative_keywords": []
+  },
+  "primary_context_strategy": "rag"
+}
+

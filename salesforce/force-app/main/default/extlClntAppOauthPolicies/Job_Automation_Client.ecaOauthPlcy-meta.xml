@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtlClntAppOauthConfigurablePolicies xmlns="http://soap.sforce.com/2006/04/metadata">
+    <externalClientApplication>Job_Automation_Client</externalClientApplication>
+    <label>Job Automation Client Configurable Policies</label>
+    <ipRelaxationPolicyType>Enforce</ipRelaxationPolicyType>
+    <permittedUsersPolicyType>AdminApprovedPreAuthorized</permittedUsersPolicyType>
+    <refreshTokenPolicyType>SpecificLifetime</refreshTokenPolicyType>
+    <refreshTokenValidityPeriod>90</refreshTokenValidityPeriod>
+    <refreshTokenValidityUnit>Days</refreshTokenValidityUnit>
+    <sessionTimeoutInMinutes>15</sessionTimeoutInMinutes>
+</ExtlClntAppOauthConfigurablePolicies>
+

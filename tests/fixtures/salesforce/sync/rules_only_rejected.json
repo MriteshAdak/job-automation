@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "assessment_id": "33333333-3333-4333-8333-333333333333",
+  "canonical_job_id": "44444444-4444-4444-8444-444444444444",
+  "posting_revision": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "profile_version": "v1.0",
+  "policy_version": "pol-v1",
+  "assessment_method": "rules",
+  "rule_outcomes": [
+    {
+      "schema_version": "1.0",
+      "criterion_id": "crit_location",
+      "criterion_name": "Location DE",
+      "result": "fail",
+      "reason": "Location US outside permitted country DE"
+    }
+  ],
+  "relevance_decision": "rejected",
+  "relevance_score": null,
+  "score_scale": null,
+  "identified_gaps": ["Location outside DE"],
+  "identified_unknowns": [],
+  "summary_reason": "Failed hard criterion: Location DE",
+  "final_disposition": "rejected",
+  "model_metadata": null
+}
+

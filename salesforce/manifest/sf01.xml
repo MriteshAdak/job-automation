@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Company__c</members>
+        <members>Job__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Company__c.Canonical_Company_Id__c</members>
+        <members>Company__c.Company_Name__c</members>
+        <members>Company__c.Sync_Operation_Marker__c</members>
+        <members>Company__c.Machine_Sync_Version__c</members>
+        <members>Job__c.Canonical_Job_Id__c</members>
+        <members>Job__c.Job_Title__c</members>
+        <members>Job__c.Company__c</members>
+        <members>Job__c.Availability__c</members>
+        <members>Job__c.Assessment_Disposition__c</members>
+        <members>Job__c.Assessment_Reasons__c</members>
+        <members>Job__c.Relevance_Score__c</members>
+        <members>Job__c.Score_Scale__c</members>
+        <members>Job__c.Last_Evaluated_At__c</members>
+        <members>Job__c.Source_URLs__c</members>
+        <members>Job__c.Sync_Operation_Marker__c</members>
+        <members>Job__c.Machine_Sync_Version__c</members>
+        <members>Job__c.Application_Progress__c</members>
+        <members>Job__c.Candidate_Notes__c</members>
+        <members>Job__c.Candidate_Decision__c</members>
+        <members>Job__c.Follow_Up_Date__c</members>
+        <members>Job__c.Interview_Date__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Company__c.Canonical_Company_Id_Format</members>
+        <members>Company__c.Canonical_Company_Id_Immutable</members>
+        <members>Job__c.Canonical_Job_Id_Format</members>
+        <members>Job__c.Canonical_Job_Id_Immutable</members>
+        <name>ValidationRule</name>
+    </types>
+    <version>60.0</version>
+</Package>
+

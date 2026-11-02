@@ -1,0 +1,24 @@
+{
+  "name": "office_html",
+  "raw_payload": "<p>Planung &amp; Einkauf</p><ul><li>SAP</li><li>Excel</li></ul><p>Wir suchen einen Sachbearbeiter (m/w/d).</p>",
+  "mapped_fields": {
+    "title": "Sachbearbeiter (m/w/d)",
+    "company_name_hint": "Hansa Logistik GmbH",
+    "description": "<p>Planung &amp; Einkauf</p><ul><li>SAP</li><li>Excel</li></ul><p>Wir suchen einen Sachbearbeiter (m/w/d).</p>",
+    "source_url": "https://jobs.example.invalid/text/001",
+    "locations_raw": "Hamburg, Deutschland",
+    "workplace_type_raw": "vor Ort",
+    "employment_type_raw": "Vollzeit",
+    "compensation_raw": null,
+    "source_deadline_raw": null,
+    "mapping_version": "1.0"
+  },
+  "expected": {
+    "title": "Sachbearbeiter (m/w/d)",
+    "company_name_hint": "Hansa Logistik GmbH",
+    "description_clean": "Planung & Einkauf\nSAP\nExcel\nWir suchen einen Sachbearbeiter (m/w/d).",
+    "workplace_type": "onsite",
+    "employment_type": "full_time"
+  }
+}
+

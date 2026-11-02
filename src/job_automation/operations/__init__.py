@@ -1,0 +1,62 @@
+"""Operations package for retention, backups, capacity, and restoration (OPS-01)."""
+
+from __future__ import annotations
+
+from job_automation.operations.records import (
+    BackupFileEntry,
+    BackupManifest,
+    BackupSettings,
+    CapacityReport,
+    CapacitySettings,
+    CapacityStatus,
+    CapacityVolumeReport,
+    CleanupCandidate,
+    CleanupJournalEntry,
+    CleanupPlan,
+    CleanupResult,
+    InventoryItem,
+    ItemClass,
+    MaintenanceReport,
+    OperationLimits,
+    OperationStatus,
+    OperationsSettings,
+    ProtectionReason,
+    RemoteCapacityObservation,
+    RemoteCompleteness,
+    RemoteRecoveryExport,
+    RestorePlan,
+    RestoreResult,
+    RetentionInventory,
+    RetentionSettings,
+)
+from job_automation.operations.inventory import RetentionInventoryManager
+
+__all__ = [
+    "BackupFileEntry",
+    "BackupManifest",
+    "BackupSettings",
+    "CapacityReport",
+    "CapacitySettings",
+    "CapacityStatus",
+    "CapacityVolumeReport",
+    "CleanupCandidate",
+    "CleanupJournalEntry",
+    "CleanupPlan",
+    "CleanupResult",
+    "InventoryItem",
+    "ItemClass",
+    "MaintenanceReport",
+    "OperationLimits",
+    "OperationStatus",
+    "OperationsSettings",
+    "ProtectionReason",
+    "RemoteCapacityObservation",
+    "RemoteCompleteness",
+    "RemoteRecoveryExport",
+    "RestorePlan",
+    "RestoreResult",
+    "RetentionInventory",
+    "RetentionInventoryManager",
+    "RetentionSettings",
+]
+

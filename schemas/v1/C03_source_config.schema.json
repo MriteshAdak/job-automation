@@ -1,0 +1,115 @@
+{
+  "$defs": {
+    "AcquisitionMethod": {
+      "description": "How job data is acquired from a source.",
+      "enum": [
+        "api",
+        "permitted_scraping",
+        "manual_import"
+      ],
+      "title": "AcquisitionMethod",
+      "type": "string"
+    },
+    "InventorySemantics": {
+      "description": "Source inventory completeness semantics.\n\ncomplete_board: all postings from the entire board/source.\nfiltered_feed: subset from a configured filter/category.\nsearch_results: results from a query; absence does not imply closure.",
+      "enum": [
+        "complete_board",
+        "filtered_feed",
+        "search_results"
+      ],
+      "title": "InventorySemantics",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "C03 Source Configuration.\n\nConfigures permitted acquisition methods, rate/access policies, and inventory semantics\nfor each job provider board or feed.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_key": {
+      "description": "Unique identifier for this configured source (e.g. 'arbeitnow_de')",
+      "minLength": 1,
+      "title": "Source Key",
+      "type": "string"
+    },
+    "provider": {
+      "description": "Provider platform name (e.g. 'arbeitnow', 'greenhouse', 'manual')",
+      "minLength": 1,
+      "title": "Provider",
+      "type": "string"
+    },
+    "board_id": {
+      "description": "Board or tenant identifier within the provider",
+      "minLength": 1,
+      "title": "Board Id",
+      "type": "string"
+    },
+    "acquisition_method": {
+      "$ref": "#/$defs/AcquisitionMethod",
+      "description": "Acquisition mechanism: api, permitted_scraping, manual_import"
+    },
+    "base_url": {
+      "description": "Base URL or entry endpoint for fetching",
+      "minLength": 1,
+      "title": "Base Url",
+      "type": "string"
+    },
+    "access_rules": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Documented access constraints, permitted paths, or rate limits",
+      "title": "Access Rules"
+    },
+    "attribution_rules": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Required attribution or licensing notices",
+      "title": "Attribution Rules"
+    },
+    "request_policy": {
+      "additionalProperties": true,
+      "description": "HTTP request policies: headers, parameters, timeout seconds",
+      "title": "Request Policy",
+      "type": "object"
+    },
+    "enabled": {
+      "default": false,
+      "description": "Whether this source is currently active (synthetic examples default disabled)",
+      "title": "Enabled",
+      "type": "boolean"
+    },
+    "inventory_semantics": {
+      "$ref": "#/$defs/InventorySemantics",
+      "default": "search_results",
+      "description": "Inventory scope: complete_board, filtered_feed, or search_results"
+    }
+  },
+  "required": [
+    "source_key",
+    "provider",
+    "board_id",
+    "acquisition_method",
+    "base_url"
+  ],
+  "title": "SourceConfig",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/C03_source_config.schema.json"
+}

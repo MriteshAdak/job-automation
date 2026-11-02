@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client_Request_Key_No_Whitespace</fullName>
+    <active>true</active>
+    <description>Rejects leading, trailing, or embedded whitespace in client request key.</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(Client_Request_Key__c)), OR(CONTAINS(Client_Request_Key__c, " "), Client_Request_Key__c != TRIM(Client_Request_Key__c)))</errorConditionFormula>
+    <errorDisplayField>Client_Request_Key__c</errorDisplayField>
+    <errorMessage>Client Request Key cannot contain leading, trailing, or embedded whitespace.</errorMessage>
+</ValidationRule>
+

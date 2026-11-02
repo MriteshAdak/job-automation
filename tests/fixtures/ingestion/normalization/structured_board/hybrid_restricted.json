@@ -1,0 +1,20 @@
+{
+  "name": "hybrid_restricted",
+  "raw_payload": "{\"title\": \"Fullstack Dev\", \"company\": \"Cloud Corp\", \"workplace\": \"hybrid\", \"restrictions\": [\"DE\"], \"description\": \"Hybrid role\", \"url\": \"https://example.com/2\"}",
+  "mapped_fields": {
+    "title": "Fullstack Dev",
+    "company_name_hint": "Cloud Corp",
+    "description": "Hybrid role in Germany",
+    "source_url": "https://example.com/2",
+    "workplace_type_raw": "hybrid",
+    "remote_eligibility_restrictions": ["Deutschland"],
+    "advert_language": "de",
+    "mapping_version": "1.0"
+  },
+  "expected": {
+    "workplace_type": "hybrid",
+    "remote_eligibility_restrictions": ["DE"],
+    "advert_language": "de"
+  }
+}
+

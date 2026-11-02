@@ -1,0 +1,4 @@
+source_posting_id,source_url,title,company,text,locations_raw,compensation_raw
+0007,https://jobs.example.invalid/vacancies/0007,Senior Python Developer,Tech GmbH,Wir suchen Senior Python Entwickler mit Erfahrung in FastAPI.,Berlin / Remote,75.000 - 85.000 EUR
+0008,https://jobs.example.invalid/vacancies/0008,Data Engineer,Data AG,Data Engineer gesucht für ETL-Pipelines mit PySpark.,München,70.000 EUR
+

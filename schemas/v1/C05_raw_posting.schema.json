@@ -1,0 +1,100 @@
+{
+  "$defs": {
+    "SourceKey": {
+      "additionalProperties": false,
+      "description": "Unique source posting identity: (provider, board_id, source_posting_id).\n\nTwo postings with the same tuple are the same source posting.\nDifferent board_ids under the same provider are distinct.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "provider": {
+          "minLength": 1,
+          "title": "Provider",
+          "type": "string"
+        },
+        "board_id": {
+          "minLength": 1,
+          "title": "Board Id",
+          "type": "string"
+        },
+        "source_posting_id": {
+          "minLength": 1,
+          "title": "Source Posting Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "board_id",
+        "source_posting_id"
+      ],
+      "title": "SourceKey",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "C05 Raw Posting.\n\nPreserves unaltered raw response content with source identity and hash.\nAllows malformed upstream data to be preserved as evidence.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "raw_payload_ref": {
+      "description": "Local path or storage reference for raw payload",
+      "minLength": 1,
+      "title": "Raw Payload Ref",
+      "type": "string"
+    },
+    "raw_content_hash": {
+      "description": "SHA-256 hash of the raw payload bytes",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "title": "Raw Content Hash",
+      "type": "string"
+    },
+    "source_key": {
+      "$ref": "#/$defs/SourceKey",
+      "description": "Scoped source identity"
+    },
+    "fetch_time": {
+      "description": "When the raw posting was fetched (UTC)",
+      "format": "date-time",
+      "title": "Fetch Time",
+      "type": "string"
+    },
+    "raw_headers": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Raw HTTP response headers if available",
+      "title": "Raw Headers"
+    },
+    "raw_payload": {
+      "description": "Raw payload text (JSON or HTML)",
+      "title": "Raw Payload",
+      "type": "string"
+    }
+  },
+  "required": [
+    "raw_payload_ref",
+    "raw_content_hash",
+    "source_key",
+    "fetch_time",
+    "raw_payload"
+  ],
+  "title": "RawPosting",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/C05_raw_posting.schema.json"
+}

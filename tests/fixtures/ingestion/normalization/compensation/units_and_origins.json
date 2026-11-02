@@ -1,0 +1,20 @@
+{
+  "name": "units_and_origins",
+  "raw_payload": "{\"salary_1\": \"60.000 - 75.000 EUR brutto/Jahr\", \"salary_2\": \"75.000 - 85.000 EUR\"}",
+  "cases": [
+    {
+      "compensation_raw": "60.000 - 75.000 EUR brutto/Jahr",
+      "expected_min": 60000,
+      "expected_max": 75000,
+      "expected_currency": "EUR",
+      "expected_period": "yearly",
+      "expected_gross": true
+    },
+    {
+      "compensation_raw": "75.000 - 85.000 EUR",
+      "expected_compensation": null,
+      "warning": "unsupported_representation"
+    }
+  ]
+}
+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Job__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Target canonical job vacancy for tailored document generation.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Target job vacancy.</inlineHelpText>
+    <label>Job</label>
+    <referenceTo>Job__c</referenceTo>
+    <relationshipLabel>Generation Requests</relationshipLabel>
+    <relationshipName>Generation_Requests</relationshipName>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Lookup</type>
+</CustomField>
+

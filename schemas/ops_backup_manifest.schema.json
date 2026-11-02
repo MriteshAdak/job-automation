@@ -1,0 +1,308 @@
+{
+  "$defs": {
+    "BackupFileEntry": {
+      "additionalProperties": false,
+      "description": "Inventory entry for a file included in a backup set.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "root_relative_path": {
+          "title": "Root Relative Path",
+          "type": "string"
+        },
+        "sha256": {
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        },
+        "item_class": {
+          "$ref": "#/$defs/ItemClass"
+        }
+      },
+      "required": [
+        "root_relative_path",
+        "sha256",
+        "size_bytes",
+        "item_class"
+      ],
+      "title": "BackupFileEntry",
+      "type": "object"
+    },
+    "ItemClass": {
+      "description": "Classification of managed data storage items.",
+      "enum": [
+        "raw_payload",
+        "profile_evidence",
+        "artifact",
+        "context_index",
+        "database",
+        "log",
+        "config",
+        "metadata",
+        "unknown"
+      ],
+      "title": "ItemClass",
+      "type": "string"
+    },
+    "RemoteCompleteness": {
+      "description": "Completeness state of remote recovery export.",
+      "enum": [
+        "complete",
+        "partial",
+        "incomplete",
+        "local_only_absent_sf04"
+      ],
+      "title": "RemoteCompleteness",
+      "type": "string"
+    },
+    "RemoteRecoveryExport": {
+      "additionalProperties": false,
+      "description": "Candidate-owned Salesforce export package for disaster recovery.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "scan_id": {
+          "description": "Stable identifier for the export scan",
+          "title": "Scan Id",
+          "type": "string"
+        },
+        "start_time": {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "title": "Start Time",
+          "type": "string"
+        },
+        "end_time": {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "title": "End Time",
+          "type": "string"
+        },
+        "org_id": {
+          "title": "Org Id",
+          "type": "string"
+        },
+        "object_coverage": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Object Coverage",
+          "type": "array"
+        },
+        "expected_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Expected Count",
+          "type": "integer"
+        },
+        "read_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Read Count",
+          "type": "integer"
+        },
+        "saved_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Saved Count",
+          "type": "integer"
+        },
+        "skipped_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Skipped Count",
+          "type": "integer"
+        },
+        "missing_fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Fields",
+          "type": "array"
+        },
+        "per_record_tokens": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Per Record Tokens",
+          "type": "object"
+        },
+        "completeness_status": {
+          "$ref": "#/$defs/RemoteCompleteness",
+          "default": "local_only_absent_sf04"
+        },
+        "checksum": {
+          "default": "",
+          "title": "Checksum",
+          "type": "string"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scan_id",
+        "start_time",
+        "end_time",
+        "org_id"
+      ],
+      "title": "RemoteRecoveryExport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Manifest describing a consistent backup set.",
+  "properties": {
+    "schema_version": {
+      "minimum": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "backup_id": {
+      "format": "uuid",
+      "title": "Backup Id",
+      "type": "string"
+    },
+    "created_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "format_version": {
+      "default": "1.0",
+      "title": "Format Version",
+      "type": "string"
+    },
+    "app_version": {
+      "title": "App Version",
+      "type": "string"
+    },
+    "migration_checksums": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Migration Checksums",
+      "type": "object"
+    },
+    "local_cut_time": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Local Cut Time",
+      "type": "string"
+    },
+    "remote_capture_interval": {
+      "anyOf": [
+        {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            }
+          ],
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Capture Interval"
+    },
+    "source_data_root": {
+      "title": "Source Data Root",
+      "type": "string"
+    },
+    "files": {
+      "items": {
+        "$ref": "#/$defs/BackupFileEntry"
+      },
+      "title": "Files",
+      "type": "array"
+    },
+    "total_files_count": {
+      "minimum": 0,
+      "title": "Total Files Count",
+      "type": "integer"
+    },
+    "total_bytes": {
+      "minimum": 0,
+      "title": "Total Bytes",
+      "type": "integer"
+    },
+    "mapping_versions": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Mapping Versions",
+      "type": "object"
+    },
+    "omissions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Omissions",
+      "type": "array"
+    },
+    "completeness_status": {
+      "description": "'complete_local', 'complete_local_and_remote', 'partial'",
+      "title": "Completeness Status",
+      "type": "string"
+    },
+    "remote_export": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RemoteRecoveryExport"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "failure_domain_evidence": {
+      "additionalProperties": true,
+      "title": "Failure Domain Evidence",
+      "type": "object"
+    },
+    "verification_results": {
+      "additionalProperties": true,
+      "title": "Verification Results",
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "created_at",
+    "app_version",
+    "local_cut_time",
+    "source_data_root",
+    "total_files_count",
+    "total_bytes",
+    "completeness_status"
+  ],
+  "title": "BackupManifest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/ops_backup_manifest.schema.json"
+}

@@ -1,0 +1,267 @@
+{
+  "$defs": {
+    "ContextStrategy": {
+      "description": "Context construction strategy for candidate evidence.",
+      "enum": [
+        "json",
+        "rag"
+      ],
+      "title": "ContextStrategy",
+      "type": "string"
+    },
+    "HardCriterion": {
+      "additionalProperties": false,
+      "description": "Explicit hard filter rule evaluated as pass, fail, or unknown.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "criterion_id": {
+          "description": "Unique identifier for the criterion",
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "name": {
+          "description": "Human-readable criterion label",
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "field": {
+          "description": "Target field in the job posting to evaluate",
+          "minLength": 1,
+          "title": "Field",
+          "type": "string"
+        },
+        "operator": {
+          "description": "Evaluation operator (e.g. 'equals', 'contains', 'in', 'gte', 'lte')",
+          "minLength": 1,
+          "title": "Operator",
+          "type": "string"
+        },
+        "expected_value": {
+          "description": "Expected value or set for comparison",
+          "title": "Expected Value"
+        },
+        "on_missing": {
+          "default": "unknown",
+          "description": "Disposition when target field is missing from posting",
+          "enum": [
+            "pass",
+            "fail",
+            "unknown"
+          ],
+          "title": "On Missing",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "name",
+        "field",
+        "operator",
+        "expected_value"
+      ],
+      "title": "HardCriterion",
+      "type": "object"
+    },
+    "PreferenceRule": {
+      "additionalProperties": false,
+      "description": "Soft preference or ranking booster.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "field": {
+          "minLength": 1,
+          "title": "Field",
+          "type": "string"
+        },
+        "weight": {
+          "description": "Relative preference weight (0.0 to 1.0)",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Weight",
+          "type": "number"
+        },
+        "preferred_values": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Preferred Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "rule_id",
+        "name",
+        "field",
+        "weight"
+      ],
+      "title": "PreferenceRule",
+      "type": "object"
+    },
+    "RelevanceConfig": {
+      "additionalProperties": false,
+      "description": "Configuration for broad keyword matching and LLM fit assessment.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "score_scale": {
+          "default": "0-100",
+          "description": "Documented scale for relevance scoring",
+          "title": "Score Scale",
+          "type": "string"
+        },
+        "min_score_threshold": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Minimum score for eligible classification (nullable)",
+          "title": "Min Score Threshold"
+        },
+        "broad_keywords": {
+          "description": "Keywords for initial broad semantic candidate recall",
+          "items": {
+            "type": "string"
+          },
+          "title": "Broad Keywords",
+          "type": "array"
+        },
+        "negative_keywords": {
+          "description": "Disqualifying keywords proposing rejection",
+          "items": {
+            "type": "string"
+          },
+          "title": "Negative Keywords",
+          "type": "array"
+        }
+      },
+      "title": "RelevanceConfig",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "C02 Search Policy.\n\nConfigures desired job criteria, exclusions, and evaluation behavior\nindependently of candidate facts.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "policy_version": {
+      "description": "Version of this search policy",
+      "minLength": 1,
+      "title": "Policy Version",
+      "type": "string"
+    },
+    "regions": {
+      "description": "Target geographic regions / countries (e.g. ['DE'])",
+      "items": {
+        "type": "string"
+      },
+      "title": "Regions",
+      "type": "array"
+    },
+    "role_aliases": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "description": "Mapping of canonical role names to accepted title aliases",
+      "title": "Role Aliases",
+      "type": "object"
+    },
+    "skill_aliases": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "description": "Mapping of skill names to equivalent keywords",
+      "title": "Skill Aliases",
+      "type": "object"
+    },
+    "hard_criteria": {
+      "description": "List of pass/fail/unknown hard rules",
+      "items": {
+        "$ref": "#/$defs/HardCriterion"
+      },
+      "title": "Hard Criteria",
+      "type": "array"
+    },
+    "preferences": {
+      "description": "Soft preferences for ranking",
+      "items": {
+        "$ref": "#/$defs/PreferenceRule"
+      },
+      "title": "Preferences",
+      "type": "array"
+    },
+    "exclusions": {
+      "description": "Explicitly excluded company names, keywords, or patterns",
+      "items": {
+        "type": "string"
+      },
+      "title": "Exclusions",
+      "type": "array"
+    },
+    "missing_information_behavior": {
+      "additionalProperties": {
+        "enum": [
+          "pass",
+          "fail",
+          "unknown"
+        ],
+        "type": "string"
+      },
+      "description": "Default disposition when particular criteria fields are missing",
+      "title": "Missing Information Behavior",
+      "type": "object"
+    },
+    "relevance_configuration": {
+      "$ref": "#/$defs/RelevanceConfig",
+      "description": "Relevance matching configuration"
+    },
+    "primary_context_strategy": {
+      "$ref": "#/$defs/ContextStrategy",
+      "default": "json",
+      "description": "Primary context construction strategy (json or rag)"
+    }
+  },
+  "required": [
+    "policy_version"
+  ],
+  "title": "SearchPolicy",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/C02_search_policy.schema.json"
+}

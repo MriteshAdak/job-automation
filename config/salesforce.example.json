@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "instance_url": "https://example-dev-ed.develop.my.salesforce.com",
+  "api_version": "v60.0",
+  "auth_flow": "refresh_token",
+  "client_id_ref": "salesforce/client_id",
+  "credential_ref": "salesforce/refresh_token",
+  "token_url": "https://login.salesforce.com/services/oauth2/token",
+  "expected_org_id": "00D000000000001",
+  "connect_timeout_seconds": 10.0,
+  "read_timeout_seconds": 20.0,
+  "total_call_timeout_seconds": 60.0,
+  "max_total_sends": 6,
+  "max_resource_sends": 3,
+  "max_token_sends": 2,
+  "initial_backoff_seconds": 1.0,
+  "max_backoff_seconds": 8.0,
+  "max_response_bytes": 10485760
+}
+

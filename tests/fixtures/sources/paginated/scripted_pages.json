@@ -1,0 +1,67 @@
+{
+  "pages": {
+    "initial": {
+      "items": [
+        {
+          "raw_payload_ref": "ref/paginated/p1_r1.json",
+          "raw_content_hash": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "source_key": {
+            "provider": "fake_provider",
+            "board_id": "test_board",
+            "source_posting_id": "p1_001"
+          },
+          "fetch_time": "2026-10-28T09:00:00Z",
+          "raw_payload": "{\"title\": \"Page 1 Job 1\", \"text\": \"First job on page 1\"}"
+        },
+        {
+          "raw_payload_ref": "ref/paginated/p1_r2.json",
+          "raw_content_hash": "sha256:02ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "source_key": {
+            "provider": "fake_provider",
+            "board_id": "test_board",
+            "source_posting_id": "p1_002"
+          },
+          "fetch_time": "2026-10-28T09:00:00Z",
+          "raw_payload": "{\"title\": \"Page 1 Job 2\", \"text\": \"Second job on page 1\"}"
+        }
+      ],
+      "continuation_out": {
+        "kind": "cursor",
+        "value": "p2",
+        "source_key": "fake_source",
+        "scope_id": "scope-v1:test_paginated",
+        "adapter_name": "scripted_fake"
+      },
+      "exhausted": false
+    },
+    "p2": {
+      "items": [],
+      "continuation_out": {
+        "kind": "cursor",
+        "value": "p3",
+        "source_key": "fake_source",
+        "scope_id": "scope-v1:test_paginated",
+        "adapter_name": "scripted_fake"
+      },
+      "exhausted": false
+    },
+    "p3": {
+      "items": [
+        {
+          "raw_payload_ref": "ref/paginated/p3_r1.json",
+          "raw_content_hash": "sha256:03ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+          "source_key": {
+            "provider": "fake_provider",
+            "board_id": "test_board",
+            "source_posting_id": "p3_001"
+          },
+          "fetch_time": "2026-10-28T09:02:00Z",
+          "raw_payload": "{\"title\": \"Page 3 Job 1\", \"text\": \"Terminal job on page 3\"}"
+        }
+      ],
+      "continuation_out": null,
+      "exhausted": true
+    }
+  }
+}
+

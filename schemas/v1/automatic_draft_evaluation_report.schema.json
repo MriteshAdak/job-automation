@@ -1,0 +1,110 @@
+{
+  "additionalProperties": false,
+  "description": "Safe, inspectable summary report of an automatic draft evaluation execution.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_id": {
+      "description": "Evaluation run UUID",
+      "format": "uuid",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "policy_id": {
+      "description": "Policy ID",
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "policy_version": {
+      "description": "Policy version",
+      "title": "Policy Version",
+      "type": "string"
+    },
+    "evaluated_at": {
+      "description": "Execution timestamp",
+      "format": "date-time",
+      "title": "Evaluated At",
+      "type": "string"
+    },
+    "total_candidates_evaluated": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Total Candidates Evaluated",
+      "type": "integer"
+    },
+    "jobs_by_outcome": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "description": "Counts of unique canonical jobs by outcome",
+      "title": "Jobs By Outcome",
+      "type": "object"
+    },
+    "requests_by_outcome": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "description": "Counts of logical document requests by outcome",
+      "title": "Requests By Outcome",
+      "type": "object"
+    },
+    "admitted_intents": {
+      "description": "Client keys of newly admitted intents",
+      "items": {
+        "type": "string"
+      },
+      "title": "Admitted Intents",
+      "type": "array"
+    },
+    "reused_intents": {
+      "description": "Client keys of reused existing intents",
+      "items": {
+        "type": "string"
+      },
+      "title": "Reused Intents",
+      "type": "array"
+    },
+    "held_decisions": {
+      "description": "Decision UUIDs requiring review",
+      "items": {
+        "type": "string"
+      },
+      "title": "Held Decisions",
+      "type": "array"
+    },
+    "deferred_decisions": {
+      "description": "Decision UUIDs deferred due to volume limits",
+      "items": {
+        "type": "string"
+      },
+      "title": "Deferred Decisions",
+      "type": "array"
+    },
+    "quota_usage": {
+      "additionalProperties": true,
+      "description": "Active quota consumption snapshot",
+      "title": "Quota Usage",
+      "type": "object"
+    },
+    "errors": {
+      "description": "Errors encountered during execution",
+      "items": {
+        "type": "string"
+      },
+      "title": "Errors",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "policy_id",
+    "policy_version"
+  ],
+  "title": "AutomaticDraftEvaluationReport",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/automatic_draft_evaluation_report.schema.json"
+}

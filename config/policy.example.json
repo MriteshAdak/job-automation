@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "policy-de-tech-example-v1",
+  "regions": [
+    "DE"
+  ],
+  "role_aliases": {
+    "Software Engineer": [
+      "Softwareentwickler",
+      "Softwareentwicklerin",
+      "Software Developer",
+      "Backend Developer"
+    ],
+    "DevOps Engineer": [
+      "Site Reliability Engineer",
+      "Platform Engineer",
+      "SRE"
+    ]
+  },
+  "skill_aliases": {
+    "Python": [
+      "Python 3",
+      "Python3",
+      "CPython"
+    ],
+    "PostgreSQL": [
+      "Postgres",
+      "Postgre SQL"
+    ]
+  },
+  "hard_criteria": [
+    {
+      "criterion_id": "crit_workplace",
+      "name": "Remote or Hybrid Workplace",
+      "field": "workplace_type",
+      "operator": "in",
+      "expected_value": [
+        "remote",
+        "hybrid"
+      ],
+      "on_missing": "unknown"
+    },
+    {
+      "criterion_id": "crit_country",
+      "name": "Target Country Germany",
+      "field": "locations.country",
+      "operator": "equals",
+      "expected_value": "DE",
+      "on_missing": "unknown"
+    }
+  ],
+  "preferences": [
+    {
+      "rule_id": "pref_remote",
+      "name": "Preference for Fully Remote Workplace",
+      "field": "workplace_type",
+      "weight": 0.8,
+      "preferred_values": [
+        "remote"
+      ]
+    },
+    {
+      "rule_id": "pref_lang",
+      "name": "Preference for German-Language Advert",
+      "field": "advert_language",
+      "weight": 0.6,
+      "preferred_values": [
+        "de"
+      ]
+    }
+  ],
+  "exclusions": [
+    "Casino",
+    "Gambling"
+  ],
+  "missing_information_behavior": {
+    "compensation": "unknown",
+    "workplace_type": "unknown"
+  },
+  "relevance_configuration": {
+    "score_scale": "0-100",
+    "min_score_threshold": 70.0,
+    "broad_keywords": [
+      "Python",
+      "Backend",
+      "FastAPI",
+      "Django"
+    ],
+    "negative_keywords": [
+      "Unpaid",
+      "Praktikum"
+    ]
+  },
+  "primary_context_strategy": "json"
+}

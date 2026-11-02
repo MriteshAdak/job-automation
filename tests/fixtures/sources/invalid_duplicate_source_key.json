@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "schema_version": "1.0",
+      "source_key": "duplicate_key",
+      "provider": "prov1",
+      "board_id": "b1",
+      "acquisition_method": "api",
+      "base_url": "https://api.one.invalid/jobs",
+      "access_rules": null,
+      "attribution_rules": null,
+      "request_policy": {},
+      "enabled": false,
+      "inventory_semantics": "filtered_feed"
+    },
+    {
+      "schema_version": "1.0",
+      "source_key": "duplicate_key",
+      "provider": "prov2",
+      "board_id": "b2",
+      "acquisition_method": "api",
+      "base_url": "https://api.two.invalid/jobs",
+      "access_rules": null,
+      "attribution_rules": null,
+      "request_policy": {},
+      "enabled": false,
+      "inventory_semantics": "filtered_feed"
+    }
+  ]
+}
+

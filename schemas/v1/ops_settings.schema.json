@@ -1,0 +1,207 @@
+{
+  "$defs": {
+    "BackupSettings": {
+      "additionalProperties": false,
+      "description": "Configuration for local backup creation and lifecycle.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "destination": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path to backup destination folder (e.g. external volume or dedicated backup root)",
+          "title": "Destination"
+        },
+        "keep_generations": {
+          "default": 3,
+          "description": "Minimum number of successful backup generations to preserve",
+          "minimum": 1,
+          "title": "Keep Generations",
+          "type": "integer"
+        },
+        "max_age_days": {
+          "default": 30,
+          "description": "Eligibility cutoff in days for pruning old backups",
+          "minimum": 1,
+          "title": "Max Age Days",
+          "type": "integer"
+        },
+        "pinned_backups": {
+          "description": "List of backup IDs to keep indefinitely",
+          "items": {
+            "type": "string"
+          },
+          "title": "Pinned Backups",
+          "type": "array"
+        },
+        "require_remote_export": {
+          "default": false,
+          "description": "If True, backup fails if remote Salesforce export is missing or incomplete",
+          "title": "Require Remote Export",
+          "type": "boolean"
+        },
+        "remote_export_freshness_hours": {
+          "default": 24.0,
+          "description": "Maximum allowed age of Salesforce candidate export in hours",
+          "minimum": 0.1,
+          "title": "Remote Export Freshness Hours",
+          "type": "number"
+        }
+      },
+      "title": "BackupSettings",
+      "type": "object"
+    },
+    "CapacitySettings": {
+      "additionalProperties": false,
+      "description": "Storage capacity thresholds and reserve margins.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "reserve_bytes": {
+          "default": 1073741824,
+          "description": "Absolute reserve in bytes (default 1 GiB)",
+          "minimum": 0,
+          "title": "Reserve Bytes",
+          "type": "integer"
+        },
+        "reserve_percent": {
+          "default": 10.0,
+          "description": "Relative reserve percentage of volume capacity (default 10%)",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Reserve Percent",
+          "type": "number"
+        },
+        "warning_multiplier": {
+          "default": 2.0,
+          "description": "Multiplier of reserve at which capacity warnings are raised",
+          "minimum": 1.0,
+          "title": "Warning Multiplier",
+          "type": "number"
+        }
+      },
+      "title": "CapacitySettings",
+      "type": "object"
+    },
+    "OperationLimits": {
+      "additionalProperties": false,
+      "description": "Execution budgets and timeouts for operations.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "timeout_seconds": {
+          "default": 60.0,
+          "description": "Timeout for operations lock acquisition and file processing",
+          "minimum": 1.0,
+          "title": "Timeout Seconds",
+          "type": "number"
+        },
+        "batch_size": {
+          "default": 100,
+          "description": "Batch size for item processing and queries",
+          "minimum": 1,
+          "title": "Batch Size",
+          "type": "integer"
+        }
+      },
+      "title": "OperationLimits",
+      "type": "object"
+    },
+    "RetentionSettings": {
+      "additionalProperties": false,
+      "description": "Configuration for bulky raw data and log retention.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "enabled": {
+          "default": false,
+          "description": "Master switch for cleanup apply; deletion is disabled unless explicitly True",
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "raw_payloads_days": {
+          "default": 90,
+          "description": "Age cutoff in days for unreferenced raw payloads",
+          "minimum": 1,
+          "title": "Raw Payloads Days",
+          "type": "integer"
+        },
+        "logs_days": {
+          "default": 30,
+          "description": "Age cutoff in days for closed log files",
+          "minimum": 1,
+          "title": "Logs Days",
+          "type": "integer"
+        },
+        "staging_days": {
+          "default": 7,
+          "description": "Age cutoff in days for abandoned staging files",
+          "minimum": 1,
+          "title": "Staging Days",
+          "type": "integer"
+        },
+        "backups_days": {
+          "default": 30,
+          "description": "Age cutoff in days for pruning completed backups",
+          "minimum": 1,
+          "title": "Backups Days",
+          "type": "integer"
+        },
+        "source_overrides": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "description": "Per-source raw retention cutoff overrides in days",
+          "title": "Source Overrides",
+          "type": "object"
+        }
+      },
+      "title": "RetentionSettings",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Consolidated configuration for all operations.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "backup": {
+      "$ref": "#/$defs/BackupSettings"
+    },
+    "retention": {
+      "$ref": "#/$defs/RetentionSettings"
+    },
+    "capacity": {
+      "$ref": "#/$defs/CapacitySettings"
+    },
+    "limits": {
+      "$ref": "#/$defs/OperationLimits"
+    }
+  },
+  "title": "OperationsSettings",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/ops_settings.schema.json"
+}

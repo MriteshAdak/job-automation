@@ -1,0 +1,73 @@
+{
+  "additionalProperties": false,
+  "description": "Configuration and versioning for evidence chunk construction.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "algorithm_version": {
+      "default": "v1",
+      "title": "Algorithm Version",
+      "type": "string"
+    },
+    "identity_scheme_version": {
+      "default": "v1",
+      "title": "Identity Scheme Version",
+      "type": "string"
+    },
+    "rendering_version": {
+      "default": "v1",
+      "title": "Rendering Version",
+      "type": "string"
+    },
+    "parent_policy_version": {
+      "default": "v1",
+      "title": "Parent Policy Version",
+      "type": "string"
+    },
+    "granularity": {
+      "const": "whole_fact",
+      "default": "whole_fact",
+      "title": "Granularity",
+      "type": "string"
+    },
+    "max_chunk_chars": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Optional maximum character size guard for retrieval_text",
+      "title": "Max Chunk Chars"
+    },
+    "strict_parents": {
+      "default": false,
+      "description": "If True, missing or restricted parents raise permission error",
+      "title": "Strict Parents",
+      "type": "boolean"
+    },
+    "size_unit": {
+      "default": "chars",
+      "description": "Unit of measurement for chunk size guards",
+      "title": "Size Unit",
+      "type": "string"
+    },
+    "overflow_behavior": {
+      "default": "error",
+      "description": "Behavior on size guard overflow: 'error'",
+      "title": "Overflow Behavior",
+      "type": "string"
+    }
+  },
+  "title": "ChunkingSettings",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/chunking_settings.schema.json"
+}

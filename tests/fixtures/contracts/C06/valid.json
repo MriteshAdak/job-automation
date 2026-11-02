@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "source_key": {
+    "schema_version": "1.0",
+    "provider": "arbeitnow",
+    "board_id": "default",
+    "source_posting_id": "101"
+  },
+  "normalizer_version": "1.0",
+  "raw_reference": "raw/snapshots/101.json",
+  "raw_content_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "company_name_hint": "Tech Corp GmbH",
+  "company_id_hint": null,
+  "title": "Senior Python Backend Engineer",
+  "description_clean": "Join our platform team to build scalable Python services.",
+  "source_url": "https://example.com/jobs/101",
+  "application_url": "https://example.com/jobs/101/apply",
+  "locations": [
+    {
+      "schema_version": "1.0",
+      "raw_text": "Berlin, Germany",
+      "country": "DE",
+      "region": "Berlin",
+      "city": "Berlin",
+      "postal_code": "10115"
+    }
+  ],
+  "workplace_type": "remote",
+  "remote_eligibility_restrictions": [
+    "DE"
+  ],
+  "employment_type": "full_time",
+  "compensation": {
+    "schema_version": "1.0",
+    "min_amount": "70000.00",
+    "max_amount": "90000.00",
+    "currency": "EUR",
+    "period": "yearly",
+    "is_gross": true,
+    "provenance": "employer_provided"
+  },
+  "advert_language": "de",
+  "source_published_at": "2026-10-26T14:00:00+00:00",
+  "source_updated_at": null,
+  "source_deadline_at": null,
+  "observed_at": "2026-10-27T10:00:00+00:00",
+  "field_provenance": {
+    "title": "raw.role"
+  }
+}

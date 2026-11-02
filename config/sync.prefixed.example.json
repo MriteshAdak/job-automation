@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "mapping_version": "1.1-prefixed",
+  "expected_org_id": "00D000000000001",
+  "company_object": "JA_Company__c",
+  "company_external_id_field": "Canonical_Company_Id__c",
+  "company_name_field": "Company_Name__c",
+  "job_object": "JA_Job__c",
+  "job_external_id_field": "Canonical_Job_Id__c",
+  "job_company_lookup_field": "Company__c",
+  "title_field": "Job_Title__c",
+  "availability_field": "Availability__c",
+  "disposition_field": "Assessment_Disposition__c",
+  "reason_field": "Assessment_Reasons__c",
+  "score_field": "Relevance_Score__c",
+  "score_scale_field": "Score_Scale__c",
+  "last_evaluated_field": "Last_Evaluated_At__c",
+  "source_urls_field": "Source_URLs__c",
+  "sync_marker_field": "Sync_Operation_Marker__c",
+  "sync_version_field": "Machine_Sync_Version__c",
+  "disposition_mapping": {
+    "eligible": "Eligible",
+    "review": "Review",
+    "rejected": "Rejected"
+  },
+  "availability_mapping": {
+    "active": "Active",
+    "not_seen": "Not Seen",
+    "unavailable": "Unavailable",
+    "unknown": "Unknown"
+  },
+  "candidate_fields": [
+    "Application_Progress__c",
+    "Candidate_Notes__c",
+    "Candidate_Decision__c",
+    "Follow_Up_Date__c",
+    "Interview_Date__c"
+  ]
+}
+

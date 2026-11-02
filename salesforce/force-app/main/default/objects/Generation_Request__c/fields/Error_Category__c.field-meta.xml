@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Error_Category__c</fullName>
+    <description>Classified error category matching C13 error taxonomy.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Error category if generation failed.</inlineHelpText>
+    <label>Error Category</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>validation</fullName>
+                <default>false</default>
+                <label>Validation</label>
+            </value>
+            <value>
+                <fullName>missing_configuration</fullName>
+                <default>false</default>
+                <label>Missing Configuration</label>
+            </value>
+            <value>
+                <fullName>permission</fullName>
+                <default>false</default>
+                <label>Permission</label>
+            </value>
+            <value>
+                <fullName>authentication</fullName>
+                <default>false</default>
+                <label>Authentication</label>
+            </value>
+            <value>
+                <fullName>rate_limit</fullName>
+                <default>false</default>
+                <label>Rate Limit</label>
+            </value>
+            <value>
+                <fullName>transient_network</fullName>
+                <default>false</default>
+                <label>Transient Network</label>
+            </value>
+            <value>
+                <fullName>transient_service</fullName>
+                <default>false</default>
+                <label>Transient Service</label>
+            </value>
+            <value>
+                <fullName>context_budget</fullName>
+                <default>false</default>
+                <label>Context Budget</label>
+            </value>
+            <value>
+                <fullName>model_output</fullName>
+                <default>false</default>
+                <label>Model Output</label>
+            </value>
+            <value>
+                <fullName>capacity</fullName>
+                <default>false</default>
+                <label>Capacity</label>
+            </value>
+            <value>
+                <fullName>unsupported_input</fullName>
+                <default>false</default>
+                <label>Unsupported Input</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
+

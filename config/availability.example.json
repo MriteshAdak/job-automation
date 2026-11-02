@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "1.0",
+  "default_rules": {
+    "consecutive_complete_misses": 3,
+    "grace_seconds": 172800.0
+  },
+  "source_overrides": {},
+  "scope_overrides": {}
+}
+

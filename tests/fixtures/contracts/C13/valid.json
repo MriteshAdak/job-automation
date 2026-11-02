@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "request_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+  "salesforce_request_id": null,
+  "client_request_key": null,
+  "canonical_job_id": "44444444-4444-4444-8444-444444444444",
+  "document_type": "cv",
+  "target_language": "de",
+  "template_id": "modern_de_v1",
+  "context_strategy": "json",
+  "allow_unavailable_job": false,
+  "state": "pending",
+  "created_at": "2026-10-27T10:00:00+00:00",
+  "claimed_at": null,
+  "completed_at": null,
+  "frozen_input_versions": null,
+  "predecessor_request_id": null,
+  "result_artifact_ref": null,
+  "error": null
+}

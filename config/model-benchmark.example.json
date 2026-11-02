@@ -1,0 +1,208 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "model_02_phase0_manifest_example",
+  "created_at": "2026-10-31T21:00:00Z",
+  "description": "Example Phase 0 benchmark manifest for Windows 16GB RAM / 4GB VRAM target",
+  "target_os": "Windows",
+  "server_url": "http://127.0.0.1:11434",
+  "guardrails": {
+    "min_available_ram_bytes": 268435456,
+    "min_free_vram_bytes": 268435456,
+    "watchdog_timeout_seconds": 180.0
+  },
+  "candidates": [
+    {
+      "model_name": "qwen2.5:1.5b",
+      "parameter_size": "1.5B",
+      "format_quant": "GGUF / Q4_K_M",
+      "source_url": "https://huggingface.co/Qwen/Qwen2.5-1.5B",
+      "license_id": "Apache-2.0",
+      "copyright_notice": "Copyright 2024 Alibaba Cloud",
+      "notice_required": true,
+      "commercial_use_allowed": true,
+      "verified_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+      "provenance_notes": "Official Ollama library Q4_K_M conversion"
+    },
+    {
+      "model_name": "all-minilm:22m",
+      "parameter_size": "23M",
+      "format_quant": "GGUF / F16",
+      "source_url": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2",
+      "license_id": "Apache-2.0",
+      "copyright_notice": "Copyright sentence-transformers",
+      "notice_required": true,
+      "commercial_use_allowed": true,
+      "verified_digest": "1b226e2802dbb772b5fc32a58f103ca1804ef7501331012de126ab22f67475ef",
+      "provenance_notes": "Official Ollama library F16 conversion, 384 dimensions"
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "B1",
+      "name": "Runtime Readiness & Health",
+      "owner": "MODEL-01",
+      "status": "satisfied",
+      "evidence": "Ollama 0.40.13 verified on 127.0.0.1:11434 with CPU fallback and Turing GPU acceleration",
+      "next_action": "Maintain local loopback service and dedicated model cache"
+    },
+    {
+      "gate_id": "B2",
+      "name": "Application Measurement Fidelity",
+      "owner": "LLM-01",
+      "status": "satisfied",
+      "evidence": "Strict schema parsing, context budget preflight, and bounded attempts verified",
+      "next_action": "Feed benchmark findings back into model capabilities configuration"
+    },
+    {
+      "gate_id": "B3",
+      "name": "Controlled Phase 0 Quality Execution",
+      "owner": "EVAL-01",
+      "status": "satisfied",
+      "evidence": "Paired runner with 8-case synthetic corpus and isolated persistence ready",
+      "next_action": "Run representative paired evaluations with chosen candidate configuration"
+    },
+    {
+      "gate_id": "B4",
+      "name": "Embedding & Retrieval Binding",
+      "owner": "CONTEXT-03",
+      "status": "satisfied",
+      "evidence": "Isolated vector matrix and keyword index builder verified with configurable embedding dimensions",
+      "next_action": "Build isolated index with recommended model and measure build/query latencies"
+    },
+    {
+      "gate_id": "B5",
+      "name": "Phase 1 Drafting Readiness",
+      "owner": "GEN-02..05",
+      "status": "deferred",
+      "evidence": "Phase 1 document generation and visual rendering extensions are deferred",
+      "next_action": "Measure drafting separately after Phase 0 baseline completion"
+    },
+    {
+      "gate_id": "EVAL_EG5",
+      "name": "EVAL Local Ollama Benchmark Evidence",
+      "owner": "MODEL-02",
+      "status": "satisfied",
+      "evidence": "Hardware telemetry, candidate measurements, and recommendation manifest provided",
+      "next_action": "Publish MODEL-02 component handoff and recommendations"
+    }
+  ],
+  "cells": [
+    {
+      "cell_id": "gen_qwen1.5b_ctx2048_gpu_cold",
+      "capability": "generation",
+      "model_name": "qwen2.5:1.5b",
+      "context_length": 2048,
+      "num_predict": 512,
+      "batch_size": 1,
+      "placement_requested": "gpu",
+      "cold_warm": "cold",
+      "repetitions": 3,
+      "input_case_id": "case_gen_medium",
+      "decoding_options": {
+        "temperature": 0.0,
+        "seed": 42
+      }
+    },
+    {
+      "cell_id": "gen_qwen1.5b_ctx2048_gpu_warm",
+      "capability": "generation",
+      "model_name": "qwen2.5:1.5b",
+      "context_length": 2048,
+      "num_predict": 512,
+      "batch_size": 1,
+      "placement_requested": "gpu",
+      "cold_warm": "warm",
+      "repetitions": 5,
+      "input_case_id": "case_gen_medium",
+      "decoding_options": {
+        "temperature": 0.0,
+        "seed": 42
+      }
+    },
+    {
+      "cell_id": "gen_qwen1.5b_ctx4096_gpu_warm",
+      "capability": "generation",
+      "model_name": "qwen2.5:1.5b",
+      "context_length": 4096,
+      "num_predict": 512,
+      "batch_size": 1,
+      "placement_requested": "gpu",
+      "cold_warm": "warm",
+      "repetitions": 3,
+      "input_case_id": "case_gen_near_budget",
+      "decoding_options": {
+        "temperature": 0.0,
+        "seed": 42
+      }
+    },
+    {
+      "cell_id": "gen_qwen1.5b_ctx2048_cpu_warm",
+      "capability": "generation",
+      "model_name": "qwen2.5:1.5b",
+      "context_length": 2048,
+      "num_predict": 512,
+      "batch_size": 1,
+      "placement_requested": "cpu",
+      "cold_warm": "warm",
+      "repetitions": 2,
+      "input_case_id": "case_gen_medium",
+      "decoding_options": {
+        "temperature": 0.0,
+        "seed": 42
+      }
+    },
+    {
+      "cell_id": "embed_minilm_b1_gpu",
+      "capability": "embedding",
+      "model_name": "all-minilm:22m",
+      "context_length": 512,
+      "num_predict": 256,
+      "batch_size": 1,
+      "placement_requested": "gpu",
+      "cold_warm": "warm",
+      "repetitions": 5,
+      "input_case_id": "case_embed_short",
+      "decoding_options": {}
+    },
+    {
+      "cell_id": "embed_minilm_b4_gpu",
+      "capability": "embedding",
+      "model_name": "all-minilm:22m",
+      "context_length": 512,
+      "num_predict": 256,
+      "batch_size": 4,
+      "placement_requested": "gpu",
+      "cold_warm": "warm",
+      "repetitions": 3,
+      "input_case_id": "case_embed_batch4",
+      "decoding_options": {}
+    },
+    {
+      "cell_id": "embed_minilm_b16_gpu",
+      "capability": "embedding",
+      "model_name": "all-minilm:22m",
+      "context_length": 512,
+      "num_predict": 256,
+      "batch_size": 16,
+      "placement_requested": "gpu",
+      "cold_warm": "warm",
+      "repetitions": 2,
+      "input_case_id": "case_embed_batch16",
+      "decoding_options": {}
+    },
+    {
+      "cell_id": "embed_minilm_b1_cpu",
+      "capability": "embedding",
+      "model_name": "all-minilm:22m",
+      "context_length": 512,
+      "num_predict": 256,
+      "batch_size": 1,
+      "placement_requested": "cpu",
+      "cold_warm": "warm",
+      "repetitions": 2,
+      "input_case_id": "case_embed_short",
+      "decoding_options": {}
+    }
+  ]
+}
+

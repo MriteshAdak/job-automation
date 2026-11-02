@@ -1,0 +1,140 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "prompt_version": {
+      "enum": [
+        "gen03-cv-extractive-v1",
+        "gen03-letter-extractive-v1"
+      ],
+      "title": "Prompt Version",
+      "type": "string"
+    },
+    "framing_version": {
+      "const": "gen03-json-v1",
+      "default": "gen03-json-v1",
+      "title": "Framing Version",
+      "type": "string"
+    },
+    "model_identifier": {
+      "minLength": 1,
+      "title": "Model Identifier",
+      "type": "string"
+    },
+    "model_digest": {
+      "minLength": 1,
+      "title": "Model Digest",
+      "type": "string"
+    },
+    "generation_settings": {
+      "additionalProperties": true,
+      "title": "Generation Settings",
+      "type": "object"
+    },
+    "context_limit": {
+      "exclusiveMinimum": 0,
+      "title": "Context Limit",
+      "type": "integer"
+    },
+    "output_reserve": {
+      "exclusiveMinimum": 0,
+      "title": "Output Reserve",
+      "type": "integer"
+    },
+    "safety_allowance": {
+      "minimum": 0,
+      "title": "Safety Allowance",
+      "type": "integer"
+    },
+    "require_exact_measurement": {
+      "title": "Require Exact Measurement",
+      "type": "boolean"
+    },
+    "document_type": {
+      "enum": [
+        "cv",
+        "cover_letter"
+      ],
+      "title": "Document Type",
+      "type": "string"
+    },
+    "target_language": {
+      "enum": [
+        "de",
+        "en"
+      ],
+      "title": "Target Language",
+      "type": "string"
+    },
+    "template_id": {
+      "enum": [
+        "content-basic",
+        "content-compact"
+      ],
+      "title": "Template Id",
+      "type": "string"
+    },
+    "template_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Template Version",
+      "type": "string"
+    },
+    "template_content_digest": {
+      "title": "Template Content Digest",
+      "type": "string"
+    },
+    "proposal_schema_id": {
+      "const": "draft_content_proposal_v1",
+      "default": "draft_content_proposal_v1",
+      "title": "Proposal Schema Id",
+      "type": "string"
+    },
+    "proposal_schema_digest": {
+      "title": "Proposal Schema Digest",
+      "type": "string"
+    },
+    "instruction_text": {
+      "title": "Instruction Text",
+      "type": "string"
+    },
+    "output_schema_text": {
+      "title": "Output Schema Text",
+      "type": "string"
+    },
+    "heading_keys": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Heading Keys",
+      "type": "array"
+    }
+  },
+  "required": [
+    "prompt_version",
+    "model_identifier",
+    "model_digest",
+    "generation_settings",
+    "context_limit",
+    "output_reserve",
+    "safety_allowance",
+    "require_exact_measurement",
+    "document_type",
+    "target_language",
+    "template_id",
+    "template_content_digest",
+    "proposal_schema_digest",
+    "instruction_text",
+    "output_schema_text",
+    "heading_keys"
+  ],
+  "title": "DraftRecipe",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/draft_recipe.schema.json"
+}

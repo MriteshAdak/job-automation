@@ -1,0 +1,56 @@
+{
+  "additionalProperties": false,
+  "description": "Request to upsert an sObject record using an External ID.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "call_id": {
+      "description": "Caller-generated operation UUID",
+      "format": "uuid",
+      "title": "Call Id",
+      "type": "string"
+    },
+    "object_name": {
+      "description": "Target sObject API name",
+      "title": "Object Name",
+      "type": "string"
+    },
+    "external_id_field": {
+      "description": "External ID field API name",
+      "title": "External Id Field",
+      "type": "string"
+    },
+    "external_id_value": {
+      "description": "External ID unique value",
+      "minLength": 1,
+      "title": "External Id Value",
+      "type": "string"
+    },
+    "fields": {
+      "additionalProperties": true,
+      "description": "Caller-mapped field values to update/create",
+      "minProperties": 1,
+      "title": "Fields",
+      "type": "object"
+    },
+    "replay_safe": {
+      "default": false,
+      "description": "Whether caller guarantees idempotent replay is safe for this specific mutation",
+      "title": "Replay Safe",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "object_name",
+    "external_id_field",
+    "external_id_value",
+    "fields"
+  ],
+  "title": "UpsertRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_upsert_request.schema.json"
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "pol-de-v1",
+  "regions": [
+    "DE"
+  ],
+  "role_aliases": {
+    "Software Engineer": [
+      "Backend Developer",
+      "Python Engineer"
+    ]
+  },
+  "skill_aliases": {
+    "Python": [
+      "Python3",
+      "FastAPI"
+    ]
+  },
+  "hard_criteria": [
+    {
+      "schema_version": "1.0",
+      "criterion_id": "crit_location",
+      "name": "Location Germany or Remote",
+      "field": "workplace_type",
+      "operator": "in",
+      "expected_value": [
+        "remote",
+        "hybrid",
+        "onsite"
+      ],
+      "on_missing": "unknown"
+    }
+  ],
+  "preferences": [
+    {
+      "schema_version": "1.0",
+      "rule_id": "pref_python",
+      "name": "Python backend focus",
+      "field": "skills",
+      "weight": 0.8,
+      "preferred_values": [
+        "Python"
+      ]
+    }
+  ],
+  "exclusions": [
+    "Gambling"
+  ],
+  "missing_information_behavior": {
+    "compensation": "unknown"
+  },
+  "relevance_configuration": {
+    "schema_version": "1.0",
+    "score_scale": "0-100",
+    "min_score_threshold": 70.0,
+    "broad_keywords": [
+      "Python",
+      "Backend"
+    ],
+    "negative_keywords": [
+      "Unpaid"
+    ]
+  },
+  "primary_context_strategy": "json"
+}

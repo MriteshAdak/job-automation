@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event_Kind__c</fullName>
+    <description>Notification kind (ready or action_required) (SF-08).</description>
+    <externalId>false</externalId>
+    <label>Event Kind</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ready</fullName>
+                <default>true</default>
+                <label>Ready for Review</label>
+            </value>
+            <value>
+                <fullName>action_required</fullName>
+                <default>false</default>
+                <label>Action Required</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
+

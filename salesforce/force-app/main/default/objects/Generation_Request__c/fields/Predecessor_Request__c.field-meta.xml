@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Predecessor_Request__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Self-lookup linking a deliberate regeneration to its predecessor request.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Predecessor generation request if this is a deliberate regeneration.</inlineHelpText>
+    <label>Predecessor Request</label>
+    <referenceTo>Generation_Request__c</referenceTo>
+    <relationshipLabel>Regenerations</relationshipLabel>
+    <relationshipName>Regenerations</relationshipName>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Lookup</type>
+</CustomField>
+

@@ -1,0 +1,382 @@
+{
+  "$defs": {
+    "CandidateEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing an approved candidate profile fact.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "candidate",
+          "default": "candidate",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Version of the profile snapshot",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "UUID of the cited candidate fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_version",
+        "fact_id"
+      ],
+      "title": "CandidateEvidenceReference",
+      "type": "object"
+    },
+    "DocumentClaim": {
+      "additionalProperties": false,
+      "description": "Factual claim in a generated draft grounded in explicit evidence.\n\nCites candidate facts for candidate claims, or job postings for employer/job claims.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "claim_id": {
+          "description": "Identifier for this claim within the document",
+          "minLength": 1,
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "text": {
+          "description": "Claim text appearing in the draft",
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "evidence_reference": {
+          "description": "Traceable reference to approved candidate fact or posting text",
+          "discriminator": {
+            "mapping": {
+              "candidate": "#/$defs/CandidateEvidenceReference",
+              "job": "#/$defs/JobEvidenceReference"
+            },
+            "propertyName": "source_kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/CandidateEvidenceReference"
+            },
+            {
+              "$ref": "#/$defs/JobEvidenceReference"
+            }
+          ],
+          "title": "Evidence Reference"
+        }
+      },
+      "required": [
+        "claim_id",
+        "text",
+        "evidence_reference"
+      ],
+      "title": "DocumentClaim",
+      "type": "object"
+    },
+    "DocumentType": {
+      "description": "Type of generated document.",
+      "enum": [
+        "cv",
+        "cover_letter"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    },
+    "FrozenInputVersions": {
+      "additionalProperties": false,
+      "description": "Snapshot of exact input versions frozen when a generation request is claimed.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "posting_revision": {
+          "description": "Job posting revision hash",
+          "minLength": 1,
+          "title": "Posting Revision",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Candidate profile version",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "policy_version": {
+          "description": "Search policy version",
+          "minLength": 1,
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "template_version": {
+          "description": "Document template version",
+          "minLength": 1,
+          "title": "Template Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "posting_revision",
+        "profile_version",
+        "policy_version",
+        "template_version"
+      ],
+      "title": "FrozenInputVersions",
+      "type": "object"
+    },
+    "JobEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing a specific job posting requirement or statement.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "job",
+          "default": "job",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "posting_revision": {
+          "description": "Content hash or revision ID of the posting",
+          "minLength": 1,
+          "title": "Posting Revision",
+          "type": "string"
+        },
+        "field_path": {
+          "description": "Path to the cited field (e.g. 'description', 'requirements')",
+          "minLength": 1,
+          "title": "Field Path",
+          "type": "string"
+        },
+        "quotation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Direct supporting quotation from the source text",
+          "title": "Quotation"
+        },
+        "source_span": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceSpan"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Character offsets of the cited passage in the field"
+        }
+      },
+      "required": [
+        "posting_revision",
+        "field_path"
+      ],
+      "title": "JobEvidenceReference",
+      "type": "object"
+    },
+    "SourceSpan": {
+      "additionalProperties": false,
+      "description": "Character offsets within a source field.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "start": {
+          "description": "0-based start character index",
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "description": "0-based end character index (exclusive)",
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "SourceSpan",
+      "type": "object"
+    },
+    "SubjectiveSection": {
+      "additionalProperties": false,
+      "description": "Subjective, motivational, or narrative section requiring human review.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "section_title": {
+          "description": "Section heading (e.g. 'Motivation')",
+          "minLength": 1,
+          "title": "Section Title",
+          "type": "string"
+        },
+        "text": {
+          "description": "Generated subjective content",
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "requires_human_review": {
+          "default": true,
+          "description": "Always requires explicit human review; never self-approves",
+          "title": "Requires Human Review",
+          "type": "boolean"
+        },
+        "review_notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reviewer notes or guidance",
+          "title": "Review Notes"
+        }
+      },
+      "required": [
+        "section_title",
+        "text"
+      ],
+      "title": "SubjectiveSection",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "C14 Draft Document Content.\n\nStructured sections and factual claims before rendering into physical files.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "request_id": {
+      "description": "Parent GenerationRequest UUID",
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "document_type": {
+      "$ref": "#/$defs/DocumentType",
+      "description": "cv or cover_letter"
+    },
+    "document_version": {
+      "description": "Version string for this draft",
+      "minLength": 1,
+      "title": "Document Version",
+      "type": "string"
+    },
+    "title": {
+      "description": "Document title",
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "candidate_name": {
+      "description": "Candidate name",
+      "minLength": 1,
+      "title": "Candidate Name",
+      "type": "string"
+    },
+    "target_role": {
+      "description": "Target job title",
+      "minLength": 1,
+      "title": "Target Role",
+      "type": "string"
+    },
+    "target_company": {
+      "description": "Target employer name",
+      "minLength": 1,
+      "title": "Target Company",
+      "type": "string"
+    },
+    "structured_claims": {
+      "description": "Factual claims with typed evidence references",
+      "items": {
+        "$ref": "#/$defs/DocumentClaim"
+      },
+      "title": "Structured Claims",
+      "type": "array"
+    },
+    "subjective_sections": {
+      "description": "Subjective or narrative sections flagged for human review",
+      "items": {
+        "$ref": "#/$defs/SubjectiveSection"
+      },
+      "title": "Subjective Sections",
+      "type": "array"
+    },
+    "frozen_inputs": {
+      "$ref": "#/$defs/FrozenInputVersions",
+      "description": "Frozen input snapshots used for this generation"
+    },
+    "model_call_ref": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "UUID linking to the ModelCall that generated this content",
+      "title": "Model Call Ref"
+    },
+    "review_warnings": {
+      "description": "Warnings regarding subjective paraphrasing or ungrounded statements",
+      "items": {
+        "type": "string"
+      },
+      "title": "Review Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "request_id",
+    "document_type",
+    "document_version",
+    "title",
+    "candidate_name",
+    "target_role",
+    "target_company",
+    "frozen_inputs"
+  ],
+  "title": "DraftDocument",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/C14_draft_document.schema.json"
+}

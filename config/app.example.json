@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "app_name": "JobAutomation",
+  "data_root": "C:\\Users\\Example\\Job Automation Daten\\Bewerbungen",
+  "display_timezone": "Europe/Berlin",
+  "active_policy_ref": "policy.example.json",
+  "source_registry_ref": "sources.example.json",
+  "availability_policy_ref": "availability.example.json",
+  "index_settings_ref": "index.example.json",
+  "active_sources": [],
+  "model_service_url": "http://127.0.0.1:11434"
+}
+

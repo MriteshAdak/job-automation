@@ -1,0 +1,32 @@
+{
+  "$schema": "https://job-automation.local/schemas/v1/ops_settings.schema.json",
+  "schema_version": "1.0",
+  "backup": {
+    "destination": null,
+    "keep_generations": 3,
+    "max_age_days": 30,
+    "pinned_backups": [],
+    "require_remote_export": false,
+    "remote_export_freshness_hours": 24.0
+  },
+  "retention": {
+    "enabled": false,
+    "raw_payloads_days": 90,
+    "logs_days": 30,
+    "staging_days": 7,
+    "backups_days": 30,
+    "source_overrides": {
+      "arbeitnow": 90
+    }
+  },
+  "capacity": {
+    "reserve_bytes": 1073741824,
+    "reserve_percent": 10.0,
+    "warning_multiplier": 2.0
+  },
+  "limits": {
+    "timeout_seconds": 60.0,
+    "batch_size": 100
+  }
+}
+

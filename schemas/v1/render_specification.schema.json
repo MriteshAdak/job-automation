@@ -1,0 +1,99 @@
+{
+  "additionalProperties": false,
+  "description": "Frozen render specification binding draft, report, and layout before conversion.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "spec_id": {
+      "format": "uuid",
+      "title": "Spec Id",
+      "type": "string"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "draft_id": {
+      "format": "uuid",
+      "title": "Draft Id",
+      "type": "string"
+    },
+    "draft_hash": {
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "title": "Draft Hash",
+      "type": "string"
+    },
+    "report_id": {
+      "format": "uuid",
+      "title": "Report Id",
+      "type": "string"
+    },
+    "report_hash": {
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "title": "Report Hash",
+      "type": "string"
+    },
+    "layout_id": {
+      "minLength": 1,
+      "title": "Layout Id",
+      "type": "string"
+    },
+    "layout_version": {
+      "minLength": 1,
+      "title": "Layout Version",
+      "type": "string"
+    },
+    "layout_digest": {
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "title": "Layout Digest",
+      "type": "string"
+    },
+    "requested_formats": {
+      "items": {
+        "enum": [
+          "docx",
+          "pdf"
+        ],
+        "type": "string"
+      },
+      "title": "Requested Formats",
+      "type": "array"
+    },
+    "target_language": {
+      "default": "de",
+      "title": "Target Language",
+      "type": "string"
+    },
+    "created_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "spec_hash": {
+      "default": "",
+      "title": "Spec Hash",
+      "type": "string"
+    }
+  },
+  "required": [
+    "request_id",
+    "draft_id",
+    "draft_hash",
+    "report_id",
+    "report_hash",
+    "layout_id",
+    "layout_version",
+    "layout_digest",
+    "created_at"
+  ],
+  "title": "RenderSpecification",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/render_specification.schema.json"
+}

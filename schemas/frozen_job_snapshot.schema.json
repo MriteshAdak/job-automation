@@ -1,0 +1,563 @@
+{
+  "$defs": {
+    "CompensationProvenance": {
+      "description": "Origin of compensation data.",
+      "enum": [
+        "employer_provided",
+        "estimated",
+        "unknown"
+      ],
+      "title": "CompensationProvenance",
+      "type": "string"
+    },
+    "EmploymentType": {
+      "description": "Employment arrangement type.",
+      "enum": [
+        "full_time",
+        "part_time",
+        "contract",
+        "internship",
+        "temporary",
+        "unknown"
+      ],
+      "title": "EmploymentType",
+      "type": "string"
+    },
+    "JobCompensation": {
+      "additionalProperties": false,
+      "description": "Compensation details retaining currency, period, and provenance.\n\nNo implicit annualization or cross-currency conversion is performed.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "min_amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Minimum compensation amount",
+          "title": "Min Amount"
+        },
+        "max_amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Maximum compensation amount",
+          "title": "Max Amount"
+        },
+        "currency": {
+          "default": "EUR",
+          "maxLength": 3,
+          "minLength": 3,
+          "pattern": "^[A-Z]{3}$",
+          "title": "Currency",
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/$defs/SalaryPeriod",
+          "default": "yearly"
+        },
+        "is_gross": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "True if gross, False if net, None if unknown",
+          "title": "Is Gross"
+        },
+        "provenance": {
+          "$ref": "#/$defs/CompensationProvenance",
+          "default": "unknown",
+          "description": "Whether compensation is employer-provided or estimated"
+        }
+      },
+      "title": "JobCompensation",
+      "type": "object"
+    },
+    "NormalizedPosting": {
+      "additionalProperties": false,
+      "description": "C06 Normalized Posting.\n\nUniform schema produced by common normalization. Missing title or usable\nsource identity produces a validation issue, never a fabricated replacement.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_key": {
+          "$ref": "#/$defs/SourceKey",
+          "description": "Scoped source identity"
+        },
+        "normalizer_version": {
+          "description": "Version of the normalizer used",
+          "minLength": 1,
+          "title": "Normalizer Version",
+          "type": "string"
+        },
+        "raw_reference": {
+          "description": "Reference to raw posting data",
+          "minLength": 1,
+          "title": "Raw Reference",
+          "type": "string"
+        },
+        "raw_content_hash": {
+          "description": "SHA-256 hash of raw input content",
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Raw Content Hash",
+          "type": "string"
+        },
+        "company_name_hint": {
+          "description": "Extracted company name hint",
+          "minLength": 1,
+          "title": "Company Name Hint",
+          "type": "string"
+        },
+        "company_id_hint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Provider-scoped company/employer ID if present",
+          "title": "Company Id Hint"
+        },
+        "title": {
+          "description": "Job title; required",
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "description_clean": {
+          "description": "Cleaned, HTML-stripped description text",
+          "minLength": 1,
+          "title": "Description Clean",
+          "type": "string"
+        },
+        "source_url": {
+          "description": "Original posting source URL",
+          "minLength": 1,
+          "title": "Source Url",
+          "type": "string"
+        },
+        "application_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Direct application URL if distinct from source URL",
+          "title": "Application Url"
+        },
+        "locations": {
+          "description": "Structured locations preserving original text",
+          "items": {
+            "$ref": "#/$defs/StructuredLocation"
+          },
+          "title": "Locations",
+          "type": "array"
+        },
+        "workplace_type": {
+          "$ref": "#/$defs/WorkplaceType",
+          "default": "unknown",
+          "description": "Onsite, hybrid, remote, or unknown"
+        },
+        "remote_eligibility_restrictions": {
+          "description": "Geographic restrictions on remote eligibility (e.g. ['DE', 'EU'])",
+          "items": {
+            "type": "string"
+          },
+          "title": "Remote Eligibility Restrictions",
+          "type": "array"
+        },
+        "employment_type": {
+          "$ref": "#/$defs/EmploymentType",
+          "default": "unknown",
+          "description": "Full-time, part-time, contract, internship, etc."
+        },
+        "compensation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/JobCompensation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Structured compensation; null if unstated in advert"
+        },
+        "advert_language": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Detected or declared advert language code (e.g. 'de', 'en')",
+          "title": "Advert Language"
+        },
+        "source_published_at": {
+          "anyOf": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Publication timestamp stated by the source (UTC)",
+          "title": "Source Published At"
+        },
+        "source_updated_at": {
+          "anyOf": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Last update timestamp stated by the source (UTC)",
+          "title": "Source Updated At"
+        },
+        "source_deadline_at": {
+          "anyOf": [
+            {
+              "description": "UTC datetime with +00:00 offset",
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Application closing date stated by the source; null if absent",
+          "title": "Source Deadline At"
+        },
+        "observed_at": {
+          "description": "Locally observed timestamp when this posting was fetched/processed",
+          "format": "date-time",
+          "title": "Observed At",
+          "type": "string"
+        },
+        "field_provenance": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Provenance mapping for individual fields (e.g. {'title': 'raw.job_title'})",
+          "title": "Field Provenance",
+          "type": "object"
+        }
+      },
+      "required": [
+        "source_key",
+        "normalizer_version",
+        "raw_reference",
+        "raw_content_hash",
+        "company_name_hint",
+        "title",
+        "description_clean",
+        "source_url",
+        "observed_at"
+      ],
+      "title": "NormalizedPosting",
+      "type": "object"
+    },
+    "SalaryPeriod": {
+      "description": "Salary payment period.",
+      "enum": [
+        "hourly",
+        "monthly",
+        "yearly"
+      ],
+      "title": "SalaryPeriod",
+      "type": "string"
+    },
+    "SourceKey": {
+      "additionalProperties": false,
+      "description": "Unique source posting identity: (provider, board_id, source_posting_id).\n\nTwo postings with the same tuple are the same source posting.\nDifferent board_ids under the same provider are distinct.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "provider": {
+          "minLength": 1,
+          "title": "Provider",
+          "type": "string"
+        },
+        "board_id": {
+          "minLength": 1,
+          "title": "Board Id",
+          "type": "string"
+        },
+        "source_posting_id": {
+          "minLength": 1,
+          "title": "Source Posting Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "board_id",
+        "source_posting_id"
+      ],
+      "title": "SourceKey",
+      "type": "object"
+    },
+    "StructuredLocation": {
+      "additionalProperties": false,
+      "description": "Structured location preserving original raw text.\n\nA single job posting may have multiple locations.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "raw_text": {
+          "description": "Original unparsed location string",
+          "minLength": 1,
+          "title": "Raw Text",
+          "type": "string"
+        },
+        "country": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "ISO 3166-1 alpha-2 country code (e.g. 'DE')",
+          "title": "Country"
+        },
+        "region": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Sub-national region or Bundesland (e.g. 'Berlin')",
+          "title": "Region"
+        },
+        "city": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "City name",
+          "title": "City"
+        },
+        "postal_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Postal / ZIP code",
+          "title": "Postal Code"
+        }
+      },
+      "required": [
+        "raw_text"
+      ],
+      "title": "StructuredLocation",
+      "type": "object"
+    },
+    "WorkplaceType": {
+      "description": "Workplace arrangement type.",
+      "enum": [
+        "onsite",
+        "hybrid",
+        "remote",
+        "unknown"
+      ],
+      "title": "WorkplaceType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Exact frozen job posting content, revision binding, and identity metadata.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "canonical_job_id": {
+      "format": "uuid",
+      "title": "Canonical Job Id",
+      "type": "string"
+    },
+    "company_name": {
+      "title": "Company Name",
+      "type": "string"
+    },
+    "posting_revision_id": {
+      "minLength": 1,
+      "title": "Posting Revision Id",
+      "type": "string"
+    },
+    "posting_revision_hash": {
+      "description": "Material content hash",
+      "minLength": 1,
+      "title": "Posting Revision Hash",
+      "type": "string"
+    },
+    "raw_content_hash": {
+      "description": "Raw C06 content hash",
+      "minLength": 1,
+      "title": "Raw Content Hash",
+      "type": "string"
+    },
+    "source_key": {
+      "$ref": "#/$defs/SourceKey"
+    },
+    "normalized_posting": {
+      "$ref": "#/$defs/NormalizedPosting"
+    },
+    "raw_reference": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Raw Reference"
+    },
+    "source_url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Url"
+    },
+    "application_url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Application Url"
+    },
+    "observed_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Observed At",
+      "type": "string"
+    },
+    "first_seen_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "First Seen At",
+      "type": "string"
+    },
+    "last_seen_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Last Seen At",
+      "type": "string"
+    },
+    "normalizer_version": {
+      "default": "v1",
+      "title": "Normalizer Version",
+      "type": "string"
+    },
+    "hash_algorithm_version": {
+      "default": "v1",
+      "title": "Hash Algorithm Version",
+      "type": "string"
+    },
+    "snapshot_digest": {
+      "minLength": 1,
+      "title": "Snapshot Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "canonical_job_id",
+    "company_name",
+    "posting_revision_id",
+    "posting_revision_hash",
+    "raw_content_hash",
+    "source_key",
+    "normalized_posting",
+    "observed_at",
+    "first_seen_at",
+    "last_seen_at",
+    "snapshot_digest"
+  ],
+  "title": "FrozenJobSnapshot",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/frozen_job_snapshot.schema.json"
+}

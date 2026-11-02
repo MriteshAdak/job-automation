@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Binding_Key__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <description>Deterministic unique binding key: org:request_id:artifact_id:version:format (SF-07).</description>
+    <externalId>true</externalId>
+    <label>Binding Key</label>
+    <length>255</length>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>
+

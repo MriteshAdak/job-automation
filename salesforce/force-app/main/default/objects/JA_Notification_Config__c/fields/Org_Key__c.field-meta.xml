@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Org_Key__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <defaultValue>"default"</defaultValue>
+    <description>Singleton key enforcing at most one active configuration per org (SF-08).</description>
+    <externalId>true</externalId>
+    <label>Org Key</label>
+    <length>50</length>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>
+

@@ -1,0 +1,151 @@
+{
+  "additionalProperties": false,
+  "description": "Configuration governing per-run summary delivery to Salesforce.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "description": "Settings schema version",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "enabled": {
+      "default": false,
+      "description": "Master opt-in flag; disabled by default to prevent unintended writes",
+      "title": "Enabled",
+      "type": "boolean"
+    },
+    "salesforce_org_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Expected 15 or 18 character Salesforce Organization ID",
+      "title": "Salesforce Org Id"
+    },
+    "test_recipient": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Explicit test recipient identifier/email required for live notification checks",
+      "title": "Test Recipient"
+    },
+    "max_dispatch_attempts": {
+      "default": 5,
+      "description": "Maximum lifetime dispatch attempts before transitioning to EXHAUSTED",
+      "maximum": 20,
+      "minimum": 1,
+      "title": "Max Dispatch Attempts",
+      "type": "integer"
+    },
+    "max_reconcile_attempts": {
+      "default": 5,
+      "description": "Maximum lifetime reconciliation attempts before transitioning to EXHAUSTED",
+      "maximum": 20,
+      "minimum": 1,
+      "title": "Max Reconcile Attempts",
+      "type": "integer"
+    },
+    "max_recovery_age_hours": {
+      "default": 48,
+      "description": "Maximum age in hours during which unfinalized deliveries will be retried",
+      "maximum": 168,
+      "minimum": 1,
+      "title": "Max Recovery Age Hours",
+      "type": "integer"
+    },
+    "initial_backoff_seconds": {
+      "default": 2.0,
+      "description": "Initial exponential backoff delay in seconds",
+      "maximum": 60.0,
+      "minimum": 0.1,
+      "title": "Initial Backoff Seconds",
+      "type": "number"
+    },
+    "max_backoff_seconds": {
+      "default": 300.0,
+      "description": "Ceiling for exponential backoff delay in seconds",
+      "maximum": 3600.0,
+      "minimum": 1.0,
+      "title": "Max Backoff Seconds",
+      "type": "number"
+    },
+    "backoff_multiplier": {
+      "default": 2.0,
+      "description": "Multiplier for exponential backoff calculations",
+      "maximum": 4.0,
+      "minimum": 1.0,
+      "title": "Backoff Multiplier",
+      "type": "number"
+    },
+    "jitter_ratio": {
+      "default": 0.1,
+      "description": "Randomized jitter fraction applied to backoff delays",
+      "maximum": 0.5,
+      "minimum": 0.0,
+      "title": "Jitter Ratio",
+      "type": "number"
+    },
+    "per_call_timeout_seconds": {
+      "default": 15.0,
+      "description": "Per-operation HTTP timeout in seconds",
+      "maximum": 120.0,
+      "minimum": 1.0,
+      "title": "Per Call Timeout Seconds",
+      "type": "number"
+    },
+    "max_records_per_drain": {
+      "default": 50,
+      "description": "Maximum number of due deliveries processed in a single drain invocation",
+      "maximum": 200,
+      "minimum": 1,
+      "title": "Max Records Per Drain",
+      "type": "integer"
+    },
+    "activation_epoch_utc": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Earliest run completion timestamp eligible for delivery (prevents backfill flooding)",
+      "title": "Activation Epoch Utc"
+    },
+    "target_object_name": {
+      "default": "Run_Summary__c",
+      "description": "Target Salesforce sObject API name",
+      "title": "Target Object Name",
+      "type": "string"
+    },
+    "target_external_id_field": {
+      "default": "Run_Id__c",
+      "description": "External ID field on the target sObject",
+      "title": "Target External Id Field",
+      "type": "string"
+    },
+    "mapping_version": {
+      "default": "1.0",
+      "description": "Field mapping contract version",
+      "title": "Mapping Version",
+      "type": "string"
+    }
+  },
+  "title": "SummaryDeliverySettings",
+  "type": "object"
+}

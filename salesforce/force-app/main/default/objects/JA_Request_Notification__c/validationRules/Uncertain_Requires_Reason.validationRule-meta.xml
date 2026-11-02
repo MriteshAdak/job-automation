@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Uncertain_Requires_Reason</fullName>
+    <active>true</active>
+    <description>Uncertain notification requires Uncertainty_Reason__c explanation (SF-08).</description>
+    <errorConditionFormula>ISPICKVAL(Status__c, "Uncertain") &amp;&amp; ISBLANK(Uncertainty_Reason__c)</errorConditionFormula>
+    <errorMessage>Uncertain notification status requires an explanation reason.</errorMessage>
+</ValidationRule>
+

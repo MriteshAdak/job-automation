@@ -1,0 +1,5 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "pol-1",
+  "primary_context_strategy": "automatic-agent"
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Immutable_Creation_Inputs</fullName>
+    <active>true</active>
+    <description>Ensures request options and parent relationships cannot be modified after insertion.</description>
+    <errorConditionFormula>AND(NOT(ISNEW()), OR(ISCHANGED(Job__c), ISCHANGED(Document_Type__c), ISCHANGED(Language__c), ISCHANGED(Template_Id__c), ISCHANGED(Context_Strategy__c), ISCHANGED(Allow_Unavailable_Job__c), ISCHANGED(Predecessor_Request__c)))</errorConditionFormula>
+    <errorMessage>Creation inputs (Job, Document Type, Language, Template ID, Context Strategy, Allow Unavailable Job, Predecessor) cannot be modified after insertion.</errorMessage>
+</ValidationRule>
+

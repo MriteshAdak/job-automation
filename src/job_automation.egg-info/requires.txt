@@ -1,0 +1,8 @@
+pydantic<3,>=2.9
+tzdata>=2024.1
+python-docx<2,>=1.1.0
+pypdf<6,>=5.0.0
+
+[dev]
+pytest<9,>=8.3
+pytest-cov<7,>=6.0

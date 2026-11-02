@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enable_Mobile__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Optionally route custom notifications to mobile devices (SF-08).</description>
+    <externalId>false</externalId>
+    <label>Enable Mobile</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>
+

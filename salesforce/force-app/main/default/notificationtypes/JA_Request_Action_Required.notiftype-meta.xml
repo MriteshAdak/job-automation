@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomNotificationType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customNotifTypeName>JA_Request_Action_Required</customNotifTypeName>
+    <description>Notification sent when a draft generation request requires candidate action or has failed (SF-08).</description>
+    <desktop>true</desktop>
+    <mobile>false</mobile>
+</CustomNotificationType>
+

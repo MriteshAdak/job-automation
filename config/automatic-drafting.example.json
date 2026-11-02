@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "auto-draft-standard-v1",
+  "policy_version": "v1.0",
+  "enabled": false,
+  "candidate_id": "00000000-0000-0000-0000-000000000001",
+  "salesforce_org_id": "00D000000000001EAA",
+  "minimum_relevance_score": 75.0,
+  "score_scale": "0-100",
+  "allowed_application_states": [
+    "New",
+    "Shortlisted"
+  ],
+  "max_assessment_age_hours": 72.0,
+  "max_availability_age_hours": 48.0,
+  "max_candidate_control_age_hours": 24.0,
+  "clock_skew_tolerance_seconds": 60,
+  "volume_limits": {
+    "max_requests_per_run": 5,
+    "max_requests_per_window": 10,
+    "window_hours": 24.0,
+    "max_requests_per_job": 2,
+    "max_outstanding_requests": 5
+  },
+  "document_variants": [
+    {
+      "document_type": "cv",
+      "target_language": "de",
+      "template_id": "standard-cv",
+      "context_strategy": "json",
+      "formats": [
+        "docx",
+        "pdf"
+      ]
+    }
+  ],
+  "repeat_policy": {
+    "mode": "first_only",
+    "allowed_change_classes": [
+      "posting_content",
+      "profile_content",
+      "document_options",
+      "generation_recipe"
+    ],
+    "cooldown_hours": 24.0
+  },
+  "policy_engine_version": "1.0"
+}
+

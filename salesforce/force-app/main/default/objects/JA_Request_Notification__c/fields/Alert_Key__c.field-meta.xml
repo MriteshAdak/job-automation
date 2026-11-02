@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Alert_Key__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <description>Deterministic unique alert key (SHA-256 of source_event_key:recipient:channel) (SF-08).</description>
+    <externalId>true</externalId>
+    <label>Alert Key</label>
+    <length>64</length>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>
+

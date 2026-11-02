@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Confirmed_Requires_Receipt</fullName>
+    <active>true</active>
+    <description>Confirmed notification status requires receipt ID and acceptance timestamp (SF-09).</description>
+    <errorConditionFormula>ISPICKVAL(Notification_Status__c, "confirmed") &amp;&amp; (ISBLANK(Notification_Receipt_Id__c) || ISBLANK(Notification_Accepted_At__c))</errorConditionFormula>
+    <errorMessage>Confirmed notification status requires a valid Notification Receipt ID and Accepted At timestamp.</errorMessage>
+</ValidationRule>
+

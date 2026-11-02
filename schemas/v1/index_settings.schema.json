@@ -1,0 +1,125 @@
+{
+  "additionalProperties": false,
+  "description": "Configuration, layout, and capacity limits for local vector and keyword indexing.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "index_version": {
+      "default": "v1",
+      "title": "Index Version",
+      "type": "string"
+    },
+    "algorithm_version": {
+      "default": "v1",
+      "title": "Algorithm Version",
+      "type": "string"
+    },
+    "format_version": {
+      "default": "v1",
+      "title": "Format Version",
+      "type": "string"
+    },
+    "canonicalization_version": {
+      "default": "v1",
+      "title": "Canonicalization Version",
+      "type": "string"
+    },
+    "dtype": {
+      "const": "float32",
+      "default": "float32",
+      "title": "Dtype",
+      "type": "string"
+    },
+    "byte_order": {
+      "const": "little_endian",
+      "default": "little_endian",
+      "title": "Byte Order",
+      "type": "string"
+    },
+    "metric": {
+      "default": "cosine",
+      "enum": [
+        "cosine",
+        "dot_product",
+        "euclidean"
+      ],
+      "title": "Metric",
+      "type": "string"
+    },
+    "normalization": {
+      "default": "l2",
+      "enum": [
+        "l2",
+        "none"
+      ],
+      "title": "Normalization",
+      "type": "string"
+    },
+    "analyzer_version": {
+      "default": "v1",
+      "title": "Analyzer Version",
+      "type": "string"
+    },
+    "analyzer_options": {
+      "additionalProperties": true,
+      "title": "Analyzer Options",
+      "type": "object"
+    },
+    "max_chunks": {
+      "default": 10000,
+      "description": "Maximum chunks permitted in an index",
+      "exclusiveMinimum": 0,
+      "title": "Max Chunks",
+      "type": "integer"
+    },
+    "max_dimension": {
+      "default": 4096,
+      "description": "Maximum vector embedding dimension",
+      "exclusiveMinimum": 0,
+      "title": "Max Dimension",
+      "type": "integer"
+    },
+    "max_text_bytes": {
+      "default": 65536,
+      "description": "Maximum bytes for an individual chunk's retrieval_text",
+      "exclusiveMinimum": 0,
+      "title": "Max Text Bytes",
+      "type": "integer"
+    },
+    "max_build_memory_bytes": {
+      "default": 1073741824,
+      "description": "Maximum estimated working memory for build (1 GB)",
+      "exclusiveMinimum": 0,
+      "title": "Max Build Memory Bytes",
+      "type": "integer"
+    },
+    "max_disk_bytes": {
+      "default": 10737418240,
+      "description": "Maximum disk space allocated for index storage (10 GB)",
+      "exclusiveMinimum": 0,
+      "title": "Max Disk Bytes",
+      "type": "integer"
+    },
+    "max_build_time_seconds": {
+      "default": 300.0,
+      "description": "Maximum wall-clock seconds for a full index build",
+      "exclusiveMinimum": 0.0,
+      "title": "Max Build Time Seconds",
+      "type": "number"
+    },
+    "cleanup_retained_generations": {
+      "default": 2,
+      "description": "Number of retired generations to retain for audit/recovery",
+      "minimum": 0,
+      "title": "Cleanup Retained Generations",
+      "type": "integer"
+    }
+  },
+  "title": "IndexSettings",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/index_settings.schema.json"
+}

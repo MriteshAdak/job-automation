@@ -1,0 +1,85 @@
+{
+  "additionalProperties": false,
+  "description": "Durable intent tracking physical rendering lifecycle for a request.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "intent_id": {
+      "format": "uuid",
+      "title": "Intent Id",
+      "type": "string"
+    },
+    "request_id": {
+      "format": "uuid",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "logical_key": {
+      "minLength": 1,
+      "title": "Logical Key",
+      "type": "string"
+    },
+    "spec_hash": {
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "title": "Spec Hash",
+      "type": "string"
+    },
+    "artifact_version": {
+      "default": 1,
+      "minimum": 1,
+      "title": "Artifact Version",
+      "type": "integer"
+    },
+    "target_formats": {
+      "items": {
+        "enum": [
+          "docx",
+          "pdf"
+        ],
+        "type": "string"
+      },
+      "title": "Target Formats",
+      "type": "array"
+    },
+    "status": {
+      "default": "pending",
+      "enum": [
+        "pending",
+        "in_progress",
+        "completed",
+        "failed",
+        "blocked"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "created_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "updated_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Updated At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "request_id",
+    "logical_key",
+    "spec_hash",
+    "target_formats",
+    "created_at",
+    "updated_at"
+  ],
+  "title": "RenderIntent",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/render_intent.schema.json"
+}

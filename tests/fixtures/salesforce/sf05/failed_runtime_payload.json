@@ -1,0 +1,15 @@
+{
+  "Status__c": "Failed",
+  "Worker_Claimed_At__c": "2026-11-01T12:00:00Z",
+  "Completed_At__c": "2026-11-01T12:02:30Z",
+  "Frozen_Posting_Revision__c": "rev_hash_abc123456789",
+  "Frozen_Profile_Version__c": "profile_v2_20261028",
+  "Frozen_Policy_Version__c": "policy_v1_standard",
+  "Frozen_Template_Version__c": "template_v1_de",
+  "Error_Category__c": "model_output",
+  "Error_Reason__c": "unsupported_markdown_structure",
+  "Error_Message__c": "Model output failed structural validation against C14 schema.",
+  "Error_Ref__c": "diag_trace_555444",
+  "Operation_Marker__c": "op_fail_112233"
+}
+

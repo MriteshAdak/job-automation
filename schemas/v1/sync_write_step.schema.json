@@ -1,0 +1,304 @@
+{
+  "$defs": {
+    "ClassifiedError": {
+      "additionalProperties": false,
+      "description": "Classified operational or domain error.\n\nDistinguishes recoverable failures from permanent errors and maps\nto the system error taxonomy without arbitrary tool or shell authority.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/ErrorCategory"
+        },
+        "message": {
+          "description": "Safe diagnostic message without credentials or tokens",
+          "title": "Message",
+          "type": "string"
+        },
+        "recoverable": {
+          "description": "Whether this error category is eligible for bounded retry",
+          "title": "Recoverable",
+          "type": "boolean"
+        },
+        "field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional field path if the error pertains to a specific field",
+          "title": "Field Path"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Safe non-sensitive contextual details",
+          "title": "Details"
+        }
+      },
+      "required": [
+        "category",
+        "message",
+        "recoverable"
+      ],
+      "title": "ClassifiedError",
+      "type": "object"
+    },
+    "EntityType": {
+      "description": "Entity lane types for ordered delivery.",
+      "enum": [
+        "company",
+        "job"
+      ],
+      "title": "EntityType",
+      "type": "string"
+    },
+    "ErrorCategory": {
+      "description": "Classified error category for failure handling and recovery.",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ],
+      "title": "ErrorCategory",
+      "type": "string"
+    },
+    "SyncStepState": {
+      "description": "Lifecycle state of a discrete sync write step.",
+      "enum": [
+        "pending",
+        "running",
+        "retry_wait",
+        "succeeded",
+        "failed"
+      ],
+      "title": "SyncStepState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Discrete ordered mutation step (Company or Job) within a SyncPlan.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "step_id": {
+      "description": "Unique write step UUID",
+      "format": "uuid",
+      "title": "Step Id",
+      "type": "string"
+    },
+    "plan_id": {
+      "description": "Parent SyncPlan UUID",
+      "format": "uuid",
+      "title": "Plan Id",
+      "type": "string"
+    },
+    "operation_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "C12 SyncOperation UUID if this is a job step",
+      "title": "Operation Id"
+    },
+    "entity_type": {
+      "$ref": "#/$defs/EntityType",
+      "description": "Target entity type: company or job"
+    },
+    "entity_id": {
+      "description": "Target canonical entity UUID (company_id or job_id)",
+      "format": "uuid",
+      "title": "Entity Id",
+      "type": "string"
+    },
+    "sequence_number": {
+      "description": "Per-entity monotonic sequence number",
+      "minimum": 1,
+      "title": "Sequence Number",
+      "type": "integer"
+    },
+    "target_object": {
+      "description": "Salesforce sObject name (e.g. Job__c, Company__c)",
+      "minLength": 1,
+      "title": "Target Object",
+      "type": "string"
+    },
+    "external_id_field": {
+      "description": "Salesforce External ID field API name",
+      "minLength": 1,
+      "title": "External Id Field",
+      "type": "string"
+    },
+    "external_id_value": {
+      "description": "External ID value to upsert",
+      "minLength": 1,
+      "title": "External Id Value",
+      "type": "string"
+    },
+    "relationship_field": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Lookup field name on this object linking to parent entity",
+      "title": "Relationship Field"
+    },
+    "depends_on_step_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Prior step ID that must succeed before this step executes",
+      "title": "Depends On Step Id"
+    },
+    "frozen_payload": {
+      "additionalProperties": true,
+      "description": "Frozen mapped fields to send to Salesforce (strictly machine-owned)",
+      "title": "Frozen Payload",
+      "type": "object"
+    },
+    "step_fingerprint": {
+      "description": "Content hash of this write step",
+      "minLength": 1,
+      "title": "Step Fingerprint",
+      "type": "string"
+    },
+    "state": {
+      "$ref": "#/$defs/SyncStepState",
+      "default": "pending",
+      "description": "Current step execution state"
+    },
+    "may_have_been_sent": {
+      "default": false,
+      "description": "True if request may have reached Salesforce (pre-send intent set)",
+      "title": "May Have Been Sent",
+      "type": "boolean"
+    },
+    "attempt_count": {
+      "default": 0,
+      "description": "Number of attempts made on this step",
+      "minimum": 0,
+      "title": "Attempt Count",
+      "type": "integer"
+    },
+    "next_attempt_at": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Timestamp after which next attempt is permitted",
+      "title": "Next Attempt At"
+    },
+    "reconciliation_marker": {
+      "description": "Unique marker written into remote payload for reconciliation",
+      "minLength": 1,
+      "title": "Reconciliation Marker",
+      "type": "string"
+    },
+    "remote_record_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Salesforce record ID once confirmed",
+      "title": "Remote Record Id"
+    },
+    "acknowledged_at": {
+      "anyOf": [
+        {
+          "description": "UTC datetime with +00:00 offset",
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Timestamp of confirmed remote acknowledgment",
+      "title": "Acknowledged At"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ClassifiedError"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Classified error from most recent failure"
+    }
+  },
+  "required": [
+    "plan_id",
+    "entity_type",
+    "entity_id",
+    "sequence_number",
+    "target_object",
+    "external_id_field",
+    "external_id_value",
+    "frozen_payload",
+    "step_fingerprint",
+    "reconciliation_marker"
+  ],
+  "title": "SyncWriteStep",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/sync_write_step.schema.json"
+}

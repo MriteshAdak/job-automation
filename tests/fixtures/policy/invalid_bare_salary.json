@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "syn-bare-sal-v1",
+  "regions": ["DE"],
+  "role_aliases": {},
+  "skill_aliases": {},
+  "hard_criteria": [
+    {
+      "criterion_id": "c_bare_sal",
+      "name": "Minimum Salary 60000",
+      "field": "compensation.min_amount",
+      "operator": "gte",
+      "expected_value": 60000,
+      "on_missing": "unknown"
+    }
+  ],
+  "preferences": [],
+  "exclusions": [],
+  "missing_information_behavior": {},
+  "relevance_configuration": {
+    "score_scale": "0-100",
+    "min_score_threshold": null,
+    "broad_keywords": [],
+    "negative_keywords": []
+  },
+  "primary_context_strategy": "json"
+}
+

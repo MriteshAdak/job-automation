@@ -1,0 +1,104 @@
+{
+  "additionalProperties": false,
+  "description": "C10 Model Call specification.\n\nFrozen invocation parameters for reproducible local model execution.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "call_id": {
+      "description": "Unique UUID for this inference call",
+      "format": "uuid",
+      "title": "Call Id",
+      "type": "string"
+    },
+    "operation_type": {
+      "description": "Type of operation (e.g. 'relevance_assessment', 'draft_cv')",
+      "minLength": 1,
+      "title": "Operation Type",
+      "type": "string"
+    },
+    "model_identifier": {
+      "description": "Local model name/tag (e.g. 'llama3:8b-instruct-q4_K_M')",
+      "minLength": 1,
+      "title": "Model Identifier",
+      "type": "string"
+    },
+    "model_digest": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Optional digest/hash of the local model weights",
+      "title": "Model Digest"
+    },
+    "prompt_version": {
+      "description": "Version identifier of the prompt template used",
+      "minLength": 1,
+      "title": "Prompt Version",
+      "type": "string"
+    },
+    "system_prompt_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Version identifier of system prompt if separated",
+      "title": "System Prompt Version"
+    },
+    "generation_settings": {
+      "additionalProperties": true,
+      "description": "Model parameters (e.g. {'temperature': 0.1, 'top_p': 0.9})",
+      "title": "Generation Settings",
+      "type": "object"
+    },
+    "context_limit": {
+      "description": "Maximum context window size for the model",
+      "exclusiveMinimum": 0,
+      "title": "Context Limit",
+      "type": "integer"
+    },
+    "input_fingerprint": {
+      "description": "Content hash/fingerprint of the combined prompt input",
+      "minLength": 1,
+      "title": "Input Fingerprint",
+      "type": "string"
+    },
+    "requested_schema": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Name or ID of JSON schema for structured output generation",
+      "title": "Requested Schema"
+    }
+  },
+  "required": [
+    "call_id",
+    "operation_type",
+    "model_identifier",
+    "prompt_version",
+    "context_limit",
+    "input_fingerprint"
+  ],
+  "title": "ModelCall",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/C10_model_call.schema.json"
+}

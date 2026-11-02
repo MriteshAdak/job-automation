@@ -1,0 +1,176 @@
+{
+  "$defs": {
+    "ClassifiedError": {
+      "additionalProperties": false,
+      "description": "Classified operational or domain error.\n\nDistinguishes recoverable failures from permanent errors and maps\nto the system error taxonomy without arbitrary tool or shell authority.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/ErrorCategory"
+        },
+        "message": {
+          "description": "Safe diagnostic message without credentials or tokens",
+          "title": "Message",
+          "type": "string"
+        },
+        "recoverable": {
+          "description": "Whether this error category is eligible for bounded retry",
+          "title": "Recoverable",
+          "type": "boolean"
+        },
+        "field_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional field path if the error pertains to a specific field",
+          "title": "Field Path"
+        },
+        "details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Safe non-sensitive contextual details",
+          "title": "Details"
+        }
+      },
+      "required": [
+        "category",
+        "message",
+        "recoverable"
+      ],
+      "title": "ClassifiedError",
+      "type": "object"
+    },
+    "ErrorCategory": {
+      "description": "Classified error category for failure handling and recovery.",
+      "enum": [
+        "validation",
+        "missing_configuration",
+        "permission",
+        "authentication",
+        "rate_limit",
+        "transient_network",
+        "transient_service",
+        "context_budget",
+        "model_output",
+        "capacity",
+        "unsupported_input"
+      ],
+      "title": "ErrorCategory",
+      "type": "string"
+    },
+    "OperationStatus": {
+      "description": "Execution status for maintenance operations.",
+      "enum": [
+        "succeeded",
+        "partial",
+        "failed"
+      ],
+      "title": "OperationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Outcome of applying a verified cleanup plan.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "plan_id": {
+      "format": "uuid",
+      "title": "Plan Id",
+      "type": "string"
+    },
+    "plan_hash": {
+      "title": "Plan Hash",
+      "type": "string"
+    },
+    "applied_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Applied At",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/OperationStatus"
+    },
+    "attempted_count": {
+      "minimum": 0,
+      "title": "Attempted Count",
+      "type": "integer"
+    },
+    "deleted_count": {
+      "minimum": 0,
+      "title": "Deleted Count",
+      "type": "integer"
+    },
+    "skipped_count": {
+      "minimum": 0,
+      "title": "Skipped Count",
+      "type": "integer"
+    },
+    "failed_count": {
+      "minimum": 0,
+      "title": "Failed Count",
+      "type": "integer"
+    },
+    "actual_reclaimed_bytes": {
+      "minimum": 0,
+      "title": "Actual Reclaimed Bytes",
+      "type": "integer"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/ClassifiedError"
+      },
+      "title": "Issues",
+      "type": "array"
+    },
+    "quarantine_dir": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Quarantine Dir"
+    }
+  },
+  "required": [
+    "plan_id",
+    "plan_hash",
+    "applied_at",
+    "status",
+    "attempted_count",
+    "deleted_count",
+    "skipped_count",
+    "failed_count",
+    "actual_reclaimed_bytes"
+  ],
+  "title": "CleanupResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/ops_cleanup_result.schema.json"
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "schema_version": "1.0",
+      "source_key": "fixture_api_board",
+      "provider": "fixture_ats",
+      "board_id": "00042",
+      "acquisition_method": "api",
+      "base_url": "https://api.fixture-board.invalid/v1/jobs",
+      "access_rules": "{\"status\": \"permitted\", \"reviewed_at\": \"2026-10-28T00:00:00Z\", \"evidence_ref\": \"terms-v1-api\", \"permitted_methods\": [\"api\"]}",
+      "attribution_rules": "Source: Fixture Board 00042",
+      "request_policy": {
+        "timeout_seconds": 30.0,
+        "request_spacing_seconds": 1.0,
+        "max_attempts": 3,
+        "backoff_factor": 2.0,
+        "backoff_max_seconds": 30.0,
+        "headers": {
+          "User-Agent": "JobAutomationTest/1.0"
+        }
+      },
+      "enabled": true,
+      "inventory_semantics": "complete_board"
+    },
+    {
+      "schema_version": "1.0",
+      "source_key": "fixture_search_feed",
+      "provider": "fixture_search",
+      "board_id": "feed_de",
+      "acquisition_method": "api",
+      "base_url": "https://api.fixture-search.invalid/v2/search",
+      "access_rules": "{\"status\": \"permitted\", \"reviewed_at\": \"2026-10-28T00:00:00Z\", \"evidence_ref\": \"developer-terms-2026\", \"permitted_methods\": [\"api\"]}",
+      "attribution_rules": "{\"status\": \"required\", \"notice\": \"Data by Fixture Search\", \"link\": \"https://fixture-search.invalid\"}",
+      "request_policy": {
+        "timeout": 25,
+        "params": {
+          "q": "python",
+          "city": "Berlin"
+        }
+      },
+      "enabled": true,
+      "inventory_semantics": "search_results"
+    },
+    {
+      "schema_version": "1.0",
+      "source_key": "fixture_manual_pasted",
+      "provider": "manual",
+      "board_id": "desktop_inbox",
+      "acquisition_method": "manual_import",
+      "base_url": "manual://local/pasted_input",
+      "access_rules": "{\"status\": \"permitted\", \"reviewed_at\": \"2026-10-28T00:00:00Z\", \"evidence_ref\": \"direct-user-paste\", \"permitted_methods\": [\"manual_import\"]}",
+      "attribution_rules": "none_required",
+      "request_policy": {},
+      "enabled": false,
+      "inventory_semantics": "search_results"
+    }
+  ]
+}
+

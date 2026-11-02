@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Permitted_Event_Kinds__c</fullName>
+    <defaultValue>"ready;action_required"</defaultValue>
+    <description>Semicolon-separated list of permitted event kinds to notify on (SF-08).</description>
+    <externalId>false</externalId>
+    <label>Permitted Event Kinds</label>
+    <length>100</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
+

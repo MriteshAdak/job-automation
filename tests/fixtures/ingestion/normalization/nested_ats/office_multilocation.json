@@ -1,0 +1,20 @@
+{
+  "name": "office_multilocation",
+  "raw_payload": "{\"title\": \"Sachbearbeiter (m/w/d)\", \"employer\": \"Hansa Logistik GmbH\", \"locations\": [\"Berlin, Deutschland\", \"Hamburg, Deutschland\"], \"workplace\": \"onsite\"}",
+  "mapped_fields": {
+    "title": "Sachbearbeiter (m/w/d)",
+    "company_name_hint": "Hansa Logistik GmbH",
+    "description": "Planung & Einkauf\nSAP\nExcel\nWir suchen einen Sachbearbeiter (m/w/d).",
+    "source_url": "https://jobs.example.invalid/ats/001",
+    "locations_raw": ["Berlin, Deutschland", "Hamburg, Deutschland"],
+    "workplace_type_raw": "onsite",
+    "employment_type_raw": "full-time",
+    "mapping_version": "1.0"
+  },
+  "expected": {
+    "title": "Sachbearbeiter (m/w/d)",
+    "locations_count": 2,
+    "workplace_type": "onsite"
+  }
+}
+

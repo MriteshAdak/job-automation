@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "schema_version": "1.0",
+      "source_key": "denied_source",
+      "provider": "prov",
+      "board_id": "b1",
+      "acquisition_method": "api",
+      "base_url": "https://api.denied.invalid/jobs",
+      "access_rules": "{\"status\": \"denied\", \"reviewed_at\": \"2026-10-28T00:00:00Z\", \"evidence_ref\": \"terms-denied\", \"notes\": \"Explicitly rejected by site owner\"}",
+      "attribution_rules": "none_required",
+      "request_policy": {},
+      "enabled": true,
+      "inventory_semantics": "filtered_feed"
+    }
+  ]
+}
+

@@ -1,0 +1,151 @@
+{
+  "$defs": {
+    "CapacityPolicySettings": {
+      "additionalProperties": false,
+      "description": "Headroom thresholds and reserve parameters for capacity evaluation.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "data_storage_reserve_mb": {
+          "default": 5.0,
+          "description": "Minimum absolute data storage headroom in MB",
+          "minimum": 0.0,
+          "title": "Data Storage Reserve Mb",
+          "type": "number"
+        },
+        "data_storage_reserve_percent": {
+          "default": 10.0,
+          "description": "Minimum percentage data storage reserve",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Data Storage Reserve Percent",
+          "type": "number"
+        },
+        "file_storage_reserve_mb": {
+          "default": 10.0,
+          "description": "Minimum absolute file storage headroom in MB",
+          "minimum": 0.0,
+          "title": "File Storage Reserve Mb",
+          "type": "number"
+        },
+        "file_storage_reserve_percent": {
+          "default": 10.0,
+          "description": "Minimum percentage file storage reserve",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "File Storage Reserve Percent",
+          "type": "number"
+        },
+        "api_requests_reserve": {
+          "default": 100,
+          "description": "Minimum absolute daily API requests reserve",
+          "minimum": 0,
+          "title": "Api Requests Reserve",
+          "type": "integer"
+        },
+        "api_requests_reserve_percent": {
+          "default": 5.0,
+          "description": "Minimum percentage daily API requests reserve",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Api Requests Reserve Percent",
+          "type": "number"
+        },
+        "warning_multiplier": {
+          "default": 2.0,
+          "description": "Multiplier on reserve to determine warning threshold",
+          "minimum": 1.0,
+          "title": "Warning Multiplier",
+          "type": "number"
+        },
+        "freshness_hours": {
+          "default": 1.0,
+          "description": "Maximum age of limits measurement before recheck",
+          "minimum": 0.1,
+          "title": "Freshness Hours",
+          "type": "number"
+        },
+        "recheck_delay_seconds": {
+          "default": 300,
+          "description": "Backoff delay in seconds after a blocked capacity check",
+          "minimum": 1,
+          "title": "Recheck Delay Seconds",
+          "type": "integer"
+        },
+        "per_record_data_bytes_estimate": {
+          "default": 2048,
+          "description": "Estimated byte consumption per synchronized row (for forecasting only)",
+          "minimum": 1,
+          "title": "Per Record Data Bytes Estimate",
+          "type": "integer"
+        }
+      },
+      "title": "CapacityPolicySettings",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Settings controlling metadata retrieval, validation, and candidate data export.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "export_root": {
+      "default": "local_data/exports",
+      "description": "Destination directory for completed exports",
+      "title": "Export Root",
+      "type": "string"
+    },
+    "staging_root": {
+      "default": "local_data/staging/exports",
+      "description": "Temporary staging directory during export",
+      "title": "Staging Root",
+      "type": "string"
+    },
+    "batch_size": {
+      "default": 100,
+      "description": "Pagination batch size for SOQL query iteration",
+      "maximum": 2000,
+      "minimum": 1,
+      "title": "Batch Size",
+      "type": "integer"
+    },
+    "freshness_hours": {
+      "default": 24.0,
+      "description": "Freshness window in hours for considering an export valid",
+      "minimum": 0.1,
+      "title": "Freshness Hours",
+      "type": "number"
+    },
+    "require_company_closure": {
+      "default": true,
+      "description": "Enforce that every referenced Company lookup is exported and resolved",
+      "title": "Require Company Closure",
+      "type": "boolean"
+    },
+    "export_field_history": {
+      "default": true,
+      "description": "Attempt querying Job__History if available and permitted",
+      "title": "Export Field History",
+      "type": "boolean"
+    },
+    "max_retries": {
+      "default": 3,
+      "description": "Maximum retry attempts for transient query failures",
+      "minimum": 1,
+      "title": "Max Retries",
+      "type": "integer"
+    },
+    "capacity": {
+      "$ref": "#/$defs/CapacityPolicySettings",
+      "description": "Capacity evaluation policy"
+    }
+  },
+  "title": "PortabilitySettings",
+  "type": "object"
+}

@@ -1,0 +1,97 @@
+{
+  "$defs": {
+    "CapacityStatus": {
+      "description": "Storage capacity assessment status.",
+      "enum": [
+        "ok",
+        "warning",
+        "blocked",
+        "unknown"
+      ],
+      "title": "CapacityStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Preflight plan for restoring a backup into an isolated data root.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "plan_id": {
+      "format": "uuid",
+      "title": "Plan Id",
+      "type": "string"
+    },
+    "backup_id": {
+      "format": "uuid",
+      "title": "Backup Id",
+      "type": "string"
+    },
+    "backup_path": {
+      "title": "Backup Path",
+      "type": "string"
+    },
+    "source_data_root": {
+      "title": "Source Data Root",
+      "type": "string"
+    },
+    "target_data_root": {
+      "title": "Target Data Root",
+      "type": "string"
+    },
+    "created_at": {
+      "description": "UTC datetime with +00:00 offset",
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "files_to_restore": {
+      "minimum": 0,
+      "title": "Files To Restore",
+      "type": "integer"
+    },
+    "total_bytes": {
+      "minimum": 0,
+      "title": "Total Bytes",
+      "type": "integer"
+    },
+    "path_mappings_count": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Path Mappings Count",
+      "type": "integer"
+    },
+    "capacity_status": {
+      "$ref": "#/$defs/CapacityStatus",
+      "default": "ok"
+    },
+    "conflicts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Conflicts",
+      "type": "array"
+    },
+    "is_valid": {
+      "default": true,
+      "title": "Is Valid",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "backup_id",
+    "backup_path",
+    "source_data_root",
+    "target_data_root",
+    "created_at",
+    "files_to_restore",
+    "total_bytes"
+  ],
+  "title": "RestorePlan",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/ops_restore_plan.schema.json"
+}

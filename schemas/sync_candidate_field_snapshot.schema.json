@@ -1,0 +1,92 @@
+{
+  "additionalProperties": false,
+  "description": "Locally persisted snapshot of candidate-owned fields read from Salesforce.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "snapshot_id": {
+      "description": "Unique snapshot UUID",
+      "format": "uuid",
+      "title": "Snapshot Id",
+      "type": "string"
+    },
+    "org_id": {
+      "description": "Salesforce organization ID",
+      "minLength": 1,
+      "title": "Org Id",
+      "type": "string"
+    },
+    "canonical_job_id": {
+      "description": "Target canonical job UUID",
+      "format": "uuid",
+      "title": "Canonical Job Id",
+      "type": "string"
+    },
+    "remote_record_id": {
+      "description": "Salesforce Job__c record ID",
+      "minLength": 1,
+      "title": "Remote Record Id",
+      "type": "string"
+    },
+    "mapping_version": {
+      "description": "Mapping version used during observation",
+      "minLength": 1,
+      "title": "Mapping Version",
+      "type": "string"
+    },
+    "snapshot_hash": {
+      "description": "Hash of candidate field values",
+      "minLength": 1,
+      "title": "Snapshot Hash",
+      "type": "string"
+    },
+    "candidate_fields": {
+      "additionalProperties": true,
+      "description": "Observed candidate-owned fields (status, notes, decisions, follow-ups)",
+      "title": "Candidate Fields",
+      "type": "object"
+    },
+    "source_modification_token": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Remote system modstamp or etag if available",
+      "title": "Source Modification Token"
+    },
+    "observed_at": {
+      "description": "Timestamp when fields were observed from Salesforce",
+      "format": "date-time",
+      "title": "Observed At",
+      "type": "string"
+    },
+    "created_at": {
+      "description": "Timestamp when snapshot was persisted locally",
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "org_id",
+    "canonical_job_id",
+    "remote_record_id",
+    "mapping_version",
+    "snapshot_hash",
+    "candidate_fields",
+    "observed_at",
+    "created_at"
+  ],
+  "title": "CandidateFieldSnapshot",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/sync_candidate_field_snapshot.schema.json"
+}

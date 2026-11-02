@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "syn-ambig-alias-v1",
+  "regions": ["DE"],
+  "role_aliases": {
+    "Software Engineer": ["Developer"],
+    "DevOps Engineer": ["Developer"]
+  },
+  "skill_aliases": {},
+  "hard_criteria": [],
+  "preferences": [],
+  "exclusions": [],
+  "missing_information_behavior": {},
+  "relevance_configuration": {
+    "score_scale": "0-100",
+    "min_score_threshold": null,
+    "broad_keywords": [],
+    "negative_keywords": []
+  },
+  "primary_context_strategy": "json"
+}
+

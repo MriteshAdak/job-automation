@@ -1,0 +1,17 @@
+{
+  "name": "multiple_and_ambiguous",
+  "raw_payload": "{\"locations\": [\"Berlin, Deutschland\", \"Springfield\", \"Berlin, Germany\"]}",
+  "mapped_fields": {
+    "title": "Operations Lead",
+    "company_name_hint": "Ops AG",
+    "description": "Leading regional operations.",
+    "source_url": "https://example.com/6",
+    "locations_raw": ["Berlin, Deutschland", "Springfield", "Berlin, Germany"],
+    "mapping_version": "1.0"
+  },
+  "expected": {
+    "locations_count": 2,
+    "springfield_country": null
+  }
+}
+

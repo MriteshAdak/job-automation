@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "operation_id": "99999999-9999-4999-8999-999999999999",
+  "canonical_job_id": "44444444-4444-4444-8444-444444444444",
+  "payload_version": "2026-10-27T10:00:00Z",
+  "payload_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "locally_owned_payload": {
+    "schema_version": "1.0",
+    "canonical_job_id": "44444444-4444-4444-8444-444444444444",
+    "job_title": "Senior Python Backend Engineer",
+    "company_name": "Tech Corp GmbH",
+    "availability": "active",
+    "assessment_disposition": "eligible",
+    "relevance_score": 85.0,
+    "score_scale": "0-100",
+    "assessment_reasons": "Hard rules satisfied",
+    "source_urls": [
+      "https://example.com/jobs/101"
+    ],
+    "last_evaluated_at": "2026-10-27T10:00:00+00:00"
+  },
+  "attempt_count": 0,
+  "max_attempts": 3,
+  "state": "pending",
+  "remote_record_id": null,
+  "remote_acknowledged_at": null,
+  "error": null
+}

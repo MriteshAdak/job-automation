@@ -1,0 +1,51 @@
+{
+  "additionalProperties": false,
+  "description": "Operation-specific decision derived from capacity observation.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "operation_kind": {
+      "description": "Target operation: publication, file_upload, export_read",
+      "title": "Operation Kind",
+      "type": "string"
+    },
+    "status": {
+      "description": "Decision status: ok, warning, blocked, unknown",
+      "title": "Status",
+      "type": "string"
+    },
+    "allowed": {
+      "default": false,
+      "description": "Whether the operation is permitted to proceed",
+      "title": "Allowed",
+      "type": "boolean"
+    },
+    "reason": {
+      "default": "",
+      "description": "Detailed rationale for the decision",
+      "title": "Reason",
+      "type": "string"
+    },
+    "recheck_after_seconds": {
+      "default": 300,
+      "description": "Recommended delay before rechecking",
+      "title": "Recheck After Seconds",
+      "type": "integer"
+    },
+    "estimated_cost": {
+      "additionalProperties": true,
+      "description": "Estimated resource costs evaluated",
+      "title": "Estimated Cost",
+      "type": "object"
+    }
+  },
+  "required": [
+    "operation_kind",
+    "status"
+  ],
+  "title": "CapacityDecision",
+  "type": "object"
+}

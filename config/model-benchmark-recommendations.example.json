@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "configuration_version": "v1",
+  "model_02_report_ref": "C:\\Users\\mrite\\Projects\\job-search\\docs\\benchmarks\\MODEL-02-phase0.md",
+  "model_02_report_hash": "sha256:model02_verified_phase0",
+  "generation": {
+    "model_identifier": "qwen2.5:1.5b",
+    "model_digest": "sha256:65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+    "context_limit": 2048,
+    "max_tested_context": 4096,
+    "output_reserve": 256,
+    "safety_allowance": 64,
+    "decoding_defaults": {
+      "temperature": 0.0,
+      "seed": 42
+    },
+    "placement": "gpu",
+    "cpu_fallback_supported": true,
+    "verification_provenance": "model_02_recommendation"
+  },
+  "embedding": {
+    "model_identifier": "all-minilm:22m",
+    "model_digest": "sha256:1b226e2802dbb772b5fc32a58f103ca1804ef7501331012de126ab22f67475ef",
+    "dimension": 384,
+    "max_input_tokens": 256,
+    "max_batch_items": 16,
+    "max_batch_bytes": 1048576,
+    "document_prefix": "",
+    "query_prefix": "",
+    "measurement_method": "character_ratio",
+    "verification_provenance": "model_02_recommendation",
+    "runtime_version": "0.40.13",
+    "provider_version": "1.0"
+  },
+  "tradeoffs": {
+    "gpu_vram_limit_mib": 4096,
+    "max_safe_model_params": "2.0B",
+    "cpu_latency_penalty_factor": 6.0,
+    "phase1_drafting_status": "deferred"
+  }
+}

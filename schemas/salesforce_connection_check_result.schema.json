@@ -1,0 +1,67 @@
+{
+  "additionalProperties": false,
+  "description": "Result of connection verification.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "connected": {
+      "description": "Whether connection and identity are verified",
+      "title": "Connected",
+      "type": "boolean"
+    },
+    "org_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Confirmed Salesforce Org ID",
+      "title": "Org Id"
+    },
+    "user_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Confirmed Salesforce User ID",
+      "title": "User Id"
+    },
+    "instance_url": {
+      "description": "Active Salesforce instance origin URL",
+      "title": "Instance Url",
+      "type": "string"
+    },
+    "api_version": {
+      "description": "Configured and confirmed Salesforce REST API version",
+      "title": "Api Version",
+      "type": "string"
+    },
+    "identity_endpoint_verified": {
+      "default": true,
+      "description": "Whether identity was verified via approved endpoint",
+      "title": "Identity Endpoint Verified",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "connected",
+    "instance_url",
+    "api_version"
+  ],
+  "title": "ConnectionCheckResult",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/salesforce_connection_check_result.schema.json"
+}

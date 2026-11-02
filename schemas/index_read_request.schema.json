@@ -1,0 +1,120 @@
+{
+  "additionalProperties": false,
+  "description": "Consumer authorization and expected-binding request for index access.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "candidate_id": {
+      "description": "UUID of the candidate",
+      "format": "uuid",
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "purpose": {
+      "description": "Purpose (assessment, cv, cover_letter)",
+      "minLength": 1,
+      "title": "Purpose",
+      "type": "string"
+    },
+    "expected_profile_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Expected profile version; required for current_use validation",
+      "title": "Expected Profile Version"
+    },
+    "expected_snapshot_fingerprint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Expected profile snapshot fingerprint",
+      "title": "Expected Snapshot Fingerprint"
+    },
+    "expected_chunk_manifest_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Expected chunk manifest fingerprint",
+      "title": "Expected Chunk Manifest Hash"
+    },
+    "expected_embedding_space_fingerprint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Expected embedding space fingerprint",
+      "title": "Expected Embedding Space Fingerprint"
+    },
+    "expected_settings_fingerprint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Expected index settings fingerprint",
+      "title": "Expected Settings Fingerprint"
+    },
+    "authorization_mode": {
+      "default": "current_use",
+      "description": "current_use validates against active pointer; frozen_use requires frozen_generation_id",
+      "enum": [
+        "current_use",
+        "frozen_use"
+      ],
+      "title": "Authorization Mode",
+      "type": "string"
+    },
+    "frozen_generation_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Explicitly authorized frozen generation ID if authorization_mode is frozen_use",
+      "title": "Frozen Generation Id"
+    }
+  },
+  "required": [
+    "candidate_id",
+    "purpose"
+  ],
+  "title": "IndexReadRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/index_read_request.schema.json"
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "call_id": "77777777-7777-4777-8777-777777777777",
+  "operation_type": "relevance_assessment",
+  "model_identifier": "llama3:8b-instruct-q4_K_M",
+  "model_digest": null,
+  "prompt_version": "assess_v1",
+  "system_prompt_version": null,
+  "generation_settings": {
+    "temperature": 0.1
+  },
+  "context_limit": 8192,
+  "input_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "requested_schema": "C11_assessment"
+}

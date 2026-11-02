@@ -1,0 +1,5 @@
+source_url,title,company,text
+https://jobs.example.invalid/jobs/row1,Job One,Corp A,Valid job description one.
+not_a_valid_url,Job Two,Corp B,Job description with bad url.
+https://jobs.example.invalid/jobs/row3,Job Three,Corp C,Valid job description three.
+

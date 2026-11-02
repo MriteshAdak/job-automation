@@ -1,0 +1,5 @@
+{
+  "schema_version": "1.0",
+  "strategy": "json",
+  "token_budget": -100
+}

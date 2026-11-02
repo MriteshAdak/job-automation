@@ -1,0 +1,19 @@
+{
+  "name": "precision_and_zones",
+  "raw_payload": "{\"published\": \"2026-10-28T09:30:00+01:00\", \"deadline\": \"2026-12-31\"}",
+  "mapped_fields": {
+    "title": "Project Manager",
+    "company_name_hint": "Build GmbH",
+    "description": "Managing client projects.",
+    "source_url": "https://example.com/5",
+    "source_published_raw": "2026-10-28T09:30:00+01:00",
+    "source_deadline_raw": "2026-12-31",
+    "mapping_version": "1.0"
+  },
+  "expected": {
+    "source_published_at": "2026-10-28T08:30:00Z",
+    "source_deadline_at": null,
+    "warnings": ["unsupported_representation"]
+  }
+}
+

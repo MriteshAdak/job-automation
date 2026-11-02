@@ -1,0 +1,145 @@
+{
+  "candidate_id": "11111111-2222-4333-8444-555555555555",
+  "profile_version": "v1.0",
+  "approval_metadata": {
+    "is_approved": true,
+    "approved_by": "eval-adjudicator@example.com",
+    "approved_at": "2026-10-29T12:00:00Z",
+    "notes": "Synthetic evaluation profile approved for offline benchmarks"
+  },
+  "explicit_eligibility": {
+    "work_authorization_countries": ["DE", "AT"],
+    "target_locations": ["Berlin", "München", "Hamburg"],
+    "remote_eligible": true,
+    "language_proficiencies": {
+      "de": "C1",
+      "en": "C2"
+    }
+  },
+  "evidence_records": [
+    {
+      "fact_id": "10000000-0000-0000-0000-000000000001",
+      "kind": "employment",
+      "parent_id": null,
+      "title": "Senior Systems Engineer",
+      "organization": "Munich Systems AG",
+      "start_date": {
+        "value": "2019-04",
+        "precision": "month"
+      },
+      "end_date": {
+        "value": "2023-08",
+        "precision": "month"
+      },
+      "is_ongoing": false,
+      "skills": ["C++", "Python", "Linux", "Multithreading", "Algorithms"],
+      "claims": ["Led high-throughput C++ data processing pipeline in München", "Mentored junior engineers"],
+      "metrics": ["Scaled ingestion to 1M events/sec"],
+      "provenance": "synthetic_work_history.pdf",
+      "allowed_uses": ["assessment", "cv", "cover_letter"]
+    },
+    {
+      "fact_id": "10000000-0000-0000-0000-000000000002",
+      "kind": "project",
+      "parent_id": "10000000-0000-0000-0000-000000000001",
+      "title": "Low-Latency Trading Parser",
+      "organization": "Munich Systems AG",
+      "start_date": {
+        "value": "2020-01",
+        "precision": "month"
+      },
+      "end_date": {
+        "value": "2021-06",
+        "precision": "month"
+      },
+      "is_ongoing": false,
+      "skills": ["C++", "Low Latency", "Networking"],
+      "claims": ["Engineered sub-microsecond FIX protocol parser in modern C++"],
+      "metrics": ["Sub-microsecond latency"],
+      "provenance": "synthetic_work_history.pdf",
+      "allowed_uses": ["assessment", "cv", "cover_letter"]
+    },
+    {
+      "fact_id": "10000000-0000-0000-0000-000000000003",
+      "kind": "education",
+      "parent_id": null,
+      "title": "M.Sc. Computer Science",
+      "organization": "TU München",
+      "start_date": {
+        "value": "2016-10",
+        "precision": "month"
+      },
+      "end_date": {
+        "value": "2018-09",
+        "precision": "month"
+      },
+      "is_ongoing": false,
+      "skills": ["Computer Science", "Algorithms", "Mathematics"],
+      "claims": ["Master thesis on distributed data synchronization"],
+      "provenance": "synthetic_diploma.pdf",
+      "allowed_uses": ["assessment", "cv", "cover_letter"]
+    },
+    {
+      "fact_id": "10000000-0000-0000-0000-000000000004",
+      "kind": "employment",
+      "parent_id": null,
+      "title": "Backend Software Developer",
+      "organization": "Berlin Cloud Solutions",
+      "start_date": {
+        "value": "2018-10",
+        "precision": "month"
+      },
+      "end_date": {
+        "value": "2019-03",
+        "precision": "month"
+      },
+      "is_ongoing": false,
+      "skills": ["C#", ".NET", "SQL", "Docker"],
+      "claims": ["Developed microservices using C# and .NET Core"],
+      "provenance": "synthetic_contract.pdf",
+      "allowed_uses": ["assessment", "cv", "cover_letter"]
+    },
+    {
+      "fact_id": "10000000-0000-0000-0000-000000000005",
+      "kind": "language",
+      "parent_id": null,
+      "title": "German C1 Proficiency",
+      "start_date": {
+        "value": "2015-01",
+        "precision": "month"
+      },
+      "skills": ["German"],
+      "claims": ["Fluent German speaking and writing in professional business context"],
+      "provenance": "goethe_c1_cert.pdf",
+      "allowed_uses": ["assessment", "cv", "cover_letter"]
+    },
+    {
+      "fact_id": "10000000-0000-0000-0000-000000000006",
+      "kind": "project",
+      "parent_id": null,
+      "title": "Hobby Game Engine in Unity",
+      "start_date": {
+        "value": "2024-01",
+        "precision": "month"
+      },
+      "skills": ["Unity", "Game Dev"],
+      "claims": ["Created experimental 2D physics game"],
+      "provenance": "github_portfolio.txt",
+      "allowed_uses": ["cv"]
+    },
+    {
+      "fact_id": "10000000-0000-0000-0000-000000000007",
+      "kind": "project",
+      "parent_id": null,
+      "title": "React Analytics Dashboard",
+      "start_date": {
+        "value": "2023-09",
+        "precision": "month"
+      },
+      "skills": ["React", "Redux", "TypeScript", "Frontend"],
+      "claims": ["Built responsive telemetry dashboard with React and Redux"],
+      "provenance": "frontend_portfolio.pdf",
+      "allowed_uses": ["assessment", "cv", "cover_letter"]
+    }
+  ]
+}

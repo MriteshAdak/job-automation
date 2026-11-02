@@ -1,0 +1,729 @@
+{
+  "$defs": {
+    "AssessmentDisposition": {
+      "description": "Assessment outcome disposition. Authority: local assessment.",
+      "enum": [
+        "eligible",
+        "review",
+        "rejected"
+      ],
+      "title": "AssessmentDisposition",
+      "type": "string"
+    },
+    "AssessmentMethod": {
+      "description": "Assessment method used to produce a C11 assessment.",
+      "enum": [
+        "rules",
+        "llm"
+      ],
+      "title": "AssessmentMethod",
+      "type": "string"
+    },
+    "CandidateEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing an approved candidate profile fact.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "candidate",
+          "default": "candidate",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Version of the profile snapshot",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "UUID of the cited candidate fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_version",
+        "fact_id"
+      ],
+      "title": "CandidateEvidenceReference",
+      "type": "object"
+    },
+    "ContextStrategy": {
+      "description": "Context construction strategy for candidate evidence.",
+      "enum": [
+        "json",
+        "rag"
+      ],
+      "title": "ContextStrategy",
+      "type": "string"
+    },
+    "FindingStatus": {
+      "description": "Status of a requirement match finding.",
+      "enum": [
+        "match",
+        "gap",
+        "unknown"
+      ],
+      "title": "FindingStatus",
+      "type": "string"
+    },
+    "HardCriterionResult": {
+      "description": "Hard criterion evaluation result. Authority: deterministic rules.",
+      "enum": [
+        "pass",
+        "fail",
+        "unknown"
+      ],
+      "title": "HardCriterionResult",
+      "type": "string"
+    },
+    "JobEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing a specific job posting requirement or statement.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "job",
+          "default": "job",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "posting_revision": {
+          "description": "Content hash or revision ID of the posting",
+          "minLength": 1,
+          "title": "Posting Revision",
+          "type": "string"
+        },
+        "field_path": {
+          "description": "Path to the cited field (e.g. 'description', 'requirements')",
+          "minLength": 1,
+          "title": "Field Path",
+          "type": "string"
+        },
+        "quotation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Direct supporting quotation from the source text",
+          "title": "Quotation"
+        },
+        "source_span": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceSpan"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Character offsets of the cited passage in the field"
+        }
+      },
+      "required": [
+        "posting_revision",
+        "field_path"
+      ],
+      "title": "JobEvidenceReference",
+      "type": "object"
+    },
+    "LLMAssessmentMetadata": {
+      "additionalProperties": false,
+      "description": "Metadata recorded when an assessment involves LLM inference.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "model_identifier": {
+          "description": "Model used for assessment",
+          "minLength": 1,
+          "title": "Model Identifier",
+          "type": "string"
+        },
+        "prompt_version": {
+          "description": "Prompt version used",
+          "minLength": 1,
+          "title": "Prompt Version",
+          "type": "string"
+        },
+        "context_strategy": {
+          "$ref": "#/$defs/ContextStrategy",
+          "description": "Context strategy used: json or rag"
+        },
+        "context_bundle_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference or hash of the C09 ContextBundle evaluated",
+          "title": "Context Bundle Ref"
+        },
+        "model_digest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Immutable digest of observed model weights",
+          "title": "Model Digest"
+        },
+        "prompt_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Fingerprint of bound generation prompt",
+          "title": "Prompt Fingerprint"
+        },
+        "generation_call_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "C10 ModelCall UUID",
+          "title": "Generation Call Id"
+        },
+        "generation_settings": {
+          "additionalProperties": true,
+          "description": "Effective generation parameters used",
+          "title": "Generation Settings",
+          "type": "object"
+        },
+        "token_usage": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TokenUsage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Measured prompt and completion token counts"
+        }
+      },
+      "required": [
+        "model_identifier",
+        "prompt_version",
+        "context_strategy"
+      ],
+      "title": "LLMAssessmentMetadata",
+      "type": "object"
+    },
+    "RequirementCategory": {
+      "description": "Domain category of a job requirement.",
+      "enum": [
+        "skill",
+        "experience",
+        "education",
+        "language",
+        "certification",
+        "other"
+      ],
+      "title": "RequirementCategory",
+      "type": "string"
+    },
+    "RequirementFinding": {
+      "additionalProperties": false,
+      "description": "Structured assessment finding for an evaluated job requirement.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "requirement_id": {
+          "description": "Stable requirement identifier",
+          "minLength": 1,
+          "title": "Requirement Id",
+          "type": "string"
+        },
+        "requirement_text": {
+          "description": "Statement of requirement evaluated",
+          "minLength": 1,
+          "title": "Requirement Text",
+          "type": "string"
+        },
+        "obligation": {
+          "$ref": "#/$defs/RequirementObligation",
+          "default": "required",
+          "description": "Obligation level: required, preferred, or unclear"
+        },
+        "category": {
+          "$ref": "#/$defs/RequirementCategory",
+          "default": "other",
+          "description": "Domain category of requirement"
+        },
+        "status": {
+          "$ref": "#/$defs/FindingStatus",
+          "description": "Finding status: match, gap, or unknown"
+        },
+        "candidate_evidence": {
+          "description": "Cited candidate evidence references supporting this finding",
+          "items": {
+            "$ref": "#/$defs/CandidateEvidenceReference"
+          },
+          "title": "Candidate Evidence",
+          "type": "array"
+        },
+        "job_evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/JobEvidenceReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Cited job evidence reference supporting this finding"
+        },
+        "reason": {
+          "description": "Explanation of finding",
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "maximum": 100.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional fit score on 0-100 scale",
+          "title": "Score"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "requirement_text",
+        "status",
+        "reason"
+      ],
+      "title": "RequirementFinding",
+      "type": "object"
+    },
+    "RequirementObligation": {
+      "description": "Obligation level of an extracted job requirement.",
+      "enum": [
+        "required",
+        "preferred",
+        "unclear"
+      ],
+      "title": "RequirementObligation",
+      "type": "string"
+    },
+    "RuleOutcome": {
+      "additionalProperties": false,
+      "description": "Evaluation result for a single hard criterion.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "criterion_id": {
+          "description": "Identifier of the evaluated criterion",
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "criterion_name": {
+          "description": "Human-readable criterion name",
+          "minLength": 1,
+          "title": "Criterion Name",
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/$defs/HardCriterionResult",
+          "description": "pass, fail, or unknown"
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "discriminator": {
+                "mapping": {
+                  "candidate": "#/$defs/CandidateEvidenceReference",
+                  "job": "#/$defs/JobEvidenceReference"
+                },
+                "propertyName": "source_kind"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/CandidateEvidenceReference"
+                },
+                {
+                  "$ref": "#/$defs/JobEvidenceReference"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional evidence reference supporting this outcome",
+          "title": "Evidence"
+        },
+        "reason": {
+          "description": "Explanation of the evaluation result",
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "criterion_name",
+        "result",
+        "reason"
+      ],
+      "title": "RuleOutcome",
+      "type": "object"
+    },
+    "SourceSpan": {
+      "additionalProperties": false,
+      "description": "Character offsets within a source field.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "start": {
+          "description": "0-based start character index",
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "description": "0-based end character index (exclusive)",
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "SourceSpan",
+      "type": "object"
+    },
+    "TokenUsage": {
+      "additionalProperties": false,
+      "description": "Token usage metrics. Null values represent unknown or unmeasured metrics.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "prompt_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Tokens"
+        },
+        "completion_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completion Tokens"
+        },
+        "total_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Total Tokens"
+        }
+      },
+      "title": "TokenUsage",
+      "type": "object"
+    },
+    "ValidationIssue": {
+      "additionalProperties": false,
+      "description": "Structured validation issue with contract field path and safe message.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "field_path": {
+          "description": "Path to the offending field (e.g. 'title' or 'locations[0].city')",
+          "title": "Field Path",
+          "type": "string"
+        },
+        "code": {
+          "description": "Machine-readable issue code (e.g. 'missing_required_field', 'invalid_format')",
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "description": "Safe diagnostic message free of credentials or raw secret payloads",
+          "title": "Message",
+          "type": "string"
+        },
+        "severity": {
+          "default": "error",
+          "enum": [
+            "error",
+            "warning"
+          ],
+          "title": "Severity",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field_path",
+        "code",
+        "message"
+      ],
+      "title": "ValidationIssue",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "C11 Job Assessment.\n\nComplete evaluation outcome combining deterministic rule outcomes and optional\nmodel-assisted relevance scoring.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "description": "Unique assessment execution UUID",
+      "format": "uuid",
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "canonical_job_id": {
+      "description": "Target canonical job UUID",
+      "format": "uuid",
+      "title": "Canonical Job Id",
+      "type": "string"
+    },
+    "posting_revision": {
+      "description": "Posting revision or content hash",
+      "minLength": 1,
+      "title": "Posting Revision",
+      "type": "string"
+    },
+    "profile_version": {
+      "description": "Version of candidate profile used",
+      "minLength": 1,
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "policy_version": {
+      "description": "Version of search policy used",
+      "minLength": 1,
+      "title": "Policy Version",
+      "type": "string"
+    },
+    "assessment_method": {
+      "$ref": "#/$defs/AssessmentMethod",
+      "description": "Method used: rules (deterministic only) or llm (model-assisted)"
+    },
+    "rule_outcomes": {
+      "description": "Per-criterion outcomes for all evaluated hard rules",
+      "items": {
+        "$ref": "#/$defs/RuleOutcome"
+      },
+      "title": "Rule Outcomes",
+      "type": "array"
+    },
+    "requirement_findings": {
+      "description": "Per-requirement findings for evaluated job requirements",
+      "items": {
+        "$ref": "#/$defs/RequirementFinding"
+      },
+      "title": "Requirement Findings",
+      "type": "array"
+    },
+    "relevance_decision": {
+      "$ref": "#/$defs/AssessmentDisposition",
+      "description": "Relevance disposition: eligible, review, or rejected"
+    },
+    "relevance_score": {
+      "anyOf": [
+        {
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Optional numeric relevance score; a ranking signal, not offer probability",
+      "title": "Relevance Score"
+    },
+    "score_scale": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Declared scale for the score (e.g. '0-100'); required if score is provided",
+      "title": "Score Scale"
+    },
+    "identified_gaps": {
+      "description": "Identified candidate requirement gaps or missing qualifications",
+      "items": {
+        "type": "string"
+      },
+      "title": "Identified Gaps",
+      "type": "array"
+    },
+    "identified_unknowns": {
+      "description": "Unverified requirements or missing advert facts requiring human review",
+      "items": {
+        "type": "string"
+      },
+      "title": "Identified Unknowns",
+      "type": "array"
+    },
+    "summary_reason": {
+      "description": "Concise summary explanation of the final disposition",
+      "minLength": 1,
+      "title": "Summary Reason",
+      "type": "string"
+    },
+    "final_disposition": {
+      "$ref": "#/$defs/AssessmentDisposition",
+      "description": "Final disposition: eligible, review, or rejected"
+    },
+    "model_metadata": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/LLMAssessmentMetadata"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Inference metadata; required when assessment_method is 'llm'"
+    },
+    "validation_issues": {
+      "description": "Non-fatal validation or extraction issues recorded during assessment",
+      "items": {
+        "$ref": "#/$defs/ValidationIssue"
+      },
+      "title": "Validation Issues",
+      "type": "array"
+    },
+    "assessment_input_fingerprint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Canonical SHA-256 fingerprint of all output-affecting inputs",
+      "title": "Assessment Input Fingerprint"
+    },
+    "deterministic_trace_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Reference or digest of the deterministic decision trace",
+      "title": "Deterministic Trace Ref"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "canonical_job_id",
+    "posting_revision",
+    "profile_version",
+    "policy_version",
+    "assessment_method",
+    "relevance_decision",
+    "summary_reason",
+    "final_disposition"
+  ],
+  "title": "Assessment",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/C11_assessment.schema.json"
+}

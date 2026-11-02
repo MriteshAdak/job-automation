@@ -1,0 +1,586 @@
+{
+  "$defs": {
+    "CandidateEvidenceReference": {
+      "additionalProperties": false,
+      "description": "Reference citing an approved candidate profile fact.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "candidate",
+          "default": "candidate",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "profile_version": {
+          "description": "Version of the profile snapshot",
+          "minLength": 1,
+          "title": "Profile Version",
+          "type": "string"
+        },
+        "fact_id": {
+          "description": "UUID of the cited candidate fact",
+          "format": "uuid",
+          "title": "Fact Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_version",
+        "fact_id"
+      ],
+      "title": "CandidateEvidenceReference",
+      "type": "object"
+    },
+    "EmbeddingConfiguration": {
+      "additionalProperties": false,
+      "description": "Measured embedding model configuration, dimensions, and execution parameters.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "configuration_version": {
+          "default": "v1",
+          "title": "Configuration Version",
+          "type": "string"
+        },
+        "model_identifier": {
+          "description": "Model identifier or tag (e.g. nomic-embed-text)",
+          "minLength": 1,
+          "title": "Model Identifier",
+          "type": "string"
+        },
+        "dimension": {
+          "description": "Embedding vector dimension",
+          "exclusiveMinimum": 0,
+          "title": "Dimension",
+          "type": "integer"
+        },
+        "model_digest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Immutable SHA-256 digest of model weights/manifest if verified",
+          "title": "Model Digest"
+        },
+        "expected_digest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Expected model digest configured for drift detection",
+          "title": "Expected Digest"
+        },
+        "verification_provenance": {
+          "default": "model_02_recommendation",
+          "description": "Origin of verification (e.g. 'model_02_recommendation', 'synthetic_fake')",
+          "title": "Verification Provenance",
+          "type": "string"
+        },
+        "runtime_version": {
+          "default": "1.0",
+          "minLength": 1,
+          "title": "Runtime Version",
+          "type": "string"
+        },
+        "provider_version": {
+          "default": "1.0",
+          "minLength": 1,
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "document_prefix": {
+          "default": "",
+          "description": "Prefix prepended to document chunks before embedding (e.g. 'search_document: ')",
+          "title": "Document Prefix",
+          "type": "string"
+        },
+        "query_prefix": {
+          "default": "",
+          "description": "Prefix prepended to query text before embedding (e.g. 'search_query: ')",
+          "title": "Query Prefix",
+          "type": "string"
+        },
+        "output_affecting_options": {
+          "additionalProperties": true,
+          "description": "Options that affect numerical embedding output",
+          "title": "Output Affecting Options",
+          "type": "object"
+        },
+        "measurement_method": {
+          "default": "character_ratio",
+          "description": "Tokenizer or estimator method used for input measurement",
+          "title": "Measurement Method",
+          "type": "string"
+        },
+        "max_input_tokens": {
+          "default": 512,
+          "description": "Maximum tokens per single text chunk",
+          "exclusiveMinimum": 0,
+          "title": "Max Input Tokens",
+          "type": "integer"
+        },
+        "max_batch_items": {
+          "default": 32,
+          "description": "Maximum items per embedding API call",
+          "exclusiveMinimum": 0,
+          "title": "Max Batch Items",
+          "type": "integer"
+        },
+        "max_batch_bytes": {
+          "default": 1048576,
+          "description": "Maximum combined UTF-8 bytes per embedding batch",
+          "exclusiveMinimum": 0,
+          "title": "Max Batch Bytes",
+          "type": "integer"
+        },
+        "model_02_report_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference identifier or file path of MODEL-02 benchmark report",
+          "title": "Model 02 Report Ref"
+        },
+        "model_02_report_hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "SHA-256 content hash of MODEL-02 benchmark report",
+          "title": "Model 02 Report Hash"
+        }
+      },
+      "required": [
+        "model_identifier",
+        "dimension"
+      ],
+      "title": "EmbeddingConfiguration",
+      "type": "object"
+    },
+    "EvidenceFactKind": {
+      "description": "Kind of candidate evidence fact.",
+      "enum": [
+        "employment",
+        "education",
+        "certification",
+        "skill",
+        "language",
+        "project",
+        "publication",
+        "award",
+        "volunteer",
+        "other"
+      ],
+      "title": "EvidenceFactKind",
+      "type": "string"
+    },
+    "IndexRowMapping": {
+      "additionalProperties": false,
+      "description": "Row ordinal alignment binding a vector and keyword document to an evidence chunk.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "row_ordinal": {
+          "description": "0-based row index in matrix and keyword document id",
+          "minimum": 0,
+          "title": "Row Ordinal",
+          "type": "integer"
+        },
+        "chunk_id": {
+          "description": "UUIDv5 of the evidence chunk",
+          "format": "uuid",
+          "title": "Chunk Id",
+          "type": "string"
+        },
+        "chunk_version": {
+          "description": "Content version SHA-256 of the chunk",
+          "minLength": 1,
+          "title": "Chunk Version",
+          "type": "string"
+        },
+        "binding_fingerprint": {
+          "description": "Binding fingerprint from the chunk set",
+          "minLength": 1,
+          "title": "Binding Fingerprint",
+          "type": "string"
+        },
+        "primary_fact_id": {
+          "description": "UUID of the primary CandidateFact",
+          "format": "uuid",
+          "title": "Primary Fact Id",
+          "type": "string"
+        },
+        "primary_kind": {
+          "$ref": "#/$defs/EvidenceFactKind",
+          "description": "Kind of the primary fact"
+        },
+        "c08_references": {
+          "description": "Fine-grained C08 references cited by this row",
+          "items": {
+            "$ref": "#/$defs/CandidateEvidenceReference"
+          },
+          "title": "C08 References",
+          "type": "array"
+        },
+        "parent_fact_ids": {
+          "description": "UUIDs of parent facts contributing to this chunk",
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "title": "Parent Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "row_ordinal",
+        "chunk_id",
+        "chunk_version",
+        "binding_fingerprint",
+        "primary_fact_id",
+        "primary_kind"
+      ],
+      "title": "IndexRowMapping",
+      "type": "object"
+    },
+    "IndexSettings": {
+      "additionalProperties": false,
+      "description": "Configuration, layout, and capacity limits for local vector and keyword indexing.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "index_version": {
+          "default": "v1",
+          "title": "Index Version",
+          "type": "string"
+        },
+        "algorithm_version": {
+          "default": "v1",
+          "title": "Algorithm Version",
+          "type": "string"
+        },
+        "format_version": {
+          "default": "v1",
+          "title": "Format Version",
+          "type": "string"
+        },
+        "canonicalization_version": {
+          "default": "v1",
+          "title": "Canonicalization Version",
+          "type": "string"
+        },
+        "dtype": {
+          "const": "float32",
+          "default": "float32",
+          "title": "Dtype",
+          "type": "string"
+        },
+        "byte_order": {
+          "const": "little_endian",
+          "default": "little_endian",
+          "title": "Byte Order",
+          "type": "string"
+        },
+        "metric": {
+          "default": "cosine",
+          "enum": [
+            "cosine",
+            "dot_product",
+            "euclidean"
+          ],
+          "title": "Metric",
+          "type": "string"
+        },
+        "normalization": {
+          "default": "l2",
+          "enum": [
+            "l2",
+            "none"
+          ],
+          "title": "Normalization",
+          "type": "string"
+        },
+        "analyzer_version": {
+          "default": "v1",
+          "title": "Analyzer Version",
+          "type": "string"
+        },
+        "analyzer_options": {
+          "additionalProperties": true,
+          "title": "Analyzer Options",
+          "type": "object"
+        },
+        "max_chunks": {
+          "default": 10000,
+          "description": "Maximum chunks permitted in an index",
+          "exclusiveMinimum": 0,
+          "title": "Max Chunks",
+          "type": "integer"
+        },
+        "max_dimension": {
+          "default": 4096,
+          "description": "Maximum vector embedding dimension",
+          "exclusiveMinimum": 0,
+          "title": "Max Dimension",
+          "type": "integer"
+        },
+        "max_text_bytes": {
+          "default": 65536,
+          "description": "Maximum bytes for an individual chunk's retrieval_text",
+          "exclusiveMinimum": 0,
+          "title": "Max Text Bytes",
+          "type": "integer"
+        },
+        "max_build_memory_bytes": {
+          "default": 1073741824,
+          "description": "Maximum estimated working memory for build (1 GB)",
+          "exclusiveMinimum": 0,
+          "title": "Max Build Memory Bytes",
+          "type": "integer"
+        },
+        "max_disk_bytes": {
+          "default": 10737418240,
+          "description": "Maximum disk space allocated for index storage (10 GB)",
+          "exclusiveMinimum": 0,
+          "title": "Max Disk Bytes",
+          "type": "integer"
+        },
+        "max_build_time_seconds": {
+          "default": 300.0,
+          "description": "Maximum wall-clock seconds for a full index build",
+          "exclusiveMinimum": 0.0,
+          "title": "Max Build Time Seconds",
+          "type": "number"
+        },
+        "cleanup_retained_generations": {
+          "default": 2,
+          "description": "Number of retired generations to retain for audit/recovery",
+          "minimum": 0,
+          "title": "Cleanup Retained Generations",
+          "type": "integer"
+        }
+      },
+      "title": "IndexSettings",
+      "type": "object"
+    },
+    "PayloadFileInfo": {
+      "additionalProperties": false,
+      "description": "Physical file metadata within an index generation directory.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "relative_path": {
+          "description": "Path relative to generation directory",
+          "minLength": 1,
+          "title": "Relative Path",
+          "type": "string"
+        },
+        "byte_length": {
+          "description": "Exact file size in bytes",
+          "minimum": 0,
+          "title": "Byte Length",
+          "type": "integer"
+        },
+        "sha256_hash": {
+          "description": "SHA-256 hex digest of file content",
+          "maxLength": 64,
+          "minLength": 64,
+          "title": "Sha256 Hash",
+          "type": "string"
+        }
+      },
+      "required": [
+        "relative_path",
+        "byte_length",
+        "sha256_hash"
+      ],
+      "title": "PayloadFileInfo",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Complete manifest describing an immutable local index generation on disk.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "manifest_version": {
+      "default": "v1",
+      "title": "Manifest Version",
+      "type": "string"
+    },
+    "generation_id": {
+      "description": "Unique UUID of this physical index generation",
+      "format": "uuid",
+      "title": "Generation Id",
+      "type": "string"
+    },
+    "candidate_id": {
+      "description": "UUID of the candidate",
+      "format": "uuid",
+      "title": "Candidate Id",
+      "type": "string"
+    },
+    "profile_version": {
+      "description": "Exact profile snapshot version",
+      "minLength": 1,
+      "title": "Profile Version",
+      "type": "string"
+    },
+    "purpose": {
+      "description": "Inclusion purpose applied",
+      "minLength": 1,
+      "title": "Purpose",
+      "type": "string"
+    },
+    "snapshot_fingerprint": {
+      "description": "SHA-256 fingerprint of approved profile snapshot",
+      "minLength": 1,
+      "title": "Snapshot Fingerprint",
+      "type": "string"
+    },
+    "chunk_manifest_hash": {
+      "description": "SHA-256 manifest fingerprint from upstream ChunkSet",
+      "minLength": 1,
+      "title": "Chunk Manifest Hash",
+      "type": "string"
+    },
+    "inclusion_rule_version": {
+      "default": "v1",
+      "minLength": 1,
+      "title": "Inclusion Rule Version",
+      "type": "string"
+    },
+    "chunking_version": {
+      "default": "v1",
+      "minLength": 1,
+      "title": "Chunking Version",
+      "type": "string"
+    },
+    "embedding_configuration": {
+      "$ref": "#/$defs/EmbeddingConfiguration",
+      "description": "Measured embedding configuration used for this build"
+    },
+    "embedding_space_fingerprint": {
+      "description": "Canonical SHA-256 fingerprint of the embedding space",
+      "minLength": 1,
+      "title": "Embedding Space Fingerprint",
+      "type": "string"
+    },
+    "index_settings": {
+      "$ref": "#/$defs/IndexSettings",
+      "description": "Effective index settings applied"
+    },
+    "settings_fingerprint": {
+      "description": "Canonical SHA-256 fingerprint of index settings",
+      "minLength": 1,
+      "title": "Settings Fingerprint",
+      "type": "string"
+    },
+    "row_count": {
+      "description": "Total number of indexed evidence chunks / rows",
+      "minimum": 0,
+      "title": "Row Count",
+      "type": "integer"
+    },
+    "dimension": {
+      "description": "Vector embedding dimension",
+      "exclusiveMinimum": 0,
+      "title": "Dimension",
+      "type": "integer"
+    },
+    "rows": {
+      "description": "Deterministic ordered row mappings",
+      "items": {
+        "$ref": "#/$defs/IndexRowMapping"
+      },
+      "title": "Rows",
+      "type": "array"
+    },
+    "payload_files": {
+      "additionalProperties": {
+        "$ref": "#/$defs/PayloadFileInfo"
+      },
+      "description": "Physical payload files (vectors, keywords, chunks) and their digests",
+      "title": "Payload Files",
+      "type": "object"
+    },
+    "logical_build_fingerprint": {
+      "description": "Deterministic SHA-256 of semantic inputs and configurations",
+      "minLength": 1,
+      "title": "Logical Build Fingerprint",
+      "type": "string"
+    },
+    "artifact_fingerprint": {
+      "description": "SHA-256 digest covering logical build fingerprint and payload file hashes",
+      "minLength": 1,
+      "title": "Artifact Fingerprint",
+      "type": "string"
+    },
+    "created_at": {
+      "description": "Timestamp when the manifest was finalized",
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "generation_id",
+    "candidate_id",
+    "profile_version",
+    "purpose",
+    "snapshot_fingerprint",
+    "chunk_manifest_hash",
+    "embedding_configuration",
+    "embedding_space_fingerprint",
+    "index_settings",
+    "settings_fingerprint",
+    "row_count",
+    "dimension",
+    "logical_build_fingerprint",
+    "artifact_fingerprint",
+    "created_at"
+  ],
+  "title": "IndexManifest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://job-automation.local/schemas/v1/index_manifest.schema.json"
+}

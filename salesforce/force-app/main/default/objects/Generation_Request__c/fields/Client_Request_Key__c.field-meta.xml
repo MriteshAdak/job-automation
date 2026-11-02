@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client_Request_Key__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <description>Unique, case-sensitive client request key for idempotent external creation.</description>
+    <externalId>true</externalId>
+    <inlineHelpText>Client request key for external generation caller.</inlineHelpText>
+    <label>Client Request Key</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>
+
