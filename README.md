@@ -1,3 +1,5 @@
+This is purely vibe-coded using just a high-level SPEC sheet (used to create component level story points for implementation) just to gauge Astra's default capability. This is being evaluated while a leaner and effective version is in development. 
+
 # Job Automation
 
 A job-search and application-preparation system built around a local Python pipeline and a Salesforce workspace. It collects job postings, evaluates them against candidate experience and search preferences, tracks opportunities, and prepares tailored CVs and cover letters for human review.
