@@ -1,4 +1,6 @@
-This is purely vibe-coded using just a high-level SPEC sheet (used to create component level story points for implementation) just to gauge Astra's default capability. This is being evaluated while a leaner and effective version is in development. 
+This is purely vibe-coded using just a high-level SPEC sheet (used to create component level story points for implementation) just to gauge Astra's default capability. This is being evaluated while a leaner and effective version is in development.
+
+Models nowadays come with "You are a Senior/Principal/Staff Engineer" within their system prompt or training I guess.
 
 # Job Automation
 
